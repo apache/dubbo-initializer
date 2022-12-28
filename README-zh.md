@@ -1,0 +1,37 @@
+[English](README.md) | [简体中文](README-zh.md)
+
+---
+# Dubbo脚手架
+
+## 文档
+- [如何自定义内容](docs/howToCustom-zh.md)
+- [代码贡献](docs/CONTRIBUTING-zh.md)
+
+## 代码结构
+这是一个源自于 Cloud Native App Initializer 构建的云原生应用脚手架项目，你可以直接体验该项目的功能通过 [start.aliyun.com](https://start.aliyun.com/) ，项目本身包含以下模块：
+* initializer-generator: 脚手架生成项目模块，在其中`io.spring.start.site`目录下引用了部分 [start.spring.io](https://start.spring.io/) 的基础代码。
+* initializer-page: 脚手架前端页面
+
+## 基于源代码运行
+请在本地 clone 该项目，并确保具备 Java 17 环境。
+
+### 构建项目
+在项目根目录，执行以下命令，安装 Node 和 Yarn：
+```shell
+mvn compile -P install-yarn
+```
+在项目根目录，执行以下命令，将静态文件 Copy 到 `initializer-generator` 模块的 target 中：
+```shell 
+mvn prepare-package
+```
+
+### 启动项目
+进入`initializer-generator` 模块，执行以下命令启动应用：
+```shell
+cd initializer-generator
+mvn spring-boot:run
+```
+在浏览器中，输入 http://127.0.0.1:7001/bootstrap.html 即可使用脚手架项目进行工程构建。
+
+## 项目License
+该项目是一个采用 [Apache 2.0 license](https://www.apache.org/licenses/LICENSE-2.0.html) 的项目。
