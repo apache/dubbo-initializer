@@ -85,7 +85,7 @@
     "file-saver": "^2.0.2",
     "immutable": "^4.0.0-rc.12",
     "js-search": "^1.4.3",
-    "jszip": "^3.2.2",
+    "jszip": "^3.7.0",
     "lodash.get": "^4.4.2",
     "lodash.set": "^4.3.2",
     "prism-react-renderer": "^1.0.2",
