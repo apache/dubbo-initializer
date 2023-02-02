@@ -38,8 +38,7 @@ public class WebConfig implements WebMvcConfigurer {
     static private final Set<String> ALLOWED_ORIGIN_HTTP = new HashSet<>();
 
     static {
-        ALLOWED_ORIGIN_HTTP.add("https://start.aliyun.com");
-        ALLOWED_ORIGIN_HTTP.add("https://pre-start.aliyun.com");
+        ALLOWED_ORIGIN_HTTP.add("https://start.dubbo.apachr.org");
     }
 
     @Bean

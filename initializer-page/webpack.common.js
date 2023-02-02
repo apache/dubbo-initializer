@@ -102,7 +102,7 @@ const config = {
       crossorigin: null,
       icons: [
         {
-          src: path.resolve('src/images/aliyun-icon.png'),
+          src: path.resolve('src/images/dubbo-colorful.png'),
           sizes: [48, 72, 96, 144, 192, 256, 384, 512],
         },
       ],
