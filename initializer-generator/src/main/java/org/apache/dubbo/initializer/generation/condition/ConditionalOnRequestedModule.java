@@ -37,6 +37,6 @@ public @interface ConditionalOnRequestedModule {
 	 * The identifier of the module.
 	 * @return the module name
 	 */
-	String value();
+	String [] value();
 
 }

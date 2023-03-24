@@ -14,37 +14,34 @@
  * limitations under the License.
  */
 
-package org.apache.dubbo.initializer.generation.extension.build.maven.architecture.pic.inter;
+package org.apache.dubbo.initializer.generation.extension.build.maven;
 
 import io.spring.initializr.generator.buildsystem.maven.MavenBuild;
-import io.spring.initializr.generator.project.ProjectDescription;
 import io.spring.initializr.generator.spring.build.BuildCustomizer;
 
 /**
- * after MavenComplierPluginCustomizer,
+ * after DefaultStarterBuildCustomizer,SpringBootBomMavenCustomizer,MavenComplierPluginCustomizer
  * <pre>
- * 1.Remove maven-compiler-plugin plugin from pom.xml
+ * 1.Remove other all plugins from api module pom.xml
+ * 2.Remove starter dependencies from interface module pom.xml
  * </pre>
+ *
  * @author Weix Sun
- * @see com.alibaba.initializer.generation.extension.build.maven.MavenComplierPluginCustomizer
+ * @see io.spring.initializr.generator.spring.build.DefaultStarterBuildCustomizer
+ * com.alibaba.initializer.generation.extension.build.maven.MavenComplierPluginCustomizer
+ * com.alibaba.initializer.generation.extension.build.maven.SpringBootBomMavenCustomizer
  */
-public class InterfaceModuleMavenComplierPluginCustomizer implements BuildCustomizer<MavenBuild> {
+public class ApiMavenPluginCustomizer implements BuildCustomizer<MavenBuild> {
 
-    public final int MavenComplierPluginCustomizer_After = 0 + 1;
-
-    private final ProjectDescription description;
-
-    public InterfaceModuleMavenComplierPluginCustomizer(ProjectDescription description) {
-        this.description = description;
-    }
 
     @Override
     public void customize(MavenBuild build) {
         build.plugins().remove("org.apache.maven.plugins", "maven-compiler-plugin");
+        build.plugins().remove("org.springframework.boot", "spring-boot-maven-plugin");
     }
 
     @Override
     public int getOrder() {
-        return MavenComplierPluginCustomizer_After;
+        return LOWEST_PRECEDENCE;
     }
 }

@@ -14,15 +14,13 @@
  * limitations under the License.
  */
 
-package org.apache.dubbo.initializer.generation.extension.build.maven.architecture.pic.root;
+package org.apache.dubbo.initializer.generation.extension.build.maven;
 
 import io.spring.initializr.generator.buildsystem.maven.MavenBuild;
-import io.spring.initializr.generator.project.ProjectDescription;
 import io.spring.initializr.generator.spring.build.BuildCustomizer;
-import io.spring.initializr.metadata.InitializrMetadata;
 
 /**
- * after SpringBootBomMavenCustomizer,
+ * after SpringBootBomMavenCustomizer
  * <pre>
  * 1.Remove spring-boot-maven-plugin plugin from root pom.xml
  * </pre>
@@ -30,18 +28,7 @@ import io.spring.initializr.metadata.InitializrMetadata;
  * @author <a href="mailto:chenxilzx1@gmail.com">theonefx</a>
  * @see com.alibaba.initializer.generation.extension.build.maven.SpringBootBomMavenCustomizer
  */
-public class RootMavenComplierPluginCustomizer implements BuildCustomizer<MavenBuild> {
-
-    public final int SpringBootBomMavenCustomizer_After = 1 + 1;
-
-    private final ProjectDescription description;
-
-    private final InitializrMetadata metadata;
-
-    public RootMavenComplierPluginCustomizer(ProjectDescription description, InitializrMetadata metadata) {
-        this.description = description;
-        this.metadata = metadata;
-    }
+public class RootMavenPluginCustomizer implements BuildCustomizer<MavenBuild> {
 
     @Override
     public void customize(MavenBuild build) {
@@ -50,6 +37,6 @@ public class RootMavenComplierPluginCustomizer implements BuildCustomizer<MavenB
 
     @Override
     public int getOrder() {
-        return SpringBootBomMavenCustomizer_After;
+        return 2;
     }
 }
