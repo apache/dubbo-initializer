@@ -5,7 +5,9 @@ com.alibaba.initializer.generation.extension.codes.language.ArchedGroovyProjectG
 com.alibaba.initializer.generation.extension.codes.language.ArchedKotlinProjectGenerationConfiguration,\
 com.alibaba.initializer.generation.extension.build.gradle.ArchedGradleProjectGenerationConfiguration,\
 io.spring.start.site.extension.build.gradle.GradleProjectGenerationConfiguration,\
-org.apache.dubbo.initializer.generation.extension.build.maven.DefaultMavenProjectGenerationConfiguration,\
+org.apache.dubbo.initializer.generation.extension.build.maven.DubboMavenProjectGenerationConfiguration,\
+org.apache.dubbo.initializer.generation.extension.codes.DubboSourceCodeProjectGenerationConfiguration,\
+org.apache.dubbo.initializer.generation.extension.codes.language.DubboJavaProjectGenerationConfiguration,\
 org.apache.dubbo.initializer.generation.extension.dependency.dubbregisterzookeeper.DubboRegisterZookeeperProjectGenerationConfiguration,\
 com.alibaba.initializer.generation.extension.build.maven.ArchedMavenProjectGenerationConfiguration,\
 io.spring.start.site.extension.build.maven.MavenProjectGenerationConfiguration,\

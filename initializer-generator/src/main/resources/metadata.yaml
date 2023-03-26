@@ -8,7 +8,7 @@ initializr:
         mappings:
           - compatibilityRange: "2.3.0.M1"
             version: 3.0.7
-      apache-dubbo-dependencies-zookeeper:
+      apache-dubbo-zookeeper:
         groupId: org.apache.dubbo
         artifactId: dubbo-dependencies-zookeeper
         versionProperty: dubbo.version
@@ -221,35 +221,34 @@ initializr:
         snapshotsEnabled: true
   dependencies:
     - name: Dubbo Core
+      bom: apache-dubbo
       content:
       - name: Dubbo Spring Boot
-        id: dubbo-spring-boot-starter
+        id: dubbo
         groupId: org.apache.dubbo
         artifactId: dubbo-spring-boot-starter
-        description: dubbo-spring-boot-starter
+        description: Dubbo Spring Boot
         starter: false
+        archCfg:
+          dubbo:
+            modules:
+              api:
+                code: true
+              service:
+                code: true
     - name: Dubbo Registry
       content:
       - name: Zookeeper 注册中心
-        id: dubbo-register-zookeeper
+        id: dubbo-zookeeper
         groupId: org.apache.dubbo
         artifactId: dubbo-dependencies-zookeeper
         type: pom
         description: 使用Zookeeper作为Dubbo注册中心
         starter: false
         compatibilityRange: "[2.0.0.RELEASE,3.1.0-M1)"
-        bom: apache-dubbo-dependencies-zookeeper
+        bom: apache-dubbo-zookeeper
         codeOnly: false
-        dependencies: [ "metrics-core" ]
-        archCfg:
-          pic:
-            modules:
-              provider:
-                code: true
-              interface:
-                code: true
-              consumer:
-                code: true
+        #dependencies: [ "metrics-core" ]
       - name: metrics-core
         id: metrics-core
         groupId: io.dropwizard.metrics

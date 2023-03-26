@@ -20,16 +20,13 @@ import io.spring.initializr.generator.buildsystem.maven.MavenBuild;
 import io.spring.initializr.generator.spring.build.BuildCustomizer;
 
 /**
- * after DefaultStarterBuildCustomizer,SpringBootBomMavenCustomizer,MavenComplierPluginCustomizer
+ * after MavenComplierPluginCustomizer,SpringBootBomMavenCustomizer
  * <pre>
  * 1.Remove other all plugins from api module pom.xml
- * 2.Remove starter dependencies from interface module pom.xml
  * </pre>
  *
  * @author Weix Sun
- * @see io.spring.initializr.generator.spring.build.DefaultStarterBuildCustomizer
- * com.alibaba.initializer.generation.extension.build.maven.MavenComplierPluginCustomizer
- * com.alibaba.initializer.generation.extension.build.maven.SpringBootBomMavenCustomizer
+ * @see com.alibaba.initializer.generation.extension.build.maven.MavenComplierPluginCustomizer,com.alibaba.initializer.generation.extension.build.maven.SpringBootBomMavenCustomizer
  */
 public class ApiMavenPluginCustomizer implements BuildCustomizer<MavenBuild> {
 

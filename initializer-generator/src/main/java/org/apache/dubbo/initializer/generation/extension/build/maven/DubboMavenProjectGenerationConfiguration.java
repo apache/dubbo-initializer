@@ -16,7 +16,7 @@
 
 package org.apache.dubbo.initializer.generation.extension.build.maven;
 
-import com.alibaba.initializer.generation.condition.ConditionalOnModule;
+import com.alibaba.initializer.generation.InitializerProjectGenerationConfiguration;
 import com.alibaba.initializer.generation.condition.ConditionalOnRequestedArchitecture;
 import io.spring.initializr.generator.buildsystem.maven.MavenBuildSystem;
 import io.spring.initializr.generator.condition.ConditionalOnBuildSystem;
@@ -25,12 +25,12 @@ import org.apache.dubbo.initializer.generation.condition.ConditionalOnRequestedM
 import org.springframework.context.annotation.Bean;
 
 /**
- * @author Weix Sun
+ * @author <a href="mailto:15835991162@163.com">ErDan Wang</a>
  */
-@ProjectGenerationConfiguration
+@InitializerProjectGenerationConfiguration
 @ConditionalOnRequestedArchitecture("dubbo")
 @ConditionalOnBuildSystem(MavenBuildSystem.ID)
-public class DefaultMavenProjectGenerationConfiguration {
+public class DubboMavenProjectGenerationConfiguration {
 
     @Bean
     @ConditionalOnRequestedModule(value = "api")
@@ -38,6 +38,7 @@ public class DefaultMavenProjectGenerationConfiguration {
         return new ApiMavenPluginCustomizer();
     }
 
+    // Root Maven Bom remove in MulitModuleMavenBuildProjectContributor
     @Bean
     @ConditionalOnRequestedModule(value = "root")
     public RootMavenPluginCustomizer rootMavenPluginCustomizer() {
@@ -46,8 +47,8 @@ public class DefaultMavenProjectGenerationConfiguration {
 
     @Bean
     @ConditionalOnRequestedModule({"root", "api"})
-    public DefaultMavenBomCustomizer defaultMavenBomCustomizer() {
-        return new DefaultMavenBomCustomizer();
+    public DefaultMavenDependenciesCustomizer defaultMavenDependenciesCustomizer() {
+        return new DefaultMavenDependenciesCustomizer();
     }
 
 }

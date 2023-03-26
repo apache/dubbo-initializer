@@ -20,27 +20,30 @@ import io.spring.initializr.generator.buildsystem.maven.MavenBuild;
 import io.spring.initializr.generator.spring.build.BuildCustomizer;
 
 /**
- * after DefaultStarterBuildCustomizer,
+ * after DefaultStarterBuildCustomizer,DependencyManagementBuildCustomizer
  * <pre>
- * 2.Remove starter dependencies from  pom.xml
+ * 1.Remove starter dependencies from  pom.xml
+ * 2.Remove other dependencies from  pom.xml
  * </pre>
  *
  * @author Weix Sun
- * @see io.spring.initializr.generator.spring.build.DefaultStarterBuildCustomizer
+ * @see io.spring.initializr.generator.spring.build.DefaultStarterBuildCustomizer,io.spring.initializr.generator.spring.build.DependencyManagementBuildCustomizer
  */
-public class DefaultMavenBomCustomizer implements BuildCustomizer<MavenBuild> {
+public class DefaultMavenDependenciesCustomizer implements BuildCustomizer<MavenBuild> {
 
     static final String DEFAULT_STARTER = "root_starter";
     static final String TEST_STARTER = "test";
 
     @Override
     public void customize(MavenBuild build) {
-        if (build.dependencies().has(DEFAULT_STARTER)) {
-            build.dependencies().remove(DEFAULT_STARTER);
-        }
-        if (build.dependencies().has(TEST_STARTER)) {
-            build.dependencies().remove(TEST_STARTER);
-        }
+//        if (build.dependencies().has(DEFAULT_STARTER)) {
+//            build.dependencies().remove(DEFAULT_STARTER);
+//        }
+//        if (build.dependencies().has(TEST_STARTER)) {
+//            build.dependencies().remove(TEST_STARTER);
+//        }
+        // Remove all dependencies, after the 'dependencies.bom' analysis is completed
+        build.dependencies().ids().toList().forEach(id -> build.dependencies().remove(id));
     }
 
     @Override

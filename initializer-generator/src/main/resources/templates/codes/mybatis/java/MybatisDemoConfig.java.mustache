@@ -14,21 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package {{basePackage}}.provider;
+package {{basePackage}}.config;
 
+import org.mybatis.spring.annotation.MapperScan;
 
-import org.apache.dubbo.config.annotation.DubboService;
-import org.apache.dubbo.rpc.RpcContext;
-import {{basePackage}}.DemoService;
-
-@DubboService
-public class DemoServiceImpl implements DemoService {
-
-    @Override
-    public String sayHello(String name) {
-        System.out.println("Hello " + name + ", request from consumer: " + RpcContext.getContext().getRemoteAddress());
-        return "Hello " + name;
-    }
-
+/**
+ * 使用MapperScan批量扫描所有的Mapper接口
+ *
+ * @author <a href="mailto:chenxilzx1@gmail.com">theonefx</a>
+ */
+@MapperScan("{{basePackage}}.mybatis")
+public class MybatisDemoConfig {
 
 }
