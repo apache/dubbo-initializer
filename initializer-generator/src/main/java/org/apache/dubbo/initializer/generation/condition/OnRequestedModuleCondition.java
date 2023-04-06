@@ -24,6 +24,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.ConditionContext;
 import org.springframework.core.type.AnnotatedTypeMetadata;
 
+import java.util.Arrays;
+
 /**
  * @author Weix Sun
  */
@@ -34,8 +36,7 @@ public class OnRequestedModuleCondition extends ProjectGenerationCondition {
 			AnnotatedTypeMetadata metadata) {
 		Module module = context.getBeanFactory().getBean(Module.class);
 		String requestModuleName = module.getName() == null && module.isRoot() ? "root" : module.getName();
-		String annotatedModuleName = (String) metadata.getAnnotationAttributes(
-				ConditionalOnRequestedModule.class.getName()).get("value");
-		return StringUtils.equals(requestModuleName, annotatedModuleName);
+		String[] annotatedModuleNames = (String[]) metadata.getAnnotationAttributes(ConditionalOnRequestedModule.class.getName()).get("value");
+		return Arrays.stream(annotatedModuleNames).anyMatch(annotatedModuleName -> requestModuleName.equals(annotatedModuleName));
 	}
 }

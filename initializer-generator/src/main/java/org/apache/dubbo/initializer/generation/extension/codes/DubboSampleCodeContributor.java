@@ -14,23 +14,7 @@
  * limitations under the License.
  */
 
-package com.alibaba.initializer.generation.extension;
-
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
+package org.apache.dubbo.initializer.generation.extension.codes;
 
 import com.alibaba.initializer.core.constants.ErrorCodeEnum;
 import com.alibaba.initializer.core.exception.BizRuntimeException;
@@ -39,12 +23,8 @@ import com.alibaba.initializer.core.template.CodeTemplateRepoRenderer;
 import com.alibaba.initializer.core.template.RepoRenderResult;
 import com.alibaba.initializer.core.template.loader.RootRepoTemplateLoader;
 import com.alibaba.initializer.generation.constants.BootstrapTemplateRenderConstants;
-import com.alibaba.initializer.metadata.Architecture;
-import com.alibaba.initializer.metadata.DependencyArchConfig;
-import com.alibaba.initializer.metadata.EnhancedDependency;
-import com.alibaba.initializer.metadata.InitializerMetadata;
 import com.alibaba.initializer.metadata.Module;
-import com.alibaba.initializer.metadata.ModuleConfig;
+import com.alibaba.initializer.metadata.*;
 import com.alibaba.initializer.project.InitializerProjectDescription;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
@@ -54,18 +34,29 @@ import io.spring.initializr.generator.language.SourceStructure;
 import io.spring.initializr.generator.project.contributor.ProjectContributor;
 import io.spring.initializr.metadata.DependencyGroup;
 import org.apache.commons.lang3.StringUtils;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.FileCopyUtils;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+
 import static com.alibaba.initializer.generation.constants.BootstrapTemplateRenderConstants.KEY_ARTIFACT_ID;
 
 /**
- * @author <a href="mailto:chenxilzx1@gmail.com">theonefx</a>
+ * @author @author <a href="mailto:15835991162@163.com">ErDan Wang</a>
  */
-public class SampleCodeContributor implements ProjectContributor {
+public class DubboSampleCodeContributor implements ProjectContributor {
 
     @Value("${application.democode-path}")
     private String templates;
@@ -108,10 +99,8 @@ public class SampleCodeContributor implements ProjectContributor {
         Map<Dependency, String> dependencyRepoUris = getRepos(description);
         List<String> uris = new ArrayList<>();
         dependencyRepoUris.values().forEach(uri -> {
-            if (module.isMain())
-                uris.add(uri);
-            else
-                uris.add(uri + "/" + module.getName());
+            uris.add(uri);
+            uris.add(uri + "/" + architecture.getId() + "/" + module.getName());
         });
         uris.forEach(uri -> {
             CodeTemplateRepo repo = loader.load(uri);

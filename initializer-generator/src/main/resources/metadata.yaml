@@ -8,7 +8,7 @@ initializr:
         mappings:
           - compatibilityRange: "2.3.0.M1"
             version: 3.0.7
-      apache-dubbo-dependencies-zookeeper:
+      apache-dubbo-zookeeper:
         groupId: org.apache.dubbo
         artifactId: dubbo-dependencies-zookeeper
         versionProperty: dubbo.version
@@ -221,35 +221,34 @@ initializr:
         snapshotsEnabled: true
   dependencies:
     - name: Dubbo Core
+      bom: apache-dubbo
       content:
       - name: Dubbo Spring Boot
-        id: dubbo-spring-boot-starter
+        id: dubbo
         groupId: org.apache.dubbo
         artifactId: dubbo-spring-boot-starter
-        description: dubbo-spring-boot-starter
+        description: Dubbo Spring Boot
         starter: false
+        archCfg:
+          dubbo:
+            modules:
+              api:
+                code: true
+              service:
+                code: true
     - name: Dubbo Registry
       content:
       - name: Zookeeper 注册中心
-        id: dubbo-register-zookeeper
+        id: dubbo-zookeeper
         groupId: org.apache.dubbo
         artifactId: dubbo-dependencies-zookeeper
         type: pom
         description: 使用Zookeeper作为Dubbo注册中心
         starter: false
         compatibilityRange: "[2.0.0.RELEASE,3.1.0-M1)"
-        bom: apache-dubbo-dependencies-zookeeper
+        bom: apache-dubbo-zookeeper
         codeOnly: false
-        dependencies: [ "metrics-core" ]
-        archCfg:
-          pic:
-            modules:
-              provider:
-                code: true
-              interface:
-                code: true
-              consumer:
-                code: true
+        #dependencies: [ "metrics-core" ]
       - name: metrics-core
         id: metrics-core
         groupId: io.dropwizard.metrics
@@ -1861,15 +1860,13 @@ initializr:
           description: web 模块，对应 MVC 的 V 概念，存放视图层的逻辑
         - name: service
           description: service 模块，对应 MVC 的 M 概念，存放核心业务逻辑代码
-    - id: pic
-      name: PIC架构
+    - id: dubbo
+      name: Dubbo微服务架构
       default: true
       subModules:
-        - name: interface
-          description: interface 模块，对应 PIC 的 I 概念，对外提供的API
-        - name: consumer
-          description: consumer 模块，对应 PIC 的 C 概念，Dubbo RPC调用的消费者角色
-          dependModules: 'interface'
-        - name: provider
-          description: provider 模块，对应 PIC 的 P 概念，Dubbo RPC调用的提供者角色
-          dependModules: 'interface'
+        - name: api
+          description: api 模块，对外提供的 API
+        - name: service
+          description: service 模块，存放核心业务逻辑代码
+          main: true
+          dependModules: 'api'
