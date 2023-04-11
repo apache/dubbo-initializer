@@ -14,31 +14,30 @@
  * limitations under the License.
  */
 
-package org.apache.dubbo.initializer.generation.extension.build.maven;
+package org.apache.dubbo.initializer.generation.extension.dependency;
 
+import io.spring.initializr.generator.buildsystem.Dependency;
 import io.spring.initializr.generator.buildsystem.maven.MavenBuild;
 import io.spring.initializr.generator.spring.build.BuildCustomizer;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
- * after MavenComplierPluginCustomizer,SpringBootBomMavenCustomizer
- * <pre>
- * 1.Remove other all plugins from api module pom.xml
- * </pre>
+ * 1.Add grpc-netty dependency exclude
  *
- * @author Weix Sun
- * @see com.alibaba.initializer.generation.extension.build.maven.MavenComplierPluginCustomizer,com.alibaba.initializer.generation.extension.build.maven.SpringBootBomMavenCustomizer
+ * @author <a href="mailto:15835991162@163.com">ErDan Wang</a>
  */
-public class ApiMavenPluginCustomizer implements BuildCustomizer<MavenBuild> {
+public class DubboGrpcBuildCustomizer implements BuildCustomizer<MavenBuild> {
 
 
     @Override
     public void customize(MavenBuild build) {
-        build.plugins().remove("org.apache.maven.plugins", "maven-compiler-plugin");
-        build.plugins().remove("org.springframework.boot", "spring-boot-maven-plugin");
+        //1.Add grpc-netty dependency exclude
+        Set<Dependency.Exclusion> exclusions = new HashSet<>();
+        exclusions.add(new Dependency.Exclusion("io.netty", "netty-codec-http2"));
+        exclusions.add(new Dependency.Exclusion("io.netty", "netty-handler-proxy"));
+        build.dependencies().add("grpc-netty", Dependency.withCoordinates("io.grpc", "grpc-netty").exclusions(exclusions));
     }
 
-    @Override
-    public int getOrder() {
-        return 3;
-    }
 }

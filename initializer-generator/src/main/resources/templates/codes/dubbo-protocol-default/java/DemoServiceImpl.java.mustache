@@ -1,0 +1,15 @@
+package {{basePackage}}.service;
+
+import {{basePackage}}.dto.RequestData;
+import {{basePackage}}.dto.ResponseData;
+import org.apache.dubbo.config.annotation.DubboService;
+
+@DubboService
+public class DemoServiceImpl implements DemoService {
+
+    @Override
+    public ResponseData service(RequestData param) {
+        ResponseData responseData = new ResponseData();
+        return responseData;
+    }
+}

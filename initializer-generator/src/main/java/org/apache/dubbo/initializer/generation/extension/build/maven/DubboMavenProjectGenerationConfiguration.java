@@ -18,9 +18,11 @@ package org.apache.dubbo.initializer.generation.extension.build.maven;
 
 import com.alibaba.initializer.generation.InitializerProjectGenerationConfiguration;
 import com.alibaba.initializer.generation.condition.ConditionalOnRequestedArchitecture;
+import io.spring.initializr.generator.buildsystem.Build;
+import io.spring.initializr.generator.buildsystem.Dependency;
 import io.spring.initializr.generator.buildsystem.maven.MavenBuildSystem;
 import io.spring.initializr.generator.condition.ConditionalOnBuildSystem;
-import io.spring.initializr.generator.project.ProjectGenerationConfiguration;
+import io.spring.initializr.generator.spring.build.BuildCustomizer;
 import org.apache.dubbo.initializer.generation.condition.ConditionalOnRequestedModule;
 import org.springframework.context.annotation.Bean;
 
@@ -46,9 +48,16 @@ public class DubboMavenProjectGenerationConfiguration {
     }
 
     @Bean
-    @ConditionalOnRequestedModule({"root", "api"})
-    public DefaultMavenDependenciesCustomizer defaultMavenDependenciesCustomizer() {
-        return new DefaultMavenDependenciesCustomizer();
+    @ConditionalOnRequestedModule("root")
+    public RootMavenDependenciesCustomizer rootMavenDependenciesCustomizer() {
+        return new RootMavenDependenciesCustomizer();
+    }
+
+
+    @Bean
+    @ConditionalOnRequestedModule("service")
+    public BuildCustomizer<Build> defaultStarterBuildCustomizer() {
+        return build -> build.dependencies().add("dubbo-starter", Dependency.withCoordinates("org.apache.dubbo", "dubbo-spring-boot-starter").build());
     }
 
 }

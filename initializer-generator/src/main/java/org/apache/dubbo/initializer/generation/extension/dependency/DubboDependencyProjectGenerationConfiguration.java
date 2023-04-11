@@ -14,38 +14,46 @@
  * limitations under the License.
  */
 
-package org.apache.dubbo.initializer.generation.extension.dependency.dubbregisterzookeeper;
+package org.apache.dubbo.initializer.generation.extension.dependency;
 
 import com.alibaba.initializer.generation.condition.ConditionalOnRequestedArchitecture;
 import io.spring.initializr.generator.condition.ConditionalOnRequestedDependency;
 import io.spring.initializr.generator.project.ProjectGenerationConfiguration;
 import org.apache.dubbo.initializer.generation.condition.ConditionalOnRequestedModule;
-import org.apache.dubbo.initializer.generation.extension.dependency.dubbregisterzookeeper.architecture.pic.consumer.ConsumerDubboRegisterZookeeperBuildCustomizer;
-
 import org.springframework.context.annotation.Bean;
 
 /**
- * {@link ProjectGenerationConfiguration} for generation of projects that use 'dubbo-register-zookeeper'.
- *
- * @author Weix Sun
+ * @author <a href="mailto:15835991162@163.com">ErDan Wang</a>
  */
 @ProjectGenerationConfiguration
-@ConditionalOnRequestedDependency("dubbo-register-zookeeper")
-@ConditionalOnRequestedArchitecture("pic")
-class DubboRegisterZookeeperProjectGenerationConfiguration {
-
+@ConditionalOnRequestedArchitecture("dubbo")
+class DubboDependencyProjectGenerationConfiguration {
 
 	@Bean
-	@ConditionalOnRequestedModule("root")
-	DubboRegisterZookeeperBuildCustomizer dubboRegisterZookeeperBuildCustomizer() {
-		return new DubboRegisterZookeeperBuildCustomizer();
+	@ConditionalOnRequestedDependency("dubbo-protocol-grpc")
+	public DubboGrpcBuildCustomizer dubboGrpcBuildCustomizer() {
+		return new DubboGrpcBuildCustomizer();
 	}
 
 	@Bean
-	@ConditionalOnRequestedModule("consumer")
-	ConsumerDubboRegisterZookeeperBuildCustomizer ConsumerDubboRegisterZookeeperBuildCustomizer() {
-		return new ConsumerDubboRegisterZookeeperBuildCustomizer();
+	@ConditionalOnRequestedDependency("dubbo-protocol-grpc")
+	@ConditionalOnRequestedModule("api")
+	public DubboGrpcPluginCustomizer dubboGrpcPluginCustomizer() {
+		return new DubboGrpcPluginCustomizer();
 	}
+
+	@Bean
+	@ConditionalOnRequestedDependency("dubbo-protocol-grpc")
+	public DubboGrpcDependenciesCustomizer dubboGrpcDependenciesCustomizer() {
+		return new DubboGrpcDependenciesCustomizer();
+	}
+
+//	@Bean
+//	@ConditionalOnRequestedDependency("dubbo-protocol-default")
+//	@ConditionalOnRequestedModule("api")
+//	public ApiMavenDependenciesCustomizer defaultMavenDependenciesCustomizer() {
+//		return new ApiMavenDependenciesCustomizer();
+//	}
 
 
 }
