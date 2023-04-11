@@ -18,10 +18,14 @@ Please clone the project locally and make sure you have a Java 17 environment.
 In the project root directory, execute the following commands to install `Node` and `Yarn`:
 ```shell
 mvn compile -P install-yarn
+# or
+# mvn compile -Pinstall-yarn -Dos.arch=x64 -Dmaven.test.skip
 ```
 In the project root directory, execute the following command to copy the static files to the target of the `initializer-generator` module:
 ```shell
 mvn prepare-package
+# or
+# mvn prepare-package -Pbuild-public -Dos.arch=x64 -Dmaven.test.skip
 ```
 
 ### Run project
