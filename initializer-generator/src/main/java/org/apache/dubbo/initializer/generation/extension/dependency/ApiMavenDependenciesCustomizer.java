@@ -14,31 +14,31 @@
  * limitations under the License.
  */
 
-package org.apache.dubbo.initializer.generation.extension.build.maven;
+package org.apache.dubbo.initializer.generation.extension.dependency;
 
 import io.spring.initializr.generator.buildsystem.maven.MavenBuild;
 import io.spring.initializr.generator.spring.build.BuildCustomizer;
 
 /**
- * after MavenComplierPluginCustomizer,SpringBootBomMavenCustomizer
+ * after DefaultStarterBuildCustomizer,DependencyManagementBuildCustomizer
  * <pre>
- * 1.Remove other all plugins from api module pom.xml
+ * 1.Remove starter dependencies from  pom.xml
+ * 2.Remove other dependencies from  pom.xml
  * </pre>
  *
  * @author Weix Sun
- * @see com.alibaba.initializer.generation.extension.build.maven.MavenComplierPluginCustomizer,com.alibaba.initializer.generation.extension.build.maven.SpringBootBomMavenCustomizer
+ * @see io.spring.initializr.generator.spring.build.DefaultStarterBuildCustomizer,io.spring.initializr.generator.spring.build.DependencyManagementBuildCustomizer
  */
-public class ApiMavenPluginCustomizer implements BuildCustomizer<MavenBuild> {
-
+public class ApiMavenDependenciesCustomizer implements BuildCustomizer<MavenBuild> {
 
     @Override
     public void customize(MavenBuild build) {
-        build.plugins().remove("org.apache.maven.plugins", "maven-compiler-plugin");
-        build.plugins().remove("org.springframework.boot", "spring-boot-maven-plugin");
+        // Remove all dependencies, after the 'dependencies.bom' analysis is completed
+        build.dependencies().ids().toList().forEach(id -> build.dependencies().remove(id));
     }
 
     @Override
     public int getOrder() {
-        return 3;
+        return LOWEST_PRECEDENCE;
     }
 }

@@ -125,6 +125,10 @@ public class SampleCodeContributor implements ProjectContributor {
             List<RepoRenderResult.TemplateRenderResult> resources = result.getResults("resources");
             resources.forEach(res -> writeResources(res, language, projectRoot, structure));
 
+            // write protobuf file
+            List<RepoRenderResult.TemplateRenderResult> proto = result.getResults("proto");
+            proto.forEach(res -> writeProtoBuf(res, language, projectRoot, structure));
+
             // write root
             if (module.isRoot()) {
                 List<RepoRenderResult.TemplateRenderResult> roots = result.getResults("root");
@@ -132,6 +136,7 @@ public class SampleCodeContributor implements ProjectContributor {
             }
         });
     }
+
 
     protected boolean filter(RepoRenderResult.TemplateRenderResult templateRenderResult) {
 
@@ -249,6 +254,19 @@ public class SampleCodeContributor implements ProjectContributor {
             doWirte(path, content, true);
         } catch (IOException e) {
             throw new BizRuntimeException(ErrorCodeEnum.SYSTEM_ERROR, "write code error", e);
+        }
+    }
+
+    protected void writeProtoBuf(RepoRenderResult.TemplateRenderResult result, Language language, Path projectRoot, SourceStructure structure) {
+        String content = result.getContent();
+        Path path = result.getPath();
+
+        Path rootDirectory = structure.getRootDirectory();
+        path = rootDirectory.resolve(path);
+        try {
+            doWirte(path, content, false);
+        } catch (IOException e) {
+            throw new BizRuntimeException(ErrorCodeEnum.SYSTEM_ERROR, "write protobuf error", e);
         }
     }
 
