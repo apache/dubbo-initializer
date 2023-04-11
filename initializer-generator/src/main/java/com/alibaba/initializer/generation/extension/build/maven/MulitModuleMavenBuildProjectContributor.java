@@ -65,7 +65,7 @@ public class MulitModuleMavenBuildProjectContributor extends MavenBuildProjectCo
         this.metadata = metadata;
         this.buildWriter = new MulitModuleMavenBuildWriter(metadata);
 
-        // use reflext to replace MavenBuildWriter
+        // use reflection to replace MavenBuildWriter
         try {
             Field buildWriterField = MavenBuildProjectContributor.class.getDeclaredField("buildWriter");
             buildWriterField.setAccessible(true);

@@ -21,6 +21,7 @@ import java.util.Map;
 import io.spring.initializr.metadata.DefaultMetadataElement;
 import io.spring.initializr.metadata.Defaultable;
 import io.spring.initializr.metadata.InitializrMetadata;
+import io.spring.initializr.metadata.SingleSelectCapability;
 
 /**
  * @author <a href="mailto:chenxilzx1@gmail.com">theonefx</a>
@@ -32,6 +33,12 @@ public class InitializerMetadata extends InitializrMetadata {
             "application architecture",
             "the architecture of application");
 
+    private final SingleSelectCapability dubboVersions = new SingleSelectCapability(
+            "dubboVersion",
+            "Apache Dubbo Version",
+            "apache dubbo version");
+
+
     protected InitializerMetadata(InitializerProperties configuration) {
         super(configuration);
     }
@@ -39,7 +46,15 @@ public class InitializerMetadata extends InitializrMetadata {
     public Map<String, Object> defaults() {
         Map<String, Object> defaults = super.defaults();
         defaults.put("architecture", defaultId(this.architecture));
+        defaults.put("dubboVersion", defaultId(this.dubboVersions));
         return defaults;
+    }
+
+    public void merge(InitializrMetadata other) {
+        super.merge(other);
+        InitializerMetadata initializerMetadata = (InitializerMetadata) other;
+        this.architecture.merge(initializerMetadata.architecture);
+        this.dubboVersions.merge(initializerMetadata.dubboVersions);
     }
 
     private static String defaultId(Defaultable<? extends DefaultMetadataElement> element) {
@@ -49,6 +64,10 @@ public class InitializerMetadata extends InitializrMetadata {
 
     public ArchitectureCapability getArchitecture() {
         return this.architecture;
+    }
+
+    public SingleSelectCapability getDubboVersions() {
+        return dubboVersions;
     }
 
     public InitializerProperties getInitializerConfiguration() {

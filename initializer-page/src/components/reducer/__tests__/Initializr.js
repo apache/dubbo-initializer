@@ -24,6 +24,7 @@ describe('COMPLETE action', () => {
         language: '',
         architecture: '',
         boot: '',
+        dubboVersion: '',
         meta: {
           name: '',
           group: '',
@@ -48,7 +49,7 @@ describe('COMPLETE action', () => {
       },
     })
     expect(get(result, 'share')).toBe(
-      'type=maven-project&language=java&architecture=none&platformVersion=2.2.0.RELEASE&packaging=jar&jvmVersion=1.8&groupId=com.example&artifactId=demo&name=demo&description=Demo%20project%20for%20Spring%20Boot&packageName=com.example.demo'
+      'type=maven-project&language=java&dubboVersion=3.1.8&architecture=none&platformVersion=2.2.0.RELEASE&packaging=jar&jvmVersion=1.8&groupId=com.example&artifactId=demo&name=demo&description=Demo%20project%20for%20Spring%20Boot&packageName=com.example.demo'
     )
     expect(get(result, 'values.project')).toBe('maven-project')
     expect(get(result, 'values.language')).toBe('java')

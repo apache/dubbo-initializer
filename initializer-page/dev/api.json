@@ -1408,6 +1408,15 @@
       { "id": "groovy", "name": "Groovy" }
     ]
   },
+  "dubboVersion": {
+    "type": "single-select",
+    "default": "3.1.8",
+    "values": [
+      { "id": "3.2.0", "name": "3.2.0" },
+      { "id": "3.1.8", "name": "3.1.8" },
+      { "id": "2.7.21", "name": "2.7.21" }
+    ]
+  },
   "bootVersion": {
     "type": "single-select",
     "default": "2.2.0.RELEASE",

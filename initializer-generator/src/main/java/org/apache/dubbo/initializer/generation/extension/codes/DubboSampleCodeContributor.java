@@ -23,6 +23,7 @@ import com.alibaba.initializer.core.template.CodeTemplateRepoRenderer;
 import com.alibaba.initializer.core.template.RepoRenderResult;
 import com.alibaba.initializer.core.template.loader.RootRepoTemplateLoader;
 import com.alibaba.initializer.generation.constants.BootstrapTemplateRenderConstants;
+import com.alibaba.initializer.generation.extension.SampleCodeContributor;
 import com.alibaba.initializer.metadata.Module;
 import com.alibaba.initializer.metadata.*;
 import com.alibaba.initializer.project.InitializerProjectDescription;
@@ -54,6 +55,8 @@ import java.util.stream.Collectors;
 import static com.alibaba.initializer.generation.constants.BootstrapTemplateRenderConstants.KEY_ARTIFACT_ID;
 
 /**
+ * Not enabled for now, please use {@linkplain SampleCodeContributor} instead.
+ *
  * @author @author <a href="mailto:15835991162@163.com">ErDan Wang</a>
  */
 public class DubboSampleCodeContributor implements ProjectContributor {

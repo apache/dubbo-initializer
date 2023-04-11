@@ -106,6 +106,7 @@ public class InitializerMetadataBuilder {
         public void customize(InitializrMetadata metadata) {
             InitializerMetadata initializerMetadata = (InitializerMetadata) metadata;
             initializerMetadata.getArchitecture().merge(this.properties.getArchitecture());
+            initializerMetadata.getDubboVersions().merge(this.properties.getDubboVersions());
             initializerMetadata.getDependencies().merge(new ArrayList<>(this.properties.getDependencies()));
             metadata.getTypes().merge(this.properties.getTypes());
             metadata.getBootVersions().merge(this.properties.getBootVersions());

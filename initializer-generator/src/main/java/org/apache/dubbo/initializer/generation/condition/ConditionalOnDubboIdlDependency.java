@@ -14,21 +14,23 @@
  * limitations under the License.
  */
 
-package com.alibaba.initializer.controller;
+package org.apache.dubbo.initializer.generation.condition;
 
-import io.spring.initializr.web.project.WebProjectRequest;
-import lombok.Getter;
-import lombok.Setter;
+import org.springframework.context.annotation.Conditional;
+
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * @author <a href="mailto:chenxilzx1@gmail.com">theonefx</a>
+ * @author Weix Sun
  */
-@Getter
-@Setter
-public class ProjectRequest extends WebProjectRequest {
-
-    private String architecture;
-
-    private String dubboVersion = "3.1.8";
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ ElementType.TYPE, ElementType.METHOD })
+@Documented
+@Conditional(OnDubboIdlCondition.class)
+public @interface ConditionalOnDubboIdlDependency {
 
 }

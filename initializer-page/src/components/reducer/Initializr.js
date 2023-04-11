@@ -11,6 +11,7 @@ export const defaultInitializrContext = {
     language: '',
     architecture: '',
     boot: '',
+    dubboVersion: '',
     meta: {
       name: '',
       group: '',

@@ -1,3 +1,9 @@
 # dubbo zookeeper  https://cn.dubbo.apache.org/zh-cn/overview/mannual/java-sdk/reference-manual/registry/zookeeper/
 # Registry 配置项手册 https://cn.dubbo.apache.org/zh-cn/overview/mannual/java-sdk/reference-manual/config/properties/#registry
 dubbo.registry.address=zookeeper://${zookeeper.address:127.0.0.1}:2181
+# Use the following configuration to stop using registry as metadata and config center.
+# dubbo.registry.useAsMetadataCenter=false
+# dubbo.registry.useAsConfigCenter=false
+# Explicitly specify different metadata & config centers will also stop reusing the registry cluster.
+# dubbo.metadata-report.address=nacos://host:port
+# dubbo.config-center.address=apollo://host:port

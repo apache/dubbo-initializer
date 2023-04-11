@@ -134,26 +134,36 @@ export default function Application() {
         ) : (
           <>
             <Warnings />
-            <Control text='项目构建方式'>
+            {/*<Control text='项目构建方式'>*/}
+            {/*  <RadioGroup*/}
+            {/*    name='project'*/}
+            {/*    selected={get(values, 'project')}*/}
+            {/*    options={get(config, 'lists.project')}*/}
+            {/*    onChange={value => {*/}
+            {/*      update({ project: value })*/}
+            {/*    }}*/}
+            {/*  />*/}
+            {/*</Control>*/}
+            {/*<Control text='开发语言'>*/}
+            {/*  <RadioGroup*/}
+            {/*    name='language'*/}
+            {/*    selected={get(values, 'language')}*/}
+            {/*    options={get(config, 'lists.language')}*/}
+            {/*    onChange={value => {*/}
+            {/*      update({ language: value })*/}
+            {/*    }}*/}
+            {/*  />*/}
+            {/*</Control>*/}
+          <Control text='Dubbo版本'>
               <RadioGroup
-                name='project'
-                selected={get(values, 'project')}
-                options={get(config, 'lists.project')}
-                onChange={value => {
-                  update({ project: value })
-                }}
+                  name='dubboVersion'
+                  selected={get(values, 'dubboVersion')}
+                  options={get(config, 'lists.dubboVersion')}
+                  onChange={value => {
+                      update({ dubboVersion: value })
+                  }}
               />
-            </Control>
-            <Control text='开发语言'>
-              <RadioGroup
-                name='language'
-                selected={get(values, 'language')}
-                options={get(config, 'lists.language')}
-                onChange={value => {
-                  update({ language: value })
-                }}
-              />
-            </Control>
+          </Control>
             <Control text='Spring Boot版本'>
               <RadioGroup
                 name='boot'

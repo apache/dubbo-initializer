@@ -31,9 +31,7 @@ import org.springframework.context.annotation.Bean;
  */
 @ProjectGenerationConfiguration
 @ConditionalOnRequestedDependency("dubbo-register-zookeeper")
-@ConditionalOnRequestedArchitecture("pic")
 class DubboRegisterZookeeperProjectGenerationConfiguration {
-
 
 	@Bean
 	@ConditionalOnRequestedModule("root")

@@ -76,6 +76,7 @@ public class InitializerMetadataV2JsonMapper extends InitializrMetadataV2JsonMap
         singleSelect(delegate, metadata.getJavaVersions());
         singleSelect(delegate, metadata.getLanguages());
         singleSelect(delegate, metadata.getBootVersions());
+        singleSelect(delegate, ((InitializerMetadata) metadata).getDubboVersions());
         text(delegate, metadata.getGroupId());
         text(delegate, metadata.getArtifactId());
         text(delegate, metadata.getVersion());

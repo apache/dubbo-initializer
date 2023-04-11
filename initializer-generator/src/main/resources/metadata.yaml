@@ -7,7 +7,7 @@ initializr:
         versionProperty: dubbo.version
         mappings:
           - compatibilityRange: "2.3.0.M1"
-            version: 3.0.7
+            version: 3.1.8
       apache-dubbo-zookeeper:
         groupId: org.apache.dubbo
         artifactId: dubbo-dependencies-zookeeper
@@ -15,7 +15,15 @@ initializr:
         additionalBoms: [ apache-dubbo ]
         mappings:
           - compatibilityRange: "2.3.0.M1"
-            version: 3.0.7
+            version: 3.1.8
+      apache-dubbo-zookeeper-curator5:
+        groupId: org.apache.dubbo
+        artifactId: dubbo-dependencies-zookeeper-curator5
+        versionProperty: dubbo.version
+        additionalBoms: [ apache-dubbo ]
+        mappings:
+          - compatibilityRange: "2.3.0.M1"
+            version: 3.1.8
       codecentric-spring-boot-admin:
         groupId: de.codecentric
         artifactId: spring-boot-admin-dependencies
@@ -219,15 +227,34 @@ initializr:
         url: https://oss.sonatype.org/content/repositories/snapshots/
         releasesEnabled: false
         snapshotsEnabled: true
+      apache-snapshots:
+        name: Apache Snapshots
+        url: https://repository.apache.org/content/repositories/snapshots
+        releasesEnabled: false
+        snapshotsEnabled: true
   dependencies:
-    - name: Dubbo Core
+    - name: Dubbo Service API
       bom: apache-dubbo
       content:
-      - name: Dubbo Spring Boot
+      - name: Java Interface (default)
         id: dubbo
         groupId: org.apache.dubbo
         artifactId: dubbo-spring-boot-starter
-        description: Dubbo Spring Boot
+        description: Use java interface as the standard Dubbo service definition
+        starter: false
+#        hide: true
+        archCfg:
+          dubbo:
+            modules:
+              api:
+                code: true
+              service:
+                code: true
+      - name: IDL
+        id: dubbo-idl
+        groupId: org.apache.dubbo
+        artifactId: dubbo-spring-boot-starter
+        description: Use IDL as the standard Dubbo service definition
         starter: false
         archCfg:
           dubbo:
@@ -236,37 +263,98 @@ initializr:
                 code: true
               service:
                 code: true
-    - name: Dubbo Registry
+    - name: Dubbo Governance
       content:
-      - name: Zookeeper 注册中心
+      - name: Zookeeper (default)
         id: dubbo-zookeeper
         groupId: org.apache.dubbo
         artifactId: dubbo-dependencies-zookeeper
         type: pom
-        description: 使用Zookeeper作为Dubbo注册中心
+        description: "使用 Zookeeper 作为服务治理中心，可选作为注册中心、配置中心、元数据中心"
         starter: false
         compatibilityRange: "[2.0.0.RELEASE,3.1.0-M1)"
         bom: apache-dubbo-zookeeper
         codeOnly: false
-        #dependencies: [ "metrics-core" ]
-      - name: metrics-core
-        id: metrics-core
-        groupId: io.dropwizard.metrics
-        artifactId: metrics-core
+      - name: Zookeeper-curator5
+        id: dubbo-zookeeper-curator5
+        groupId: org.apache.dubbo
+        artifactId: dubbo-dependencies-zookeeper-curator5
+        type: pom
+        description: "[高版本] 使用 Zookeeper 作为服务治理中心，可选作为注册中心、配置中心、元数据中心"
         starter: false
-        hide: true
-    - name: Dubbo Protocols
+        compatibilityRange: "[2.0.0.RELEASE,3.1.0-M1)"
+        bom: apache-dubbo-zookeeper-curator5
+        codeOnly: false
+      - name: Nacos
+        id: dubbo-nacos
+        groupId: com.alibaba.nacos
+        artifactId: nacos-client
+        versionProperty: nacos.version
+        version: 2.2.1
+        description: "使用 Nacos 作为服务治理中心，可选作为注册中心、配置中心、元数据中心"
+        starter: false
+        compatibilityRange: "[2.0.0.RELEASE,3.1.0-M1)"
+        codeOnly: false
+      - name: Apollo
+        id: dubbo-apollo
+        groupId: com.ctrip.framework.apollo
+        artifactId: apollo-client
+        versionProperty: apollo.version
+        version: 2.1.0
+        description: "使用 Apollo 作为配置中心"
+        starter: false
+        compatibilityRange: "[2.0.0.RELEASE,3.1.0-M1)"
+        codeOnly: false
+      - name: Redis
+        id: dubbo-redis
+        groupId: redis.clients
+        artifactId: jedis
+        versionProperty: jedis.version
+        version: 3.9.0
+        description: "使用 Redis 作为元数据中心"
+        starter: false
+        compatibilityRange: "[2.0.0.RELEASE,3.1.0-M1)"
+        codeOnly: false
+    - name: Dubbo Protocol
       content:
-      - name: protocol1
-        id: protocol1
-        description: protocol1
+      - name: http2 (default)
+        id: dubbo-http2
+        description: (HTTP/2) http2 protocol, streaming data exchange.
         starter: false
-    - name: Dubbo Serialization
+      - name: grpc
+        id: dubbo-grpc
+        description: gRPC protocol, streaming data exchange.
+        starter: false
+      - name: tcp
+        id: dubbo-tcp
+        description: Dubbo2 tcp protocol.
+        starter: false
+      - name: REST
+        id: dubbo-rest
+        description: Dubbo2 rest protocol.
+        starter: false
+      - name: 单端口多协议
+        id: dubbo-multi-protocols
+        description: port unification.
+        starter: false
+    - name: Dubbo Features
       content:
-      - name: serialization1
-        id: serialization1
-        description: serialization1
-        starter: false
+        - name: QoS
+          id: dubbo-qos
+          description: qos.
+          starter: false
+        - name: Metrics
+          id: dubbo-metrics
+          description: metrics.
+          starter: false
+        - name: Tracing
+          id: dubbo-tracing
+          description: tracing.
+          starter: false
+        - name: 限流降级
+          id: dubbo-sentinel
+          description: sentinel.
+          starter: false
     - name: Developer Tools
       content:
         - name: Arthas
@@ -1264,164 +1352,6 @@ initializr:
           links:
             - rel: reference
               href: https://docs.spring.io/spring-boot/docs/{bootVersion}/reference/htmlsingle/#data.nosql.mongodb.embedded
-    - name: Spring Cloud Messaging
-      bom: spring-cloud
-      compatibilityRange: "[2.3.0.M1,3.1.0-M1)"
-      content:
-        - name: Cloud Bus
-          id: cloud-bus
-          description: Links nodes of a distributed system with a lightweight message broker which can used to broadcast state changes or other management instructions (requires a binder, e.g. Apache Kafka or RabbitMQ).
-          groupId: org.springframework.cloud
-          artifactId: spring-cloud-bus
-          links:
-            - rel: reference
-              href: https://docs.spring.io/spring-cloud-bus/docs/current/reference/html/
-        - name: Cloud Stream
-          id: cloud-stream
-          description: Framework for building highly scalable event-driven microservices connected with shared messaging systems (requires a binder, e.g. Apache Kafka, RabbitMQ or Solace PubSub+).
-          groupId: org.springframework.cloud
-          artifactId: spring-cloud-stream
-          links:
-            - rel: reference
-              href: https://docs.spring.io/spring-cloud-stream/docs/current/reference/html/spring-cloud-stream.html#spring-cloud-stream-overview-introducing
-    - name: VMware Tanzu Application Service
-      bom: spring-cloud-services
-      compatibilityRange: "[2.0.0.RELEASE,3.0.0-M1)"
-      content:
-        - name: Config Client (TAS)
-          id: scs-config-client
-          description: Config client on VMware Tanzu Application Service.
-          groupId: io.pivotal.spring.cloud
-          artifactId: spring-cloud-services-starter-config-client
-          links:
-            - rel: reference
-              href: https://docs.vmware.com/en/Spring-Cloud-Services-for-VMware-Tanzu/index.html
-          mappings:
-            - compatibilityRange: "[2.0.0.RELEASE,2.4.0-M1)"
-              starter: false
-        - name: Service Registry (TAS)
-          id: scs-service-registry
-          description: Eureka service discovery client on VMware Tanzu Application Service.
-          groupId: io.pivotal.spring.cloud
-          artifactId: spring-cloud-services-starter-service-registry
-          links:
-            - rel: reference
-              href: https://docs.vmware.com/en/Spring-Cloud-Services-for-VMware-Tanzu/index.html
-    - name: Microsoft Azure
-      bom: spring-cloud-azure
-      compatibilityRange: "[2.5.0-M1,3.1.0-M1)"
-      content:
-        - name: Azure Support
-          id: azure-support
-          groupId: com.azure.spring
-          artifactId: spring-cloud-azure-starter
-          description: Auto-configuration for Azure Services (Service Bus, Storage, Active Directory, Key Vault, and more).
-          links:
-            - rel: guide
-              href: https://spring.io/guides/gs/spring-boot-for-azure/
-              description: Deploying a Spring Boot app to Azure
-            - rel: reference
-              href: https://microsoft.github.io/spring-cloud-azure/current/reference/html/index.html
-              description: Spring Cloud Azure Reference Documentation
-            - rel: sample
-              href: https://aka.ms/spring/samples
-              description: Azure Samples
-        - name: Azure Active Directory
-          id: azure-active-directory
-          groupId: com.azure.spring
-          artifactId: spring-cloud-azure-starter-active-directory
-          description: Spring Security integration with Azure Active Directory for authentication.
-          links:
-            - rel: guide
-              href: https://aka.ms/spring/msdocs/aad
-              description: Securing a Java Web App with the Spring Boot Starter for Azure Active Directory
-            - rel: reference
-              href: https://microsoft.github.io/spring-cloud-azure/current/reference/html/index.html#spring-security-with-azure-active-directory
-            - rel: sample
-              href: https://aka.ms/spring/samples/latest/aad
-              description: Azure Active Directory Sample
-        - name: Azure Cosmos DB
-          id: azure-cosmos-db
-          compatibilityRange: "[2.5.0-M1,3.0.0-M1)"
-          groupId: com.azure.spring
-          artifactId: spring-cloud-azure-starter-data-cosmos
-          description: Fully managed NoSQL database service for modern app development, including Spring Data support.
-          links:
-            - rel: guide
-              href: https://aka.ms/spring/msdocs/cosmos
-              description: How to use Spring Boot Starter with Azure Cosmos DB SQL API
-            - rel: reference
-              href: https://microsoft.github.io/spring-cloud-azure/current/reference/html/index.html#spring-data-support
-            - rel: sample
-              href: https://aka.ms/spring/samples/latest/cosmos
-              description: Azure Cosmos DB Sample
-        - name: Azure Key Vault
-          id: azure-keyvault
-          groupId: com.azure.spring
-          artifactId: spring-cloud-azure-starter-keyvault
-          description: All key vault features are supported, e.g. manage application secrets and certificates.
-          links:
-            - rel: guide
-              href: https://aka.ms/spring/msdocs/keyvault
-              description: Read Secrets from Azure Key Vault in a Spring Boot Application
-            - rel: guide
-              href: https://aka.ms/spring/msdocs/keyvault/certificates
-              description: Securing Spring Boot Applications with Azure Key Vault Certificates
-            - rel: reference
-              href: https://microsoft.github.io/spring-cloud-azure/current/reference/html/index.html#secret-management
-            - rel: sample
-              href: https://aka.ms/spring/samples/latest/keyvault
-              description: Azure Key Vault Sample
-        - name: Azure Storage
-          id: azure-storage
-          groupId: com.azure.spring
-          artifactId: spring-cloud-azure-starter-storage
-          description: All Storage features are supported, e.g. blob, fileshare and queue.
-          links:
-            - rel: guide
-              href: https://aka.ms/spring/msdocs/storage
-              description: How to use the Spring Boot starter for Azure Storage
-            - rel: reference
-              href: https://microsoft.github.io/spring-cloud-azure/current/reference/html/index.html#resource-handling
-            - rel: sample
-              href: https://aka.ms/spring/samples/latest/storage
-              description: Azure Storage Sample
-    - name: Google Cloud Platform
-      bom: spring-cloud-gcp
-      compatibilityRange: "[2.4.0-M1,3.0.0-M1)"
-      content:
-        - name: GCP Support
-          id: cloud-gcp
-          description: Contains auto-configuration support for every Spring Cloud GCP integration. Most of the auto-configuration code is only enabled if other dependencies are added to the classpath.
-          groupId: com.google.cloud
-          artifactId: spring-cloud-gcp-starter
-          links:
-            - rel: reference
-              href: https://googlecloudplatform.github.io/spring-cloud-gcp/reference/html/index.html
-            - rel: guide
-              href: https://github.com/GoogleCloudPlatform/spring-cloud-gcp/tree/main/spring-cloud-gcp-samples
-              description: GCP Samples
-        - name: GCP Messaging
-          id: cloud-gcp-pubsub
-          description: Adds the GCP Support entry and all the required dependencies so that the Google Cloud Pub/Sub integration work out of the box.
-          groupId: com.google.cloud
-          artifactId: spring-cloud-gcp-starter-pubsub
-          links:
-            - rel: reference
-              href: https://googlecloudplatform.github.io/spring-cloud-gcp/reference/html/index.html#cloud-pubsub
-            - rel: guide
-              href: https://github.com/GoogleCloudPlatform/spring-cloud-gcp/tree/main/spring-cloud-gcp-samples/spring-cloud-gcp-pubsub-sample
-              description: GCP Pub/Sub Sample
-        - name: GCP Storage
-          id: cloud-gcp-storage
-          description: Adds the GCP Support entry and all the required dependencies so that the Google Cloud Storage integration work out of the box.
-          groupId: com.google.cloud
-          artifactId: spring-cloud-gcp-starter-storage
-          links:
-            - rel: reference
-              href: https://googlecloudplatform.github.io/spring-cloud-gcp/reference/html/index.html#cloud-storage
-            - rel: guide
-              href: https://github.com/GoogleCloudPlatform/spring-cloud-gcp/tree/main/spring-cloud-gcp-samples/spring-cloud-gcp-storage-resource-sample
     - name: Hidden Group
       id: hidden-group
       hide: true
@@ -1481,41 +1411,26 @@ initializr:
     - name: Java
       id: java
       default: true
-    - name: Kotlin
-      id: kotlin
-      default: false
-    - name: Groovy
-      id: groovy
-      default: false
   bootVersions:
-    - name: 3.0.0
-      id: 3.0.0
-    - name: 2.7.6
-      id: 2.7.6
-    - name: 2.6.11
-      id: 2.6.11
+    - name: 3.0.5
+      id: 3.0.5
       default: true
-    - name: 2.4.2
-      id: 2.4.2
-    - name: 2.2.2.RELEASE
-      id: 2.2.2.RELEASE
+    - name: 2.7.10
+      id: 2.7.10
+  dubboVersions:
+    - name: 3.2.0 (beta)
+      id: 3.2.0
+    - name: 3.1.8
+      id: 3.1.8
+      default: true
+    - name: 2.7.21
+      id: 2.7.21
   architecture:
     - id: none
       name: 单模块
-    - id: mvc
-      name: MVC架构
-#       requiredDependency: [ "dependencies to root bom" ]
-      subModules:
-        - name: start
-          description: 入口模块，引导工程启动以及基础配置
-          main: true
-        - name: web
-          description: web 模块，对应 MVC 的 V 概念，存放视图层的逻辑
-        - name: service
-          description: service 模块，对应 MVC 的 M 概念，存放核心业务逻辑代码
-    - id: dubbo
-      name: Dubbo微服务架构
       default: true
+    - id: dubbo
+      name: 多模块
       subModules:
         - name: api
           description: api 模块，对外提供的 API
@@ -1523,3 +1438,14 @@ initializr:
           description: service 模块，存放核心业务逻辑代码
           main: true
           dependModules: 'api'
+#    - id: mvc
+#      name: MVC架构
+##       requiredDependency: [ "dependencies to root bom" ]
+#      subModules:
+#        - name: start
+#          description: 入口模块，引导工程启动以及基础配置
+#          main: true
+#        - name: web
+#          description: web 模块，对应 MVC 的 V 概念，存放视图层的逻辑
+#        - name: service
+#          description: service 模块，对应 MVC 的 M 概念，存放核心业务逻辑与 Dubbo 服务相关代码

@@ -13,12 +13,11 @@ import io.spring.initializr.generator.spring.code.MainApplicationTypeCustomizer;
 import org.springframework.context.annotation.Bean;
 
 @InitializerProjectGenerationConfiguration
-@ConditionalOnRequestedArchitecture("dubbo")
 @ConditionalOnModule(main = true)
 @ConditionalOnLanguage(JavaLanguage.ID)
 public class DubboSourceCodeProjectGenerationConfiguration {
     @Bean
-    @ConditionalOnRequestedDependency("dubbo")
+//    @ConditionalOnRequestedDependency("dubbo")
     public MainApplicationTypeCustomizer<TypeDeclaration> enableDubboAnnotator() {
         return (typeDeclaration) -> {
             typeDeclaration.annotate(Annotation.name("org.apache.dubbo.config.spring.context.annotation.EnableDubbo"));
