@@ -24,15 +24,67 @@ initializr:
         mappings:
           - compatibilityRange: "2.3.0.M1"
             version: 3.1.8
-      io-grpc:
-        groupId: io.grpc
-        artifactId: grpc-bom
-        versionProperty: grpc.version
-        additionalBoms: [ apache-dubbo ]
-        order: 2
+      spring-shell:
+        groupId: org.springframework.shell
+        artifactId: spring-shell-dependencies
+        versionProperty: spring-shell.version
         mappings:
-          - compatibilityRange: "2.3.0.M1"
-            version: 1.44.1
+          - compatibilityRange: "[2.7.0,3.0.0-M1)"
+            version: 2.1.3
+          - compatibilityRange: "[3.0.0-M1,3.1.0-M1)"
+            version: 3.0.0-M2
+            repositories: spring-milestones
+      testcontainers:
+        groupId: org.testcontainers
+        artifactId: testcontainers-bom
+        version: 1.17.6
+        versionProperty: testcontainers.version
+      vaadin:
+        groupId: com.vaadin
+        artifactId: vaadin-bom
+        versionProperty: vaadin.version
+        mappings:
+          - compatibilityRange: "[2.1.0.RELEASE,2.6.0-M1)"
+            version: 14.9.2
+          - compatibilityRange: "[2.6.0-M1,2.8.0-M1)"
+            version: 23.2.10
+      wavefront:
+        groupId: com.wavefront
+        artifactId: wavefront-spring-boot-bom
+        versionProperty: wavefront.version
+        mappings:
+          - compatibilityRange: "[2.1.0.RELEASE,2.4.0-M1)"
+            version: 2.0.2
+          - compatibilityRange: "[2.4.0-M1,2.5.0-M1)"
+            version: 2.1.1
+          - compatibilityRange: "[2.5.0-M1,2.7.0-M1)"
+            version: 2.2.2
+          - compatibilityRange: "[2.7.0-M1,3.0.0-M1)"
+            version: 2.3.1
+      solace-spring-boot:
+        groupId: com.solace.spring.boot
+        artifactId: solace-spring-boot-bom
+        versionProperty: solace-spring-boot.version
+        mappings:
+          - compatibilityRange: "[2.3.0.M1,2.6.0-M1)"
+            version: 1.1.0
+          - compatibilityRange: "[2.6.0.M1,3.0.0-M1)"
+            version: 1.2.2
+      codecentric-spring-boot-admin:
+        groupId: de.codecentric
+        artifactId: spring-boot-admin-dependencies
+        versionProperty: spring-boot-admin.version
+        mappings:
+          - compatibilityRange: "[2.3.0.M1,2.5.0-M1)"
+            version: 2.4.3
+          - compatibilityRange: "[2.5.0.M1,2.6.0-M1)"
+            version: 2.5.6
+          - compatibilityRange: "[2.6.0.M1,2.7.0-M1)"
+            version: 2.6.8
+          - compatibilityRange: "[2.7.0.M1,3.0.0-M1)"
+            version: 2.7.4
+          - compatibilityRange: "[3.0.0-M1,3.1.0-M1)"
+            version: 3.0.0-M4
     maven:
       parent:
         includeSpringBootBom: true
@@ -100,7 +152,7 @@ initializr:
     - name: Dubbo Governance
       content:
       - name: Zookeeper (default)
-        id: dubbo-zookeeper
+        id: dubbo-governance-zookeeper
         groupId: org.apache.dubbo
         artifactId: dubbo-dependencies-zookeeper
         type: pom
@@ -110,7 +162,7 @@ initializr:
         bom: apache-dubbo-zookeeper
         codeOnly: false
       - name: Zookeeper-curator5
-        id: dubbo-zookeeper-curator5
+        id: dubbo-governance-zookeeper-curator5
         groupId: org.apache.dubbo
         artifactId: dubbo-dependencies-zookeeper-curator5
         type: pom
@@ -120,7 +172,7 @@ initializr:
         bom: apache-dubbo-zookeeper-curator5
         codeOnly: false
       - name: Nacos
-        id: dubbo-nacos
+        id: dubbo-governance-nacos
         groupId: com.alibaba.nacos
         artifactId: nacos-client
         versionProperty: nacos.version
@@ -130,17 +182,17 @@ initializr:
         compatibilityRange: "[2.0.0.RELEASE,3.1.0-M1)"
         codeOnly: false
       - name: Apollo
-        id: dubbo-apollo
+        id: dubbo-governance-apollo
         groupId: com.ctrip.framework.apollo
         artifactId: apollo-client
         versionProperty: apollo.version
         version: 2.1.0
         description: "使用 Apollo 作为配置中心"
         starter: false
-        compatibilityRange: "[2.0.0.RELEASE,3.1.0-M1)"
+        compatibilityRange: "2.0.0.RELEASE"
         codeOnly: false
       - name: Redis
-        id: dubbo-redis
+        id: dubbo-governance-redis
         groupId: redis.clients
         artifactId: jedis
         versionProperty: jedis.version
@@ -152,41 +204,50 @@ initializr:
     - name: Dubbo Protocol
       content:
       - name: http2 (default)
-        id: dubbo-http2
+        id: dubbo-protocol-http2
         description: (HTTP/2) http2 protocol, streaming data exchange.
+        groupId: com.google.protobuf
+        artifactId: protobuf-java
+        version: 3.19.6
         starter: false
+        codeOnly: false
       - name: grpc
-        id: dubbo-grpc
+        id: dubbo-protocol-grpc
         description: gRPC protocol, streaming data exchange.
+        groupId: com.google.protobuf
+        artifactId: protobuf-java
+        version: 3.19.6
         starter: false
+        codeOnly: false
       - name: tcp
-        id: dubbo-tcp
+        id: dubbo-protocol-tcp
         description: Dubbo2 tcp protocol.
         starter: false
+        codeOnly: true
       - name: REST
-        id: dubbo-rest
+        id: dubbo-protocol-rest
         description: Dubbo2 rest protocol.
         starter: false
       - name: 单端口多协议
-        id: dubbo-multi-protocols
+        id: dubbo-protocol-multi-protocols
         description: port unification.
         starter: false
     - name: Dubbo Features
       content:
         - name: QoS
-          id: dubbo-qos
+          id: dubbo-features-qos
           description: qos.
           starter: false
         - name: Metrics
-          id: dubbo-metrics
+          id: dubbo-features-metrics
           description: metrics.
           starter: false
         - name: Tracing
-          id: dubbo-tracing
+          id: dubbo-features-tracing
           description: tracing.
           starter: false
         - name: 限流降级
-          id: dubbo-sentinel
+          id: dubbo-features-sentinel
           description: sentinel.
           starter: false
     - name: Developer Tools
@@ -1031,46 +1092,6 @@ initializr:
               href: https://codecentric.github.io/spring-boot-admin/current/#getting-started
     - name: Observability
       content:
-        - name: Datadog
-          id: datadog
-          groupId: io.micrometer
-          artifactId: micrometer-registry-datadog
-          scope: runtime
-          starter: false
-          description: Publish Micrometer metrics to Datadog, a dimensional time-series SaaS with built-in dashboarding and alerting.
-          links:
-            - rel: reference
-              href: https://docs.spring.io/spring-boot/docs/{bootVersion}/reference/htmlsingle/#actuator.metrics.export.datadog
-        - name: Influx
-          id: influx
-          groupId: io.micrometer
-          artifactId: micrometer-registry-influx
-          scope: runtime
-          starter: false
-          description: Publish Micrometer metrics to InfluxDB, a dimensional time-series server that support real-time stream processing of data.
-          links:
-            - rel: reference
-              href: https://docs.spring.io/spring-boot/docs/{bootVersion}/reference/htmlsingle/#actuator.metrics.export.influx
-        - name: Graphite
-          id: graphite
-          groupId: io.micrometer
-          artifactId: micrometer-registry-graphite
-          scope: runtime
-          starter: false
-          description: Publish Micrometer metrics to Graphite, a hierarchical metrics system backed by a fixed-size database.
-          links:
-            - rel: reference
-              href: https://docs.spring.io/spring-boot/docs/{bootVersion}/reference/htmlsingle/#actuator.metrics.export.graphite
-        - name: New Relic
-          id: new-relic
-          groupId: io.micrometer
-          artifactId: micrometer-registry-new-relic
-          scope: runtime
-          starter: false
-          description: Publish Micrometer metrics to New Relic, a SaaS offering with a full UI and a query language called NRQL.
-          links:
-            - rel: reference
-              href: https://docs.spring.io/spring-boot/docs/{bootVersion}/reference/htmlsingle/#actuator.metrics.export.newrelic
         - name: Prometheus
           id: prometheus
           groupId: io.micrometer
@@ -1081,46 +1102,6 @@ initializr:
           links:
             - rel: reference
               href: https://docs.spring.io/spring-boot/docs/{bootVersion}/reference/htmlsingle/#actuator.metrics.export.prometheus
-        - name: Distributed Tracing
-          id: distributed-tracing
-          description: Enable span and trace IDs in logs.
-          groupId: io.micrometer
-          artifactId: micrometer-tracing-bridge-brave
-          starter: false
-          mappings:
-            - compatibility-range: "[2.3.0.M1,3.0.0-M1)"
-              groupId: org.springframework.cloud
-              artifactId: spring-cloud-starter-sleuth
-              bom: spring-cloud
-              starter: true
-        - name: Wavefront
-          id: wavefront
-          description: Publish metrics and optionally distributed traces to Tanzu Observability by Wavefront, a SaaS-based metrics monitoring and analytics platform that lets you visualize, query, and alert over data from across your entire stack.
-          groupId: io.micrometer
-          artifactId: micrometer-registry-wavefront
-          scope: runtime
-          starter: false
-          mappings:
-            - compatibility-range: "[2.3.0.M1,3.0.0-M1)"
-              groupId: com.wavefront
-              artifactId: wavefront-spring-boot-starter
-              bom: wavefront
-              starter: true
-          links:
-            - rel: reference
-              href: https://docs.wavefront.com/wavefront_springboot.html
-              description: Wavefront for Spring Boot documentation
-        - name: Zipkin
-          id: zipkin
-          description: Enable and expose span and trace IDs to Zipkin.
-          groupId: io.zipkin.reporter2
-          artifactId: zipkin-reporter-brave
-          starter: false
-          mappings:
-            - compatibilityRange: "[2.0.0.RELEASE,3.0.0-M1)"
-              groupId: org.springframework.cloud
-              artifactId: spring-cloud-sleuth-zipkin
-              bom: spring-cloud
     - name: Testing
       content:
         - name: Spring REST Docs
@@ -1144,27 +1125,6 @@ initializr:
           links:
             - rel: reference
               href: https://www.testcontainers.org/
-        - name: Contract Verifier
-          bom: spring-cloud
-          id: cloud-contract-verifier
-          description: Moves TDD to the level of software architecture by enabling Consumer Driven Contract (CDC) development.
-          groupId: org.springframework.cloud
-          artifactId: spring-cloud-starter-contract-verifier
-          scope: test
-          links:
-            - rel: reference
-              href: https://cloud.spring.io/spring-cloud-contract/reference/htmlsingle/
-        - name: Contract Stub Runner
-          bom: spring-cloud
-          compatibilityRange: "[2.3.0.M1,3.0.0-M1)"
-          id: cloud-contract-stub-runner
-          description: Stub Runner for HTTP/Messaging based communication. Allows creating WireMock stubs from RestDocs tests.
-          groupId: org.springframework.cloud
-          artifactId: spring-cloud-starter-contract-stub-runner
-          scope: test
-          links:
-            - rel: reference
-              href: https://cloud.spring.io/spring-cloud-contract/reference/htmlsingle/#features-stub-runner
         - name: Embedded LDAP Server
           id: unboundid-ldap
           description: Provides a platform neutral way for running a LDAP server in unit tests.

@@ -53,8 +53,8 @@ public class DubboMavenProjectGenerationConfiguration {
     @Bean
     @ConditionalOnRequestedArchitecture("dubbo")
     @ConditionalOnRequestedModule({"root"})
-    public DefaultMavenDependenciesCustomizer defaultMavenDependenciesCustomizer() {
-        return new DefaultMavenDependenciesCustomizer();
+    public RootMavenDependenciesCustomizer defaultMavenDependenciesCustomizer() {
+        return new RootMavenDependenciesCustomizer();
     }
 
     @Bean

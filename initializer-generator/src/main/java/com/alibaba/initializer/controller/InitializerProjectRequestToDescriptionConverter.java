@@ -224,18 +224,38 @@ public class InitializerProjectRequestToDescriptionConverter
     }
 
     private List<Dependency> getResolvedDependencies(io.spring.initializr.web.project.ProjectRequest request, String springBootVersion, InitializrMetadata metadata) {
-        List<String> depIds = request.getDependencies();
-        // If user click 'generate' button directly without adding any dependency.
-        if (CollectionUtils.isEmpty(depIds)) {
-            depIds = new ArrayList<>();
-            depIds.add("dubbo");
-            depIds.add("dubbo-zookeeper");
-            depIds.add("dubbo-tcp");
-        }
+        List<String> depIds = getDependenciesWithDefaultComposition(request);
         Version requestedVersion = Version.parse(springBootVersion);
         return depIds.stream().map((it) -> {
             Dependency dependency = metadata.getDependencies().get(it);
             return dependency.resolve(requestedVersion);
         }).collect(Collectors.toList());
+    }
+
+    private static List<String> getDependenciesWithDefaultComposition(io.spring.initializr.web.project.ProjectRequest request) {
+        List<String> depIds = request.getDependencies();
+        // If user click 'generate' button directly without adding any dependency.
+        if (CollectionUtils.isEmpty(depIds)) {
+            depIds = new ArrayList<>();
+            depIds.add("dubbo");
+            depIds.add("dubbo-governance-zookeeper");
+            depIds.add("dubbo-protocol-tcp");
+        } else {
+            if (depIds.stream().noneMatch(v -> v.contains("-protocol-"))) {
+                if (depIds.stream().anyMatch(value -> value.equals("dubbo-idl"))) {
+                    depIds.add("dubbo-protocol-http2");
+                } else {
+                    depIds.add("dubbo-protocol-tcp");
+                    depIds.add("dubbo");
+                }
+            }
+            if (depIds.stream().noneMatch(v -> v.contains("-governance-"))) {
+                depIds.add("dubbo-governance-zookeeper");
+            }
+            if (depIds.stream().noneMatch(v -> v.equals("dubbo") || v.equals("dubbo-idl"))) {
+                depIds.add("dubbo");
+            }
+        }
+        return depIds;
     }
 }

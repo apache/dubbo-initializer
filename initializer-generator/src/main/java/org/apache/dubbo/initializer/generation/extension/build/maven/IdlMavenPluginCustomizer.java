@@ -22,19 +22,29 @@ import io.spring.initializr.generator.spring.build.BuildCustomizer;
 public class IdlMavenPluginCustomizer implements BuildCustomizer<MavenBuild> {
     @Override
     public void customize(MavenBuild mavenBuild) {
+        mavenBuild.plugins().add("kr.motd.maven", "os-maven-plugin", builder -> {
+            builder.execution("os-maven-plugin", executionBuilder -> {
+                executionBuilder.phase("initialize");
+                executionBuilder.goal("detect");
+            });
+            builder.version("1.7.1");
+        });
+
         mavenBuild.plugins().add("org.xolstice.maven.plugins", "protobuf-maven-plugin", builder -> {
             builder.version("0.6.1")
                     .execution("protoc-compile", executionBuilder -> {
-                        executionBuilder.goal("compile").goal("test-compile").goal("compile-custom").goal("test-compile-custom");
+                        executionBuilder.goal("compile").goal("test-compile"); date//.goal("compile-custom").goal("test-compile-custom");
                     })
                     .configuration(configurationBuilder -> {
-                        configurationBuilder.add("protocArtifact", "com.google.protobuf:protoc:${protoc.version}:exe:${os.detected.classifier}");
-                        configurationBuilder.add("grpc-java", "io.grpc:protoc-gen-grpc-java:${grpc.version}:exe:${os.detected.classifier}");
+                        configurationBuilder.add("protocArtifact", "com.google.protobuf:protoc:3.19.4:exe:${os.detected.classifier}");
+//                        configurationBuilder.add("pluginId", "grpc-java");
+//                        configurationBuilder.add("pluginArtifact", "io.grpc:protoc-gen-grpc-java:1.44.1:exe:${os.detected.classifier}");
                         configurationBuilder.add("protocPlugins", protocPluginsBuilder -> {
                             protocPluginsBuilder.add("protocPlugin", protocPluginBuilder -> {
                                 protocPluginBuilder.add("id", "dubbo");
-                                protocPluginBuilder.add("groupId", "dubbo-compiler");
-                                protocPluginBuilder.add("artifactId", "${dubbo.version}");
+                                protocPluginBuilder.add("groupId", "org.apache.dubbo");
+                                protocPluginBuilder.add("artifactId", "dubbo-compiler");
+                                protocPluginBuilder.add("version", "${dubbo.version}");
                                 protocPluginBuilder.add("mainClass", "org.apache.dubbo.gen.tri.Dubbo3TripleGenerator");
                             });
                         });
