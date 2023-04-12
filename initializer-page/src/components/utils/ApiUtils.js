@@ -8,6 +8,7 @@ import {isInRange, parseReleases, parseVersion} from './Version'
 const PROPERTIES_MAPPING_URL = {
   type: 'project',
   language: 'language',
+  dubboVersion: 'dubboVersion',
   architecture: 'architecture',
   platformVersion: 'boot',
   packaging: 'meta.packaging',
@@ -82,6 +83,7 @@ export const parseParams = (values, queryParams, lists) => {
           case 'language':
           case 'architecture':
           case 'meta.packaging':
+          case 'dubboVersion':
           case 'meta.java': {
             const list = get(lists, key, [])
             const res = list.find(a => a.key.toLowerCase() === value)
@@ -214,6 +216,10 @@ export const getLists = json => {
       key: `${language.id}`,
       text: `${language.name}`,
     })),
+    dubboVersion: get(json, 'dubboVersion.values', []).map(dubboVersion => ({
+      key: `${dubboVersion.id}`,
+      text: `${dubboVersion.name}`,
+    })),
     architecture: get(json, 'architecture.values', []).map(architecture => ({
       key: `${architecture.id}`,
       text: `${architecture.name}`,
@@ -241,6 +247,7 @@ export const getDefaultValues = json => {
   return {
     project: get(json, 'type.default'),
     language: get(json, 'language.default'),
+    dubboVersion: get(json, 'dubboVersion.default'),
     architecture: get(json, 'architecture.default'),
     boot: get(json, 'bootVersion.default'),
     meta: {
@@ -280,6 +287,7 @@ export const getQueryString = function getQueryString(values, config) {
     language: get(values, 'language'),
     architecture: get(values, 'architecture'),
     bootVersion: get(values, 'boot'),
+    dubboVersion: get(values, 'dubboVersion'),
     baseDir: get(values, 'meta.artifact'),
     groupId: get(values, 'meta.group'),
     artifactId: get(values, 'meta.artifact'),

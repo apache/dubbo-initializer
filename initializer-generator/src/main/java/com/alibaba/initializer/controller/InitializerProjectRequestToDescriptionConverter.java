@@ -16,6 +16,7 @@
 
 package com.alibaba.initializer.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,6 +39,7 @@ import io.spring.initializr.web.project.InvalidProjectRequestException;
 import io.spring.initializr.web.project.ProjectRequestToDescriptionConverter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.CollectionUtils;
 
 /**
  * copyed from {@link DefaultProjectRequestToDescriptionConverter} and add some
@@ -49,8 +51,22 @@ import org.apache.commons.lang3.StringUtils;
 public class InitializerProjectRequestToDescriptionConverter
         implements ProjectRequestToDescriptionConverter<ProjectRequest> {
 
+    private void customizeMetadataBasedOnDubboVersion(ProjectRequest request, InitializrMetadata metadata) {
+        String dubboVersion = request.getDubboVersion();
+        metadata.getConfiguration().getEnv().getBoms().forEach((k, v) -> {
+            if (k.contains("dubbo")) {
+                if (v.getMappings().get(0) != null) {
+                    v.getMappings().get(0).setVersion(dubboVersion);
+                }
+            }
+        });
+    }
+
+
     @Override
     public ProjectDescription convert(ProjectRequest request, InitializrMetadata metadata) {
+        customizeMetadataBasedOnDubboVersion(request, metadata);
+
         InitializerProjectDescription description = new InitializerProjectDescription();
         doConvert(request, description, metadata);
         doAddition(request, description, metadata);
@@ -208,11 +224,38 @@ public class InitializerProjectRequestToDescriptionConverter
     }
 
     private List<Dependency> getResolvedDependencies(io.spring.initializr.web.project.ProjectRequest request, String springBootVersion, InitializrMetadata metadata) {
-        List<String> depIds = request.getDependencies();
+        List<String> depIds = getDependenciesWithDefaultComposition(request);
         Version requestedVersion = Version.parse(springBootVersion);
         return depIds.stream().map((it) -> {
             Dependency dependency = metadata.getDependencies().get(it);
             return dependency.resolve(requestedVersion);
         }).collect(Collectors.toList());
+    }
+
+    private static List<String> getDependenciesWithDefaultComposition(io.spring.initializr.web.project.ProjectRequest request) {
+        List<String> depIds = request.getDependencies();
+        // If user click 'generate' button directly without adding any dependency.
+        if (CollectionUtils.isEmpty(depIds)) {
+            depIds = new ArrayList<>();
+            depIds.add("dubbo");
+            depIds.add("dubbo-governance-zookeeper");
+            depIds.add("dubbo-protocol-tcp");
+        } else {
+            if (depIds.stream().noneMatch(v -> v.contains("-protocol-"))) {
+                if (depIds.stream().anyMatch(value -> value.equals("dubbo-idl"))) {
+                    depIds.add("dubbo-protocol-http2");
+                } else {
+                    depIds.add("dubbo-protocol-tcp");
+                    depIds.add("dubbo");
+                }
+            }
+            if (depIds.stream().noneMatch(v -> v.contains("-governance-"))) {
+                depIds.add("dubbo-governance-zookeeper");
+            }
+            if (depIds.stream().noneMatch(v -> v.equals("dubbo") || v.equals("dubbo-idl"))) {
+                depIds.add("dubbo");
+            }
+        }
+        return depIds;
     }
 }

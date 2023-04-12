@@ -76,6 +76,9 @@ public class InitializerProperties extends InitializrConfiguration {
     @JsonIgnore
     private final List<DefaultMetadataElement> bootVersions = new ArrayList<>();
 
+    @JsonIgnore
+    private final List<DefaultMetadataElement> dubboVersions = new ArrayList<>();
+
     /**
      * GroupId metadata.
      */
@@ -138,6 +141,10 @@ public class InitializerProperties extends InitializrConfiguration {
 
     public List<DefaultMetadataElement> getBootVersions() {
         return this.bootVersions;
+    }
+
+    public List<DefaultMetadataElement> getDubboVersions() {
+        return dubboVersions;
     }
 
     public InitializrProperties.SimpleElement getGroupId() {

@@ -121,7 +121,7 @@ const QuickSearch = ({ submit, input }) => {
         <input
           type='text'
           className='control-input'
-          placeholder='Web, Security, JPA, Actuator, Devtools...'
+          placeholder='Zookeeper, Nacos, Metrics, Tracing, HTTP/2, IDL, Web...'
           value={query}
           onBlur={onBlur}
           onFocus={onFocus}

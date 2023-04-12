@@ -17,24 +17,26 @@
 package org.apache.dubbo.initializer.generation.extension.build.maven;
 
 import com.alibaba.initializer.generation.InitializerProjectGenerationConfiguration;
+import com.alibaba.initializer.generation.condition.ConditionalOnArchitectured;
 import com.alibaba.initializer.generation.condition.ConditionalOnRequestedArchitecture;
-import io.spring.initializr.generator.buildsystem.Build;
-import io.spring.initializr.generator.buildsystem.Dependency;
 import io.spring.initializr.generator.buildsystem.maven.MavenBuildSystem;
 import io.spring.initializr.generator.condition.ConditionalOnBuildSystem;
-import io.spring.initializr.generator.spring.build.BuildCustomizer;
+
+import org.apache.dubbo.initializer.generation.condition.ConditionalOnDubboIdlDependency;
 import org.apache.dubbo.initializer.generation.condition.ConditionalOnRequestedModule;
+
+import io.spring.initializr.generator.condition.ConditionalOnRequestedDependency;
 import org.springframework.context.annotation.Bean;
 
 /**
  * @author <a href="mailto:15835991162@163.com">ErDan Wang</a>
  */
 @InitializerProjectGenerationConfiguration
-@ConditionalOnRequestedArchitecture("dubbo")
 @ConditionalOnBuildSystem(MavenBuildSystem.ID)
 public class DubboMavenProjectGenerationConfiguration {
 
     @Bean
+    @ConditionalOnRequestedArchitecture("dubbo")
     @ConditionalOnRequestedModule(value = "api")
     public ApiMavenPluginCustomizer apiMavenPluginCustomizer() {
         return new ApiMavenPluginCustomizer();
@@ -42,22 +44,24 @@ public class DubboMavenProjectGenerationConfiguration {
 
     // Root Maven Bom remove in MulitModuleMavenBuildProjectContributor
     @Bean
+    @ConditionalOnRequestedArchitecture("dubbo")
     @ConditionalOnRequestedModule(value = "root")
     public RootMavenPluginCustomizer rootMavenPluginCustomizer() {
         return new RootMavenPluginCustomizer();
     }
 
     @Bean
-    @ConditionalOnRequestedModule("root")
-    public RootMavenDependenciesCustomizer rootMavenDependenciesCustomizer() {
+    @ConditionalOnRequestedArchitecture("dubbo")
+    @ConditionalOnRequestedModule({"root"})
+    public RootMavenDependenciesCustomizer defaultMavenDependenciesCustomizer() {
         return new RootMavenDependenciesCustomizer();
     }
 
-
     @Bean
-    @ConditionalOnRequestedModule("service")
-    public BuildCustomizer<Build> defaultStarterBuildCustomizer() {
-        return build -> build.dependencies().add("dubbo-starter", Dependency.withCoordinates("org.apache.dubbo", "dubbo-spring-boot-starter").build());
+    @ConditionalOnDubboIdlDependency
+    @ConditionalOnRequestedDependency("dubbo-idl")
+    public IdlMavenPluginCustomizer IdlMavenPluginCustomizer() {
+        return new IdlMavenPluginCustomizer();
     }
 
 }

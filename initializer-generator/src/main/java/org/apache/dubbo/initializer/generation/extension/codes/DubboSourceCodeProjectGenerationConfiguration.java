@@ -12,7 +12,6 @@ import io.spring.initializr.generator.spring.code.MainApplicationTypeCustomizer;
 import org.springframework.context.annotation.Bean;
 
 @InitializerProjectGenerationConfiguration
-@ConditionalOnRequestedArchitecture("dubbo")
 @ConditionalOnModule(main = true)
 @ConditionalOnLanguage(JavaLanguage.ID)
 public class DubboSourceCodeProjectGenerationConfiguration {

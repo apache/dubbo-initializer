@@ -84,7 +84,7 @@ public class ArchedMavenProjectGenerationConfiguration {
 
     @Bean
     public MulitModuleMavenBuildProjectContributor mulitModuleavenBuildProjectContributor(
-            MavenBuild build, IndentingWriterFactory indentingWriterFactory,InitializrMetadata metadata) {
+            MavenBuild build, IndentingWriterFactory indentingWriterFactory, InitializrMetadata metadata) {
         return new MulitModuleMavenBuildProjectContributor(build, indentingWriterFactory, metadata);
     }
 

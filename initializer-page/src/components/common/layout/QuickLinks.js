@@ -3,7 +3,7 @@ import React, {useContext, useEffect, useRef, useState} from 'react'
 import {CSSTransition, TransitionGroup} from 'react-transition-group'
 
 import {AppContext} from '../../reducer/App'
-import {IconCaretDown, IconHelp} from '../icons'
+import {IconCaretDown, IconFeedBack, IconHelp, IconHot, IconInitialzrTutorial} from '../icons'
 import {Switch} from '../form'
 
 const QuickLinks = () => {
@@ -59,6 +59,28 @@ const QuickLinks = () => {
             </li>
             <li>
                 <a
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    href='https://dubbo.apache.org/'
+                    tabIndex='-1'
+                >
+                    <IconInitialzrTutorial/>
+                   访问 Dubbo 官网
+                </a>
+            </li>
+            <li>
+                <a
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    href='https://dubbo.apache.org/zh-cn/contact/books/'
+                    tabIndex='-1'
+                >
+                    <IconHot/>
+                    Dubbo 电子书下载
+                </a>
+            </li>
+            <li>
+                <a
                     href='/'
                     className='dropdown'
                     tabIndex='-1'
@@ -82,10 +104,10 @@ const QuickLinks = () => {
                                         id='ql-help-projects'
                                         target='_blank'
                                         rel='noopener noreferrer'
-                                        href='https://spring.io/projects'
+                                        href='https://dubbo.apache.org'
                                         tabIndex='-1'
                                     >
-                                        Spring Projects
+                                        Apache Dubbo Website
                                     </a>
                                 </li>
                                 <li>
@@ -94,9 +116,9 @@ const QuickLinks = () => {
                                         target='_blank'
                                         rel='noopener noreferrer'
                                         tabIndex='-1'
-                                        href='https://spring.io/projects/spring-cloud/'
+                                        href='http://github.com/apache/dubbo'
                                     >
-                                        Spring Cloud
+                                        Apache Github Dubbo-java
                                     </a>
                                 </li>
                                 <li>
@@ -105,9 +127,9 @@ const QuickLinks = () => {
                                         target='_blank'
                                         rel='noopener noreferrer'
                                         tabIndex='-1'
-                                        href='https://github.com/alibaba/spring-cloud-alibaba/blob/master/README-zh.md'
+                                        href='http://github.com/apache/dubbo-go'
                                     >
-                                        Spring Cloud Alibaba
+                                        Apache Github Dubbo-go
                                     </a>
                                 </li>
                             </ul>

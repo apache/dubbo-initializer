@@ -42,6 +42,14 @@ function Warnings() {
                   selected.
                 </li>
               )}
+                {get(warnings, 'dubboVersion') && (
+                    <li>
+                        <strong>{get(warnings, 'dubboVersion.value')}</strong> is not a
+                        available,{' '}
+                        <strong>{get(warnings, 'dubboVersion.select')}</strong> has been
+                        selected.
+                    </li>
+                )}
               {get(warnings, 'boot') && (
                 <li>
                   Spring Boot <strong>{get(warnings, 'boot.value')}</strong> is

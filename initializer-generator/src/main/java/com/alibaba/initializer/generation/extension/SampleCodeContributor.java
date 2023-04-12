@@ -107,12 +107,19 @@ public class SampleCodeContributor implements ProjectContributor {
 
         Map<Dependency, String> dependencyRepoUris = getRepos(description);
         List<String> uris = new ArrayList<>();
-        dependencyRepoUris.values().forEach(uri -> {
-            if (module.isMain())
-                uris.add(uri);
-            else
-                uris.add(uri + "/" + module.getName());
-        });
+        if (architecture.getId().equals("none")) {
+            dependencyRepoUris.values().forEach(uri -> {
+                    uris.add(uri);
+                    uris.add(uri + "/api");
+            });
+        } else {
+            dependencyRepoUris.values().forEach(uri -> {
+                if (module.isMain())
+                    uris.add(uri);
+                else
+                    uris.add(uri + "/" + module.getName());
+            });
+        }
         uris.forEach(uri -> {
             CodeTemplateRepo repo = loader.load(uri);
             RepoRenderResult result = renderer.render(repo, params);

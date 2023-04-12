@@ -29,4 +29,6 @@ public class ProjectRequest extends WebProjectRequest {
 
     private String architecture;
 
+    private String dubboVersion = "3.1.8";
+
 }

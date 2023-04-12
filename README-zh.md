@@ -19,10 +19,14 @@
 在项目根目录，执行以下命令，安装 Node 和 Yarn：
 ```shell
 mvn compile -P install-yarn
+# or
+# mvn compile -Pinstall-yarn -Dos.arch=x64 -Dmaven.test.skip
 ```
 在项目根目录，执行以下命令，将静态文件 Copy 到 `initializer-generator` 模块的 target 中：
 ```shell 
 mvn prepare-package
+# or
+# mvn prepare-package -Pbuild-public -Dos.arch=x64 -Dmaven.test.skip
 ```
 
 ### 启动项目

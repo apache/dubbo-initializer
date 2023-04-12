@@ -36,12 +36,6 @@ public class RootMavenDependenciesCustomizer implements BuildCustomizer<MavenBui
 
     @Override
     public void customize(MavenBuild build) {
-//        if (build.dependencies().has(DEFAULT_STARTER)) {
-//            build.dependencies().remove(DEFAULT_STARTER);
-//        }
-//        if (build.dependencies().has(TEST_STARTER)) {
-//            build.dependencies().remove(TEST_STARTER);
-//        }
         // Remove all dependencies, after the 'dependencies.bom' analysis is completed
         build.dependencies().ids().toList().forEach(id -> build.dependencies().remove(id));
     }

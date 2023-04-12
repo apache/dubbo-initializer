@@ -7,18 +7,18 @@ const Footer = ({ children }) => (
       <div className='left nopadding'>
         <footer className='footer'>
           <div className='footer-container'>
-            © 1999-{new Date().getFullYear()} Aliyun.com
+            © {new Date().getFullYear()} Apache Dubbo
             <br />
-            start.aliyun.com is powered by
+            This site is supported by
             <br />
             <span>
               <a
                 tabIndex='-1'
                 target='_blank'
                 rel='noopener noreferrer'
-                href='https://www.aliyun.com'
+                href='https://dubbo.apache.org'
               >
-                Aliyun.com
+                dubbo.apache.org
               </a>
             </span>
           </div>

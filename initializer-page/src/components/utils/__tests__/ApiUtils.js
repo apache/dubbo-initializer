@@ -322,6 +322,7 @@ describe('getShareUrl', () => {
       language: 'foo2',
       architecture: 'none',
       boot: 'foo3',
+      dubboVersion: 'fooDubbo',
       meta: {
         packaging: 'foo4',
         java: 'foo5',
@@ -334,7 +335,7 @@ describe('getShareUrl', () => {
       dependencies: ['foo11', 'foo12'],
     })
     expect(result).toBe(
-      'type=foo1&language=foo2&architecture=none&platformVersion=foo3&packaging=foo4&jvmVersion=foo5&groupId=foo6&artifactId=foo7&name=foo8&description=foo9&packageName=foo10&dependencies=foo11,foo12'
+      'type=foo1&language=foo2&dubboVersion=fooDubbo&architecture=none&platformVersion=foo3&packaging=foo4&jvmVersion=foo5&groupId=foo6&artifactId=foo7&name=foo8&description=foo9&packageName=foo10&dependencies=foo11,foo12'
     )
   })
 })
@@ -353,6 +354,7 @@ describe('getProject', () => {
       language: 'foo2',
       architecture: 'none',
       boot: 'foo3',
+      dubboVersion: 'fooDubbo',
       meta: {
         packaging: 'foo4',
         java: 'foo5',
@@ -370,7 +372,7 @@ describe('getProject', () => {
     ])
     expect(fetch.mock.calls.length).toEqual(1)
     expect(fetch.mock.calls[0][0]).toEqual(
-      'http://demo/starter.zip?type=foo1&language=foo2&architecture=none&bootVersion=foo3&baseDir=foo7&groupId=foo6&artifactId=foo7&name=foo8&description=foo9&packageName=foo10&packaging=foo4&javaVersion=foo5&dependencies=foo11,foo12'
+      'http://demo/starter.zip?type=foo1&language=foo2&architecture=none&bootVersion=foo3&dubboVersion=fooDubbo&baseDir=foo7&groupId=foo6&artifactId=foo7&name=foo8&description=foo9&packageName=foo10&packaging=foo4&javaVersion=foo5&dependencies=foo11,foo12'
     )
   })
 
@@ -379,6 +381,7 @@ describe('getProject', () => {
       project: 'foo1',
       language: 'foo2',
       architecture: 'none',
+      dubboVersion: 'fooDubbo',
       boot: 'foo3',
       meta: {
         packaging: 'foo4',
@@ -394,7 +397,7 @@ describe('getProject', () => {
     getProject('http://demo/starter.zip', values, [{ id: 'foo11' }])
     expect(fetch.mock.calls.length).toEqual(1)
     expect(fetch.mock.calls[0][0]).toEqual(
-      'http://demo/starter.zip?type=foo1&language=foo2&architecture=none&bootVersion=foo3&baseDir=foo7&groupId=foo6&artifactId=foo7&name=foo8&description=foo9&packageName=foo10&packaging=foo4&javaVersion=foo5&dependencies=foo11'
+      'http://demo/starter.zip?type=foo1&language=foo2&architecture=none&bootVersion=foo3&dubboVersion=fooDubbo&baseDir=foo7&groupId=foo6&artifactId=foo7&name=foo8&description=foo9&packageName=foo10&packaging=foo4&javaVersion=foo5&dependencies=foo11'
     )
   })
 
@@ -404,6 +407,7 @@ describe('getProject', () => {
       language: 'foo2',
       architecture: 'none',
       boot: 'foo3',
+      dubboVersion: 'fooDubbo',
       meta: {
         packaging: 'foo4',
         java: 'foo5',
@@ -417,7 +421,7 @@ describe('getProject', () => {
     getProject('http://demo/starter.zip', values, [])
     expect(fetch.mock.calls.length).toEqual(1)
     expect(fetch.mock.calls[0][0]).toEqual(
-      'http://demo/starter.zip?type=foo1&language=foo2&architecture=none&bootVersion=foo3&baseDir=foo7&groupId=foo6&artifactId=foo7&name=foo8&description=foo9&packageName=foo10&packaging=foo4&javaVersion=foo5'
+      'http://demo/starter.zip?type=foo1&language=foo2&architecture=none&bootVersion=foo3&dubboVersion=fooDubbo&baseDir=foo7&groupId=foo6&artifactId=foo7&name=foo8&description=foo9&packageName=foo10&packaging=foo4&javaVersion=foo5'
     )
   })
 })
