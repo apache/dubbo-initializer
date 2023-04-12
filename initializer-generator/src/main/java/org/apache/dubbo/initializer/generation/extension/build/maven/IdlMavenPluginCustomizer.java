@@ -33,7 +33,7 @@ public class IdlMavenPluginCustomizer implements BuildCustomizer<MavenBuild> {
         mavenBuild.plugins().add("org.xolstice.maven.plugins", "protobuf-maven-plugin", builder -> {
             builder.version("0.6.1")
                     .execution("protoc-compile", executionBuilder -> {
-                        executionBuilder.goal("compile").goal("test-compile"); date//.goal("compile-custom").goal("test-compile-custom");
+                        executionBuilder.goal("compile").goal("test-compile"); //.goal("compile-custom").goal("test-compile-custom");
                     })
                     .configuration(configurationBuilder -> {
                         configurationBuilder.add("protocArtifact", "com.google.protobuf:protoc:3.19.4:exe:${os.detected.classifier}");
