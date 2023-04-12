@@ -29,7 +29,7 @@ import io.spring.initializr.generator.spring.build.BuildCustomizer;
  * @author Weix Sun
  * @see io.spring.initializr.generator.spring.build.DefaultStarterBuildCustomizer,io.spring.initializr.generator.spring.build.DependencyManagementBuildCustomizer
  */
-public class DefaultMavenDependenciesCustomizer implements BuildCustomizer<MavenBuild> {
+public class RootMavenDependenciesCustomizer implements BuildCustomizer<MavenBuild> {
 
     static final String DEFAULT_STARTER = "root_starter";
     static final String TEST_STARTER = "test";

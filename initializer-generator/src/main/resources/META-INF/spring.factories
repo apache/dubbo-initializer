@@ -8,7 +8,7 @@ io.spring.start.site.extension.build.gradle.GradleProjectGenerationConfiguration
 org.apache.dubbo.initializer.generation.extension.build.maven.DubboMavenProjectGenerationConfiguration,\
 org.apache.dubbo.initializer.generation.extension.codes.DubboSourceCodeProjectGenerationConfiguration,\
 org.apache.dubbo.initializer.generation.extension.codes.language.DubboJavaProjectGenerationConfiguration,\
-org.apache.dubbo.initializer.generation.extension.dependency.dubbregisterzookeeper.DubboRegisterZookeeperProjectGenerationConfiguration,\
+org.apache.dubbo.initializer.generation.extension.dependency.DubboDependencyProjectGenerationConfiguration,\
 com.alibaba.initializer.generation.extension.build.maven.ArchedMavenProjectGenerationConfiguration,\
 io.spring.start.site.extension.build.maven.MavenProjectGenerationConfiguration,\
 com.alibaba.initializer.generation.extension.architecture.ArchitectureProjectGenerationConfiguration,\

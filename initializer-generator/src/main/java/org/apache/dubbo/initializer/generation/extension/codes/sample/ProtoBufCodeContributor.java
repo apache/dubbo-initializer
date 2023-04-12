@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.apache.dubbo.initializer.generation.extension.codes;
+package org.apache.dubbo.initializer.generation.extension.codes.sample;
 
 import com.alibaba.initializer.core.constants.ErrorCodeEnum;
 import com.alibaba.initializer.core.exception.BizRuntimeException;
@@ -59,7 +59,7 @@ import static com.alibaba.initializer.generation.constants.BootstrapTemplateRend
  *
  * @author @author <a href="mailto:15835991162@163.com">ErDan Wang</a>
  */
-public class DubboSampleCodeContributor implements ProjectContributor {
+public class ProtoBufCodeContributor implements ProjectContributor {
 
     @Value("${application.democode-path}")
     private String templates;
@@ -109,31 +109,16 @@ public class DubboSampleCodeContributor implements ProjectContributor {
             CodeTemplateRepo repo = loader.load(uri);
             RepoRenderResult result = renderer.render(repo, params);
 
-            // write code
+            // write protobuf file
             List<RepoRenderResult.TemplateRenderResult> codes = result.getResults(language.id());
             codes.forEach(res -> writeCode(res, language, projectRoot, structure));
 
-            // write resources
-            List<RepoRenderResult.TemplateRenderResult> resources = result.getResults("resources");
-            resources.forEach(res -> writeResources(res, language, projectRoot, structure));
-
-            // write root
-            if (module.isRoot()) {
-                List<RepoRenderResult.TemplateRenderResult> roots = result.getResults("root");
-                roots.forEach(res -> writeRoot(res, language, projectRoot, structure));
-            }
         });
     }
 
     protected boolean filter(RepoRenderResult.TemplateRenderResult templateRenderResult) {
 
         return !(templateRenderResult.getFileName().endsWith("md") && templateRenderResult.getFileName().startsWith("README"));
-    }
-
-    protected Multimap<Dependency, String> getReposWithDoubleUris(Map<Dependency, String> dependencyRepoUris) {
-        Multimap<Dependency, String> doubleUris = HashMultimap.create();
-
-        return null;
     }
 
     protected Map<Dependency, String> getRepos(InitializerProjectDescription description) {
@@ -215,30 +200,6 @@ public class DubboSampleCodeContributor implements ProjectContributor {
 
         try {
             doWirte(path, content, false);
-        } catch (IOException e) {
-            throw new BizRuntimeException(ErrorCodeEnum.SYSTEM_ERROR, "write code error", e);
-        }
-    }
-
-    protected void writeResources(RepoRenderResult.TemplateRenderResult result, Language language, Path projectRoot, SourceStructure structure) {
-        String content = result.getContent();
-        Path path = result.getPath();
-
-        path = structure.getResourcesDirectory().resolve(path.subpath(1, path.getNameCount()));
-
-        try {
-            doWirte(path, content, true);
-        } catch (IOException e) {
-            throw new BizRuntimeException(ErrorCodeEnum.SYSTEM_ERROR, "write code error", e);
-        }
-    }
-
-    protected void writeRoot(RepoRenderResult.TemplateRenderResult result, Language language, Path projectRoot, SourceStructure structure) {
-        Path path = projectRoot.resolve(result.getPath().subpath(1, result.getPath().getNameCount()));
-
-        String content = result.getContent();
-        try {
-            doWirte(path, content, true);
         } catch (IOException e) {
             throw new BizRuntimeException(ErrorCodeEnum.SYSTEM_ERROR, "write code error", e);
         }
