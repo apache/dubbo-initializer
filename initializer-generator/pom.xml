@@ -139,25 +139,6 @@
                     </execution>
                 </executions>
             </plugin>
-            <!-- 解压fat jar到target/${project-name}目录 -->
-            <plugin>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <configuration>
-                            <tasks>
-                                <unzip
-                                        src="${project.build.directory}/${project.build.finalName}.${project.packaging}"
-                                        dest="${project.build.directory}/initializer"/>
-                            </tasks>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
 
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>

@@ -26,5 +26,10 @@ jobs:
       - name: "Build"
         run: |
           ./mvnw --batch-mode -e --no-transfer-progress --fail-fast package -Dmaven.test.skip
-
-      
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          push: false
+          file: Dockerfile
+          tags: apache/dubbo-initializer:dev
+          platforms: linux/amd64
