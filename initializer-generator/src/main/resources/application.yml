@@ -12,10 +12,6 @@ server:
 management:
   server:
     port: 7002
-  endpoints:
-    web:
-      exposure:
-        include: "*"
 
 spring:
   application:
