@@ -6,7 +6,6 @@ initializer-page/target/
 initializer-generator/target/
 
 node_modules/
-.mvn/
 
 tree
 
