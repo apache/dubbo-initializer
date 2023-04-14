@@ -258,7 +258,7 @@ public class InitializerProjectRequestToDescriptionConverter
         if (CollectionUtils.isEmpty(depIds)) {
             depIds = new ArrayList<>();
             depIds.add("dubbo");
-            depIds.add("dubbo-governance-zookeeper");
+            depIds.add("dubbo-registry-zookeeper");
             depIds.add("dubbo-protocol-tcp");
         } else {
             if (depIds.stream().noneMatch(v -> v.contains("-protocol-"))) {
@@ -269,8 +269,8 @@ public class InitializerProjectRequestToDescriptionConverter
                     depIds.add("dubbo");
                 }
             }
-            if (depIds.stream().noneMatch(v -> v.contains("-governance-"))) {
-                depIds.add("dubbo-governance-zookeeper");
+            if (depIds.stream().noneMatch(v -> v.contains("-registry-"))) {
+                depIds.add("dubbo-registry-zookeeper");
             }
             if (depIds.stream().noneMatch(v -> v.equals("dubbo") || v.equals("dubbo-idl"))) {
                 depIds.add("dubbo");

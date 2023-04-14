@@ -21,7 +21,8 @@ import {
 } from './common/builder'
 import {Footer, Layout} from './common/layout'
 import {InitializrContext} from './reducer/Initializr'
-import {getConfig, getInfo, getProject, getQueryString} from './utils/ApiUtils'
+import {getConfig, getInfo, getProject, getQueryString, isValidDependency} from './utils/ApiUtils'
+import {rangeToText} from "./utils/Version";
 
 const Explore = lazy(() => import('./common/explore/Explore.js'))
 const Share = lazy(() => import('./common/share/Share.js'))
@@ -72,6 +73,27 @@ export default function Application() {
   const onExplore = async () => {
     const url = `${windowsUtils.origin}/starter.zip`
     dispatch({ type: 'EXPLORE_UPDATE', payload: { open: true } })
+    const selectedDependenceIds = get(values, 'dependencies')
+      let registryCount = 0
+      let protocolCount = 0
+      for (let i = 0; i < selectedDependenceIds.length; i += 1) {
+          const depId = selectedDependenceIds[i]
+          if (depId.toString().startsWith("dubbo-registry") !== -1) {
+              registryCount++
+          }
+          if (depId.toString().startsWith("dubbo-protocol") !== -1) {
+              protocolCount++
+          }
+      }
+      if (registryCount > 1) {
+          toast.error(`You have selected more than one registry components! Please select only one registry and add multiple registry configuration later to the project template!`)
+          return
+      }
+      if (protocolCount > 1) {
+          toast.error(`You have selected more than one protocol components! Please select only one protocol and multiple protocol configuration later to the project template!`)
+          return
+      }
+
     const project = await getProject(
       url,
       values,

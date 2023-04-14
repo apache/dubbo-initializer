@@ -153,7 +153,7 @@ initializr:
     - name: Dubbo Registry & Config & Metadata
       content:
       - name: Zookeeper (default)
-        id: dubbo-governance-zookeeper
+        id: dubbo-registry-zookeeper
         groupId: org.apache.dubbo
         artifactId: dubbo-dependencies-zookeeper
         type: pom
@@ -163,7 +163,7 @@ initializr:
         bom: apache-dubbo-zookeeper
         codeOnly: false
       - name: Zookeeper-curator5
-        id: dubbo-governance-zookeeper-curator5
+        id: dubbo-registry-zookeeper-curator5
         groupId: org.apache.dubbo
         artifactId: dubbo-dependencies-zookeeper-curator5
         type: pom
@@ -173,7 +173,7 @@ initializr:
         bom: apache-dubbo-zookeeper-curator5
         codeOnly: false
       - name: Nacos
-        id: dubbo-governance-nacos
+        id: dubbo-registry-nacos
         groupId: com.alibaba.nacos
         artifactId: nacos-client
         versionProperty: nacos.version
@@ -183,7 +183,7 @@ initializr:
         compatibilityRange: "2.7.21"
         codeOnly: false
       - name: Apollo
-        id: dubbo-governance-apollo
+        id: dubbo-configcenter-apollo
         groupId: com.ctrip.framework.apollo
         artifactId: apollo-client
         versionProperty: apollo.version
@@ -193,7 +193,7 @@ initializr:
         compatibilityRange: "2.7.21"
         codeOnly: false
       - name: Redis
-        id: dubbo-governance-redis
+        id: dubbo-metadata-redis
         groupId: redis.clients
         artifactId: jedis
         versionProperty: jedis.version
