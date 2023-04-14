@@ -141,11 +141,11 @@ body.dark {
       border-color: $dark-background-lighter;
     }
     &.primary {
-      border-color: $dark-primary;
-      background-color: $dark-primary;
+      border-color: $dark-link;
+      background-color: $dark-link;
       &:hover {
-        border-color: darken($dark-primary, 5);
-        background-color: darken($dark-primary, 5);
+        border-color: darken($dark-link, 5);
+        background-color: darken($dark-link, 5);
       }
     }
   }

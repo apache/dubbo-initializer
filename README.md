@@ -2,31 +2,26 @@
 
 ---
 # Dubbo Initializer
+Here is the instance hosted by Dubbo community [start.dubbo.apache.org](https://start.dubbo.apache.org/).
 
-## Docs
-- [Code Contribution](docs/CONTRIBUTING.md)
+You can also customize the code to meet your own requirements and deploy one yourself.
 
 ## Code structure
-This is a Dubbo Initializer project derived from Cloud Native App Initializer, you can directly experience the function of the project through [start.aliyun.com](https://start.aliyun.com/), which includes the following modules:
-* initializer-generator: Generate Project Modules, part of the basic code of [start.spring.io](https://start.spring.io/) is referenced in the `io.spring.start.site` directory.
-* initializer-page: Front page
+Dubbo Initializer is derived from Cloud Native App Initializer, which includes the following modules:
+* initializer-generator, java-based codebase that helps to generate the template project.
+* initializer-page, ui pages
 
 ## Run from source
 Please clone the project locally and make sure you have a Java 17 environment.
 
 ### Build project
-In the project root directory, execute the following commands to install `Node` and `Yarn`:
+In the project root directory, execute the following commands:
 ```shell
-mvn compile -P install-yarn
-# or
-# mvn compile -Pinstall-yarn -Dos.arch=x64 -Dmaven.test.skip
+mvn compile -P install-yarn  -Dmaven.test.skip # Install `Node` and `Yarn`
+mvn prepare-package # Copy the static files to the target of the `initializer-generator` module.
 ```
-In the project root directory, execute the following command to copy the static files to the target of the `initializer-generator` module:
-```shell
-mvn prepare-package
-# or
-# mvn prepare-package -Pbuild-public -Dos.arch=x64 -Dmaven.test.skip
-```
+
+> If you are running in a ARM-based system and encounter error running above commands, please add `-Dos.arch=x64` and try again.
 
 ### Run project
 Enter the `initializer-generator` module and execute the following command to start the application:

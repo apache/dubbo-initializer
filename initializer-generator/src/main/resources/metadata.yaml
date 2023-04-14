@@ -142,6 +142,7 @@ initializr:
         artifactId: dubbo-spring-boot-starter
         description: Use IDL as the standard Dubbo service definition
         starter: false
+        compatibilityRange: "3.1.8"
         archCfg:
           dubbo:
             modules:
@@ -149,107 +150,135 @@ initializr:
                 code: true
               service:
                 code: true
-    - name: Dubbo Governance
+    - name: Dubbo Registry & Config & Metadata
       content:
       - name: Zookeeper (default)
-        id: dubbo-governance-zookeeper
+        id: dubbo-registry-zookeeper
         groupId: org.apache.dubbo
         artifactId: dubbo-dependencies-zookeeper
         type: pom
-        description: "使用 Zookeeper 作为服务治理中心，可选作为注册中心、配置中心、元数据中心"
+        description: "Zookeeper as registry, will also be used as metadata and config centers by default."
         starter: false
-        compatibilityRange: "[2.0.0.RELEASE,3.1.0-M1)"
+        compatibilityRange: "2.7.21"
         bom: apache-dubbo-zookeeper
         codeOnly: false
       - name: Zookeeper-curator5
-        id: dubbo-governance-zookeeper-curator5
+        id: dubbo-registry-zookeeper-curator5
         groupId: org.apache.dubbo
         artifactId: dubbo-dependencies-zookeeper-curator5
         type: pom
-        description: "[高版本] 使用 Zookeeper 作为服务治理中心，可选作为注册中心、配置中心、元数据中心"
+        description: "[Requires 3.5+ zk server and curator5] Zookeeper as registry, will also be used as metadata and config centers by default."
         starter: false
-        compatibilityRange: "[2.0.0.RELEASE,3.1.0-M1)"
+        compatibilityRange: "3.1.8"
         bom: apache-dubbo-zookeeper-curator5
         codeOnly: false
       - name: Nacos
-        id: dubbo-governance-nacos
+        id: dubbo-registry-nacos
         groupId: com.alibaba.nacos
         artifactId: nacos-client
         versionProperty: nacos.version
         version: 2.2.1
-        description: "使用 Nacos 作为服务治理中心，可选作为注册中心、配置中心、元数据中心"
+        description: "Nacos as registry, will also be used as metadata and config centers by default."
         starter: false
-        compatibilityRange: "[2.0.0.RELEASE,3.1.0-M1)"
+        compatibilityRange: "2.7.21"
         codeOnly: false
       - name: Apollo
-        id: dubbo-governance-apollo
+        id: dubbo-configcenter-apollo
         groupId: com.ctrip.framework.apollo
         artifactId: apollo-client
         versionProperty: apollo.version
         version: 2.1.0
-        description: "使用 Apollo 作为配置中心"
+        description: "Apollo as config center, will override the default config center configuration."
         starter: false
-        compatibilityRange: "2.0.0.RELEASE"
+        compatibilityRange: "2.7.21"
         codeOnly: false
       - name: Redis
-        id: dubbo-governance-redis
+        id: dubbo-metadata-redis
         groupId: redis.clients
         artifactId: jedis
         versionProperty: jedis.version
         version: 3.9.0
-        description: "使用 Redis 作为元数据中心"
+        description: "Redis as metadata center, will override the default metadata center configuration."
         starter: false
-        compatibilityRange: "[2.0.0.RELEASE,3.1.0-M1)"
+        compatibilityRange: "2.7.21"
         codeOnly: false
     - name: Dubbo Protocol
       content:
-      - name: http2 (default)
-        id: dubbo-protocol-http2
-        description: (HTTP/2) http2 protocol, streaming data exchange.
-        groupId: com.google.protobuf
-        artifactId: protobuf-java
-        version: 3.19.6
-        starter: false
-        codeOnly: false
-      - name: grpc
-        id: dubbo-protocol-grpc
-        description: gRPC protocol, streaming data exchange.
-        groupId: com.google.protobuf
-        artifactId: protobuf-java
-        version: 3.19.6
-        starter: false
-        codeOnly: false
-      - name: tcp
-        id: dubbo-protocol-tcp
-        description: Dubbo2 tcp protocol.
-        starter: false
-        codeOnly: true
-      - name: REST
-        id: dubbo-protocol-rest
-        description: Dubbo2 rest protocol.
-        starter: false
-      - name: 单端口多协议
-        id: dubbo-protocol-multi-protocols
-        description: port unification.
-        starter: false
-    - name: Dubbo Features
-      content:
-        - name: QoS
-          id: dubbo-features-qos
-          description: qos.
+        - name: TCP (default)
+          id: dubbo-protocol-tcp
+          description: "Dubbo2 rpc protocol built on top of tcp with extremely high performance."
           starter: false
-        - name: Metrics
-          id: dubbo-features-metrics
-          description: metrics.
+          codeOnly: true
+          compatibilityRange: "2.7.21"
+        - name: HTTP2 (recommended)
+          id: dubbo-protocol-http2
+          description: "[Requires Dubbo3] The Triple (http2) rpc protocol that is fully compatible with gRPC, can be visited by cURL and Browser directly."
+          groupId: com.google.protobuf
+          artifactId: protobuf-java
+          version: 3.19.6
           starter: false
-        - name: Tracing
-          id: dubbo-features-tracing
-          description: tracing.
+          codeOnly: false
+          compatibilityRange: "3.1.8"
+        - name: gRPC
+          id: dubbo-protocol-grpc
+          description: "[Requires Dubbo3] The standard gRPC protocol."
+          groupId: com.google.protobuf
+          artifactId: protobuf-java
+          version: 3.19.6
           starter: false
-        - name: 限流降级
-          id: dubbo-features-sentinel
-          description: sentinel.
+          codeOnly: false
+          compatibilityRange: "3.1.8"
+        - name: REST
+          id: dubbo-protocol-rest
+          description: "Rest style rpc that uses HTTP+JSON on the wire, works for both backend and browser, provides support for both JAX-RS and Spring Web annotations."
           starter: false
+          codeOnly: true
+          compatibilityRange: "3.1.8"
+#    - name: Dubbo Features
+#      content:
+#        - name: QoS
+#          id: dubbo-features-qos
+#          description: "Dubbo built-in endpoints that let you monitor and manage your Dubbo instance and the services inside it."
+#          starter: false
+#          codeOnly: true
+#        - name: Metrics Prometheus
+#          id: dubbo-features-prometheus
+#          description: "[Requires Dubbo 3.2+] Enables collections of standard Dubbo metrics which can be used to report to Prometheus for visualization using Grafana and Admin."
+#          bom: apache-dubbo
+#          starter: false
+#          groupId: org.apache.dubbo
+#          artifactId: dubbo-spring-boot-observability-starter
+#        - name: Tracing Zipkin
+#          id: dubbo-features-tracing-zipkin
+#          description: "[Requires Dubbo 3.2+] Enable and expose span and trace IDs to Zipkin."
+#          bom: apache-dubbo
+#          starter: false
+#          groupId: org.apache.dubbo
+#          artifactId: dubbo-spring-boot-observability-starter
+#        - name: Resilience Sentinel
+#          id: dubbo-features-sentinel
+#          description: "Dubbo circuit breaker with Sentinel as the underlying implementation."
+#          starter: false
+#          groupId: com.alibaba.csp
+#          artifactId: sentinel-apache-dubbo3-adapter
+#          version: 1.8.6
+#          dependencies: ["sentinel-transport-http"]
+#        - name: sentinel-transport-http
+#          id: dubbo-transport-http
+#          description: ""
+#          starter: false
+#          groupId: com.alibaba.csp
+#          artifactId: sentinel-transport-simple-http
+#          version: 1.8.6
+#          hide: true
+#        - name: Transaction Seata
+#          id: dubbo-features-seata
+#          description: "Dubbo transaction solution to guarantee data consistency with Seata as the underlying implementation."
+#          starter: false
+#          groupId: io.seata
+#          artifactId: seata-spring-boot-starter
+#          version: 1.6.1
+#          codeOnly: false
     - name: Developer Tools
       content:
         - name: Arthas
@@ -469,21 +498,6 @@ initializr:
           links:
             - rel: reference
               href: https://docs.spring.io/spring-boot/docs/{bootVersion}/reference/htmlsingle/#web.servlet.jersey
-        - name: Vaadin
-          id: vaadin
-          facets:
-            - web
-          groupId: com.vaadin
-          artifactId: vaadin-spring-boot-starter
-          description: A web framework that allows you to write UI in pure Java without getting bogged down in JS, HTML, and CSS.
-          bom: vaadin
-          compatibilityRange: "[2.0.0.RELEASE,2.8.0-M1)"
-          links:
-            - rel: guide
-              href: https://spring.io/guides/gs/crud-with-vaadin/
-              description: Creating CRUD UI with Vaadin
-            - rel: reference
-              href: https://vaadin.com/spring
     - name: Template Engines
       content:
         - name: Thymeleaf
@@ -1208,9 +1222,9 @@ initializr:
   bootVersions:
     - name: 3.0.5
       id: 3.0.5
-      default: true
     - name: 2.7.10
       id: 2.7.10
+      default: true
   dubboVersions:
     - name: 3.2.0 (beta)
       id: 3.2.0
