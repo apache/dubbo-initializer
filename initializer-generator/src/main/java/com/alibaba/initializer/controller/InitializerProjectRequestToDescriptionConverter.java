@@ -17,6 +17,7 @@
 package com.alibaba.initializer.controller;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -97,9 +98,14 @@ public class InitializerProjectRequestToDescriptionConverter
                            InitializrMetadata metadata) {
         validate(request, metadata);
         String springBootVersion = getSpringBootVersion(request, metadata);
-        List<Dependency> resolvedDependencies = getResolvedDependencies(request,
-                springBootVersion, metadata);
-        validateDependencyRange(springBootVersion, resolvedDependencies);
+        String dubboVersion = getDubboVersion(request, metadata);
+
+        List<Dependency> resolvedNonDubboDependencies = getResolvedDependencies(request,
+                springBootVersion, metadata, false);
+        List<Dependency> resolvedDubboDependencies = getResolvedDependencies(request,
+                dubboVersion, metadata, true);
+        validateDependencyRange(springBootVersion, resolvedNonDubboDependencies, false);
+        validateDependencyRange(dubboVersion, resolvedDubboDependencies, true);
 
         description.setApplicationName(request.getApplicationName());
         description.setArtifactId(request.getArtifactId());
@@ -114,6 +120,10 @@ public class InitializerProjectRequestToDescriptionConverter
         description.setPackaging(Packaging.forId(request.getPackaging()));
         description.setPlatformVersion(Version.parse(springBootVersion));
         description.setVersion(request.getVersion());
+
+        List<Dependency> resolvedDependencies = new ArrayList<>();
+        resolvedDependencies.addAll(resolvedNonDubboDependencies);
+        resolvedDependencies.addAll(resolvedDubboDependencies);
         resolvedDependencies
                 .forEach((dependency) -> description.addDependency(dependency.getId(),
                         MetadataBuildItemMapper.toDependency(dependency)));
@@ -203,12 +213,12 @@ public class InitializerProjectRequestToDescriptionConverter
         });
     }
 
-    private void validateDependencyRange(String springBootVersion, List<Dependency> resolvedDependencies) {
+    private void validateDependencyRange(String version, List<Dependency> resolvedDependencies, boolean isDubbo) {
         resolvedDependencies.forEach((dep) -> {
-            if (!dep.match(Version.parse(springBootVersion))) {
+            if (!dep.match(Version.parse(version))) {
                 throw new InvalidProjectRequestException(
                         "Dependency '" + dep.getId() + "' is not compatible "
-                                + "with Spring Boot " + springBootVersion);
+                                + "with " + (isDubbo ? "Dubbo" : "Spring Boot ") + version);
             }
         });
     }
@@ -223,13 +233,23 @@ public class InitializerProjectRequestToDescriptionConverter
                 : metadata.getBootVersions().getDefault().getId();
     }
 
-    private List<Dependency> getResolvedDependencies(io.spring.initializr.web.project.ProjectRequest request, String springBootVersion, InitializrMetadata metadata) {
+    private String getDubboVersion(io.spring.initializr.web.project.ProjectRequest request, InitializrMetadata metadata) {
+        InitializerMetadata customizedMetadata = (InitializerMetadata)metadata;
+        ProjectRequest customizedRequest = (ProjectRequest)request;
+
+        return (customizedRequest.getDubboVersion() != null) ? customizedRequest.getDubboVersion()
+                : customizedMetadata.getDubboVersions().getDefault().getId();
+    }
+
+    private List<Dependency> getResolvedDependencies(io.spring.initializr.web.project.ProjectRequest request, String springBootVersion, InitializrMetadata metadata, boolean isDubbo) {
         List<String> depIds = getDependenciesWithDefaultComposition(request);
         Version requestedVersion = Version.parse(springBootVersion);
-        return depIds.stream().map((it) -> {
-            Dependency dependency = metadata.getDependencies().get(it);
-            return dependency.resolve(requestedVersion);
-        }).collect(Collectors.toList());
+        return depIds.stream()
+                .filter(depId -> (isDubbo && depId.contains("dubbo")) || (!isDubbo && !depId.contains("dubbo")))
+                .map((it) -> {
+                    Dependency dependency = metadata.getDependencies().get(it);
+                    return dependency.resolve(requestedVersion);
+                }).collect(Collectors.toList());
     }
 
     private static List<String> getDependenciesWithDefaultComposition(io.spring.initializr.web.project.ProjectRequest request) {

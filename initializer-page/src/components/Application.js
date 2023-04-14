@@ -161,6 +161,10 @@ export default function Application() {
                   options={get(config, 'lists.dubboVersion')}
                   onChange={value => {
                       update({ dubboVersion: value })
+                      dispatch({
+                          type: 'UPDATE_DEPENDENCIES',
+                          payload: { dubboVersion: value, boot: get(values, 'boot') },
+                      })
                   }}
               />
           </Control>
@@ -178,7 +182,7 @@ export default function Application() {
                   })
                   dispatch({
                     type: 'UPDATE_DEPENDENCIES',
-                    payload: { boot: value },
+                    payload: { boot: value, dubboVersion: get(values, 'dubboVersion') },
                   })
                 }}
               />

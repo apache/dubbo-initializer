@@ -6,9 +6,9 @@ const Header = ({ children }) => (
     <h1 className='logo'>
       <a href='/bootstrap.html'>
         <span className='title'>
-          <strong>Dubbo</strong>应用脚手架
+          <img style='max-width:260px;' src='/images/dubbo_apache_colorful.png'  alt='dubbo-apache-colorful-logo'/>
         </span>
-        <span className='description'>快速创建 Dubbo 应用</span>
+        {/*<span className='description'>快速创建 Dubbo 应用</span>*/}
       </a>
     </h1>
     {children}

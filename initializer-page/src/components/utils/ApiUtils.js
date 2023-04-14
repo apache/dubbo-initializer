@@ -272,13 +272,13 @@ export const getConfig = json => {
   }
 }
 
-export const isValidDependency = function isValidDependency(boot, dependency) {
+export const isValidDependency = function isValidDependency(boot, dubbo, dependency) {
   if (!dependency) {
     return false
   }
   return get(dependency, 'versionRange')
-    ? isInRange(boot, get(dependency, 'versionRange'))
-    : true
+          ? isInRange((dependency.id.indexOf('dubbo') === -1 ? boot : dubbo), get(dependency, 'versionRange'))
+      : true
 }
 
 export const getQueryString = function getQueryString(values, config) {
@@ -300,7 +300,7 @@ export const getQueryString = function getQueryString(values, config) {
   let paramsDependencies = get(values, 'dependencies', [])
     .map(dependency => {
       const dep = config.find(it => it.id === dependency)
-      return isValidDependency(get(values, 'boot'), dep) ? dependency : null
+      return isValidDependency(get(values, 'boot'), get(values, 'dubboVersion'), dep) ? dependency : null
     })
     .filter(dep => !!dep)
     .join(',')

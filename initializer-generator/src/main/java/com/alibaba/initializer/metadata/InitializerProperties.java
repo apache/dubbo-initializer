@@ -107,7 +107,7 @@ public class InitializerProperties extends InitializrConfiguration {
      * Description metadata.
      */
     @JsonIgnore
-    private final InitializrProperties.SimpleElement description = new InitializrProperties.SimpleElement("Demo project for Spring Boot");
+    private final InitializrProperties.SimpleElement description = new InitializrProperties.SimpleElement("Demo project for Apache Dubbo");
 
     /**
      * Package name metadata.

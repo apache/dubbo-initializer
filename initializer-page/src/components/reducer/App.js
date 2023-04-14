@@ -24,7 +24,7 @@ export const defaultAppContext = {
   },
 }
 
-export function reduceDependencies(boot, items) {
+export function reduceDependencies(boot, dubbo, items) {
   const groups = []
   const list = []
   const getParent = (m, name) => {
@@ -41,10 +41,12 @@ export function reduceDependencies(boot, items) {
       }
       groups.push(parent)
     }
-    const valid = isValidDependency(boot, dep)
+    const isDubbo = get(dep, 'id').indexOf('dubbo') !== -1
+    const valid = isValidDependency(boot, dubbo, dep)
+    const typeMsg = dep.id.indexOf('dubbo') === -1 ? 'Spring Boot' : 'Dubbo'
     if (!valid) {
-      message = `Requires Spring Boot ${rangeToText(
-        get(dep, 'versionRequirement')
+      message = `Requires ${typeMsg} ${rangeToText(
+          get(dep, 'versionRequirement')
       )}.`
     }
     parent.items.push({ ...dep, valid, message })
@@ -88,6 +90,7 @@ export function reducer(state, action) {
     case 'UPDATE_DEPENDENCIES': {
       const dependencies = reduceDependencies(
         get(action, 'payload.boot'),
+        get(action, 'payload.dubboVersion'),
         get(state, 'config.lists.dependencies')
       )
       return { ...state, dependencies }
@@ -108,6 +111,7 @@ export function reducer(state, action) {
       const json = get(action, 'payload', {})
       const dependencies = reduceDependencies(
         get(json, 'defaultValues.boot'),
+        get(json, 'defaultValues.dubboVersion'),
         get(json, 'lists.dependencies')
       )
       return { ...state, complete: true, config: json, dependencies }
