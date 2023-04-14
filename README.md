@@ -18,7 +18,7 @@ Please clone the project locally and make sure you have a Java 17 environment.
 In the project root directory, execute the following commands:
 ```shell
 mvn compile -P install-yarn  -Dmaven.test.skip # Install `Node` and `Yarn`
-mvn prepare-package # Copy the static files to the target of the `initializer-generator` module.
+mvn prepare-package -Pbuild-public # Copy the static files to the target of the `initializer-generator` module.
 ```
 
 > If you are running in a ARM-based system and encounter error running above commands, please add `-Dos.arch=x64` and try again.

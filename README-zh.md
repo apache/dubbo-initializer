@@ -18,8 +18,8 @@
 ### 构建项目
 在项目根目录，执行以下命令：
 ```shell
-mvn compile -P install-yarn  -Dmaven.test.skip # 安装 Node 和 Yarn
-mvn prepare-package # 将静态文件 Copy 到 `initializer-generator` 模块的 target 中
+mvn compile -P install-yarn -Dmaven.test.skip # 安装 Node 和 Yarn
+mvn prepare-package -Pbuild-public # 将静态文件 Copy 到 `initializer-generator` 模块的 target 中
 ```
 
 > 对于 ARM 架构，可以尝试在命令后添加如下参数后重试 `-Dos.arch=x64`
