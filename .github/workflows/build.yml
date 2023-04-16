@@ -28,9 +28,10 @@ jobs:
           ./mvnw --batch-mode -e --no-transfer-progress --fail-fast package -Dmaven.test.skip
       - name: Build and push
         uses: docker/build-push-action@v2
+        if: ${{ github.ref == 'ref/head/main' }}
         with:
           context: .
-          push: false
+          push: true
           file: Dockerfile
           tags: apache/dubbo-initializer:dev
           platforms: linux/amd64
