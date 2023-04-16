@@ -167,6 +167,10 @@ public class ClasspathTemplateLoader implements CodeTemplateRepoLoader {
 
         // the scan root from jar file
         String scanRoot = resourcePath.substring(resourcePath.indexOf(JAR_URL_SEPARATOR) + JAR_URL_SEPARATOR.length());
+        scanRoot = scanRoot.replace(JAR_URL_SEPARATOR, "/");
+        if (!scanRoot.endsWith("/")) {
+            scanRoot += "/";
+        }
         Path scanRootPath = Paths.get(scanRoot);
 
         while (entries.hasMoreElements()) {
