@@ -32,7 +32,7 @@ const PanelMore = ({ children, fieldFocusOnOpen }) => {
             className={more ? 'toggle' : ''}
           >
             <IconChevronRight />
-            {!more ? '高级选项' : '高级选项'}
+            {!more ? 'Advanced' : 'Advanced'}
           </a>
         </div>
       </div>

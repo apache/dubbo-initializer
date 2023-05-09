@@ -1235,15 +1235,15 @@ initializr:
       id: 2.7.21
   architecture:
     - id: none
-      name: 单模块
+      name: Single Module
       default: true
     - id: dubbo
-      name: 多模块
+      name: Multi Modules
       subModules:
         - name: api
-          description: api 模块，对外提供的 API
+          description: "The Dubbo service API definitions defined in the project."
         - name: service
-          description: service 模块，存放核心业务逻辑代码
+          description: "The real business logics of the project."
           main: true
           dependModules: 'api'
 #    - id: mvc

@@ -41,7 +41,7 @@ const Tabs = ({ changeTab }) => {
           }}
           className={`quick-search ${tab === 'quicksearch' ? 'active' : ''}`}
         >
-          <IconSearch /><span>搜索</span>
+          <IconSearch /><span>Search</span>
         </a>
         <a
           href='/'
@@ -52,12 +52,12 @@ const Tabs = ({ changeTab }) => {
           }}
           className={`list ${tab === 'list' ? 'active' : ''}`}
         >
-          <IconList /><span>分组列表</span>
+          <IconList /><span>Dependencies</span>
         </a>
         {count > 0 && (
           <>
             <strong>
-              <span>{count}</span> 项已选择
+              <span>{count}</span> Selected
             </strong>
           </>
         )}
