@@ -116,7 +116,7 @@ const QuickSearch = ({ submit, input }) => {
       <div className='column'>
         <label className='search-label' htmlFor='input-quicksearch'>
           {/* eslint-disable-line */}
-          搜索依赖组件
+          Input to search dependencies
         </label>
         <input
           type='text'
@@ -157,9 +157,9 @@ const QuickSearch = ({ submit, input }) => {
       </div>
       <div className='column'>
         {/* eslint-disable-next-line */}
-        <label>已选组件</label>
+        <label>Selected Dependencies</label>
         {get(values, 'dependencies', []).length === 0 ? (
-          <div className='search-no-selected'>暂未选择任何组件</div>
+          <div className='search-no-selected'>No dependency selected!</div>
         ) : (
           <Dependencies
             list={dependencies}

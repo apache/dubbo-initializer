@@ -176,7 +176,7 @@ export default function Application() {
             {/*    }}*/}
             {/*  />*/}
             {/*</Control>*/}
-          <Control text='Dubbo版本'>
+          <Control text='Apache Dubbo'>
               <RadioGroup
                   name='dubboVersion'
                   selected={get(values, 'dubboVersion')}
@@ -190,7 +190,7 @@ export default function Application() {
                   }}
               />
           </Control>
-            <Control text='Spring Boot版本'>
+            <Control text='Spring Boot'>
               <RadioGroup
                 name='boot'
                 selected={get(values, 'boot')}
@@ -215,7 +215,7 @@ export default function Application() {
                 </FieldError>
               )}
             </Control>
-            <Control text='项目基本信息' variant='md'>
+            <Control text='Project Metadata' variant='md'>
               <FieldInput
                 id='input-group'
                 value={get(values, 'meta.group')}
@@ -236,7 +236,7 @@ export default function Application() {
                 <FieldInput
                   id='input-name'
                   value={get(values, 'meta.name')}
-                  text='项目名称'
+                  text='Project'
                   disabled={!more}
                   inputRef={inputMore}
                   onChange={event => {
@@ -246,7 +246,7 @@ export default function Application() {
                 <FieldInput
                   id='input-description'
                   value={get(values, 'meta.description')}
-                  text='项目描述'
+                  text='Description'
                   disabled={!more}
                   onChange={event => {
                     update({ meta: { description: event.target.value } })
@@ -255,7 +255,7 @@ export default function Application() {
                 <FieldInput
                   id='input-packageName'
                   value={get(values, 'meta.packageName')}
-                  text='基础包'
+                  text='Package'
                   disabled={!more}
                   onChange={event => {
                     update({ meta: { packageName: event.target.value } })
@@ -264,7 +264,7 @@ export default function Application() {
                 <FieldRadio
                   id='input-packaging'
                   value={get(values, 'meta.packaging')}
-                  text='打包方式'
+                  text='Packaging'
                   disabled={!more}
                   options={get(config, 'lists.meta.packaging')}
                   onChange={value => {
@@ -274,7 +274,7 @@ export default function Application() {
                 <FieldRadio
                   id='input-java'
                   value={get(values, 'meta.java')}
-                  text='Java版本'
+                  text='Java'
                   disabled={!more}
                   options={get(config, 'lists.meta.java')}
                   onChange={value => {
@@ -283,7 +283,7 @@ export default function Application() {
                 />
               </PanelMore>
             </Control>
-            <Control text='应用架构'>
+            <Control text='Architecture'>
               <RadioGroup
                 name='architecture'
                 selected={get(values, 'architecture')}
@@ -312,7 +312,7 @@ export default function Application() {
                 }}
               />
             </Control>
-            <Control text='组件与示例' variant={tab === 'quicksearch' ? 'xl' : 'xxl'}>
+            <Control text='Dependencies' variant={tab === 'quicksearch' ? 'xl' : 'xxl'}>
               <Tabs
                 changeTab={newTab => {
                   if (
@@ -335,17 +335,17 @@ export default function Application() {
                 onClick={onSubmit}
                 hotkey={`${windowsUtils.symb} + ⏎`}
               >
-                获取代码
+                GENERATE
               </Button>
               <Button
                 id='explore-project'
                 onClick={onExplore}
                 hotkey='Ctrl + Space'
               >
-                浏览代码
+                EXPLORE
               </Button>
               <Button id='share-project' onClick={onShare}>
-                分享...
+                SHARE...
               </Button>
             </Footer>
           </>

@@ -54,7 +54,7 @@ const QuickLinks = () => {
             <li>
                <span className='switch-mode'>
                   <Switch id='theme-switch' isOn={theme === 'dark'} onChange={toggleTheme}/>
-                    {theme === 'dark' ? '深色' : '浅色'} 主题
+                    {theme === 'dark' ? 'Dark' : 'Light'} Theme
                 </span>
             </li>
             <li>
@@ -65,7 +65,7 @@ const QuickLinks = () => {
                     tabIndex='-1'
                 >
                     <IconInitialzrTutorial/>
-                   访问 Dubbo 官网
+                   Visit Dubbo Website
                 </a>
             </li>
             <li>
@@ -76,7 +76,7 @@ const QuickLinks = () => {
                     tabIndex='-1'
                 >
                     <IconHot/>
-                    Dubbo 电子书下载
+                    Dubbo E-books
                 </a>
             </li>
             <li>
@@ -91,7 +91,7 @@ const QuickLinks = () => {
                     ref={wrapper}
                 >
                     <IconHelp/>
-                    帮助信息
+                    Help
                     <IconCaretDown className='caret'/>
                 </a>
 
@@ -104,10 +104,10 @@ const QuickLinks = () => {
                                         id='ql-help-projects'
                                         target='_blank'
                                         rel='noopener noreferrer'
-                                        href='https://dubbo.apache.org'
+                                        href='http://github.com/apache/dubbo-initializer'
                                         tabIndex='-1'
                                     >
-                                        Apache Dubbo Website
+                                        Apache Dubbo Initializer
                                     </a>
                                 </li>
                                 <li>
