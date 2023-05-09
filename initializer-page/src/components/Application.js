@@ -78,10 +78,10 @@ export default function Application() {
       let protocolCount = 0
       for (let i = 0; i < selectedDependenceIds.length; i += 1) {
           const depId = selectedDependenceIds[i]
-          if (depId.toString().startsWith("dubbo-registry") !== -1) {
+          if (depId.toString().startsWith("dubbo-registry")) {
               registryCount++
           }
-          if (depId.toString().startsWith("dubbo-protocol") !== -1) {
+          if (depId.toString().startsWith("dubbo-protocol")) {
               protocolCount++
           }
       }
