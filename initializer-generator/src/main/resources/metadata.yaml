@@ -10,7 +10,7 @@ initializr:
             version: 3.1.8
       apache-dubbo-zookeeper:
         groupId: org.apache.dubbo
-        artifactId: dubbo-dependencies-zookeeper
+        artifactId: dubbo-dependencies-zookeeperdubbo-dependencies-zookeeper
         versionProperty: dubbo.version
         additionalBoms: [ apache-dubbo ]
         mappings:
@@ -162,6 +162,10 @@ initializr:
         compatibilityRange: "2.7.21"
         bom: apache-dubbo-zookeeper
         codeOnly: false
+        links:
+          - rel: reference
+            description: "Dubbo Zookeeper registry configuration reference"
+            href: https://docs.spring.io/spring-boot/docs/{bootVersion}/reference/htmlsingle/#web.servlet.spring-mvc.template-engines
       - name: Zookeeper-curator5
         id: dubbo-registry-zookeeper-curator5
         groupId: org.apache.dubbo
@@ -172,6 +176,10 @@ initializr:
         compatibilityRange: "3.1.8"
         bom: apache-dubbo-zookeeper-curator5
         codeOnly: false
+        links:
+          - rel: reference
+            description: "Dubbo Zookeeper registry configuration reference"
+            href: https://docs.spring.io/spring-boot/docs/{bootVersion}/reference/htmlsingle/#web.servlet.spring-mvc.template-engines
       - name: Nacos
         id: dubbo-registry-nacos
         groupId: com.alibaba.nacos
@@ -182,6 +190,10 @@ initializr:
         starter: false
         compatibilityRange: "2.7.21"
         codeOnly: false
+        links:
+          - rel: reference
+            description: "Dubbo Zookeeper registry configuration reference"
+            href: https://docs.spring.io/spring-boot/docs/{bootVersion}/reference/htmlsingle/#web.servlet.spring-mvc.template-engines
       - name: Apollo
         id: dubbo-configcenter-apollo
         groupId: com.ctrip.framework.apollo
@@ -192,6 +204,10 @@ initializr:
         starter: false
         compatibilityRange: "2.7.21"
         codeOnly: false
+        links:
+          - rel: reference
+            description: "Dubbo Zookeeper registry configuration reference"
+            href: https://docs.spring.io/spring-boot/docs/{bootVersion}/reference/htmlsingle/#web.servlet.spring-mvc.template-engines
       - name: Redis
         id: dubbo-metadata-redis
         groupId: redis.clients
@@ -202,83 +218,117 @@ initializr:
         starter: false
         compatibilityRange: "2.7.21"
         codeOnly: false
+        links:
+          - rel: reference
+            description: "Dubbo Zookeeper registry configuration reference"
+            href: https://docs.spring.io/spring-boot/docs/{bootVersion}/reference/htmlsingle/#web.servlet.spring-mvc.template-engines
     - name: Dubbo Protocol
       content:
+        - name: Triple (recommended)
+          id: dubbo-protocol-triple
+          description: "Triple is fully compatible with gRPC, can be accessed by cURL and Browser directly, which is great to build microservice and web applications."
+          groupId: com.google.protobuf
+          artifactId: protobuf-java
+          version: 3.19.6
+          starter: false
+          codeOnly: false
+          compatibilityRange: "3.1.8"
+          links:
+            - rel: reference
+              description: "Dubbo Zookeeper registry configuration reference"
+              href: https://docs.spring.io/spring-boot/docs/{bootVersion}/reference/htmlsingle/#web.servlet.spring-mvc.template-engines
         - name: TCP (default)
           id: dubbo-protocol-tcp
-          description: "Dubbo2 rpc protocol built on top of tcp with extremely high performance."
+          description: "Dubbo2 is an RPC protocol built on top of tcp with extremely high performance."
           starter: false
           codeOnly: true
           compatibilityRange: "2.7.21"
-        - name: HTTP2 (recommended)
-          id: dubbo-protocol-http2
-          description: "[Requires Dubbo3] The Triple (http2) rpc protocol that is fully compatible with gRPC, can be visited by cURL and Browser directly."
-          groupId: com.google.protobuf
-          artifactId: protobuf-java
-          version: 3.19.6
-          starter: false
-          codeOnly: false
-          compatibilityRange: "3.1.8"
-        - name: gRPC
-          id: dubbo-protocol-grpc
-          description: "[Requires Dubbo3] The standard gRPC protocol."
-          groupId: com.google.protobuf
-          artifactId: protobuf-java
-          version: 3.19.6
-          starter: false
-          codeOnly: false
-          compatibilityRange: "3.1.8"
+          links:
+            - rel: reference
+              description: "Dubbo Zookeeper registry configuration reference"
+              href: https://docs.spring.io/spring-boot/docs/{bootVersion}/reference/htmlsingle/#web.servlet.spring-mvc.template-engines
         - name: REST
           id: dubbo-protocol-rest
           description: "Rest style rpc that uses HTTP+JSON on the wire, works for both backend and browser, provides support for both JAX-RS and Spring Web annotations."
           starter: false
           codeOnly: true
-          compatibilityRange: "3.1.8"
-#    - name: Dubbo Features
-#      content:
-#        - name: QoS
-#          id: dubbo-features-qos
-#          description: "Dubbo built-in endpoints that let you monitor and manage your Dubbo instance and the services inside it."
-#          starter: false
-#          codeOnly: true
-#        - name: Metrics Prometheus
-#          id: dubbo-features-prometheus
-#          description: "[Requires Dubbo 3.2+] Enables collections of standard Dubbo metrics which can be used to report to Prometheus for visualization using Grafana and Admin."
-#          bom: apache-dubbo
-#          starter: false
-#          groupId: org.apache.dubbo
-#          artifactId: dubbo-spring-boot-observability-starter
-#        - name: Tracing Zipkin
-#          id: dubbo-features-tracing-zipkin
-#          description: "[Requires Dubbo 3.2+] Enable and expose span and trace IDs to Zipkin."
-#          bom: apache-dubbo
-#          starter: false
-#          groupId: org.apache.dubbo
-#          artifactId: dubbo-spring-boot-observability-starter
-#        - name: Resilience Sentinel
-#          id: dubbo-features-sentinel
-#          description: "Dubbo circuit breaker with Sentinel as the underlying implementation."
-#          starter: false
-#          groupId: com.alibaba.csp
-#          artifactId: sentinel-apache-dubbo3-adapter
-#          version: 1.8.6
-#          dependencies: ["sentinel-transport-http"]
-#        - name: sentinel-transport-http
-#          id: dubbo-transport-http
-#          description: ""
-#          starter: false
-#          groupId: com.alibaba.csp
-#          artifactId: sentinel-transport-simple-http
-#          version: 1.8.6
-#          hide: true
-#        - name: Transaction Seata
-#          id: dubbo-features-seata
-#          description: "Dubbo transaction solution to guarantee data consistency with Seata as the underlying implementation."
-#          starter: false
-#          groupId: io.seata
-#          artifactId: seata-spring-boot-starter
-#          version: 1.6.1
-#          codeOnly: false
+          compatibilityRange: "3.2.3"
+          links:
+            - rel: reference
+              description: "Dubbo Zookeeper registry configuration reference"
+              href: https://docs.spring.io/spring-boot/docs/{bootVersion}/reference/htmlsingle/#web.servlet.spring-mvc.template-engines
+    - name: Dubbo Advanced Features
+      content:
+        - name: QoS
+          id: dubbo-features-qos
+          description: "Dubbo built-in endpoints that let you monitor and manage your Dubbo instance and the services inside it."
+          starter: false
+          codeOnly: true
+          links:
+            - rel: reference
+              description: "Dubbo Zookeeper registry configuration reference"
+              href: https://docs.spring.io/spring-boot/docs/{bootVersion}/reference/htmlsingle/#web.servlet.spring-mvc.template-engines
+        - name: Metrics Prometheus
+          id: dubbo-features-prometheus
+          description: "Enables collections of standard Dubbo metrics which can be used to report to Prometheus for visualization using Grafana and Admin."
+          bom: apache-dubbo
+          starter: false
+          groupId: org.apache.dubbo
+          artifactId: dubbo-observability-spring-boot-starter
+          compatibilityRange: "3.2.3"
+          links:
+            - rel: reference
+              description: "Dubbo Zookeeper registry configuration reference"
+              href: https://docs.spring.io/spring-boot/docs/{bootVersion}/reference/htmlsingle/#web.servlet.spring-mvc.template-engines
+        - name: Tracing Zipkin
+          id: dubbo-features-tracing-zipkin
+          description: "Enable and expose span and trace IDs to Zipkin."
+          bom: apache-dubbo
+          starter: false
+          groupId: org.apache.dubbo
+          artifactId: dubbo-brave-zipkin-spring-boot-starter
+          compatibilityRange: "3.2.3"
+          links:
+            - rel: reference
+              description: "Dubbo Zookeeper registry configuration reference"
+              href: https://docs.spring.io/spring-boot/docs/{bootVersion}/reference/htmlsingle/#web.servlet.spring-mvc.template-engines
+        - name: Tracing OpenTelemetry
+          id: dubbo-features-tracing-opentelemetry
+          description: "Enable and expose span and trace IDs to OpenTelemetry compatible backends."
+          bom: apache-dubbo
+          starter: false
+          groupId: org.apache.dubbo
+          artifactId: dubbo-otel-otlp-spring-boot-starter
+          compatibilityRange: "3.2.3"
+          links:
+            - rel: reference
+              description: "Dubbo Zookeeper registry configuration reference"
+              href: https://docs.spring.io/spring-boot/docs/{bootVersion}/reference/htmlsingle/#web.servlet.spring-mvc.template-engines
+        - name: Resilience Sentinel
+          id: dubbo-features-sentinel
+          description: "Dubbo circuit breaker and rate limiting with Sentinel as the underlying implementation."
+          bom: apache-dubbo
+          starter: false
+          groupId: org.apache.dubbo
+          artifactId: dubbo-sentinel-spring-boot-starter
+          compatibilityRange: "3.2.3"
+          links:
+            - rel: reference
+              description: "Dubbo Zookeeper registry configuration reference"
+              href: https://docs.spring.io/spring-boot/docs/{bootVersion}/reference/htmlsingle/#web.servlet.spring-mvc.template-engines
+        - name: Transaction Seata
+          id: dubbo-features-seata
+          description: "Dubbo transaction solution to guarantee data consistency with Seata as the underlying implementation."
+          bom: apache-dubbo
+          starter: false
+          groupId: org.apache.dubbo
+          artifactId: dubbo-seata-spring-boot-starter
+          compatibilityRange: "3.2.3"
+          codeOnly: false
+          links:
+            - rel: reference
+              description: "Dubbo Zookeeper registry configuration reference"
+              href: https://docs.spring.io/spring-boot/docs/{bootVersion}/reference/htmlsingle/#web.servlet.spring-mvc.template-engines
     - name: Developer Tools
       content:
         - name: Arthas
@@ -1220,16 +1270,16 @@ initializr:
       id: java
       default: true
   bootVersions:
-    - name: 3.0.5
+    - name: 3.0.5 (requires jdk 17)
       id: 3.0.5
     - name: 2.7.10
       id: 2.7.10
       default: true
   dubboVersions:
-    - name: 3.2.0 (beta)
-      id: 3.2.0
-    - name: 3.1.8
-      id: 3.1.8
+    - name: 3.2.3
+      id: 3.2.3
+    - name: 3.1.10
+      id: 3.1.10
       default: true
     - name: 2.7.21
       id: 2.7.21
