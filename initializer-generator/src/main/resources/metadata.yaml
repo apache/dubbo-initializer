@@ -1226,13 +1226,11 @@ initializr:
       id: 2.7.10
       default: true
   dubboVersions:
-    - name: 3.2.0 (beta)
-      id: 3.2.0
-    - name: 3.1.8
-      id: 3.1.8
+    - name: 3.2.4
+      id: 3.2.4
       default: true
-    - name: 2.7.21
-      id: 2.7.21
+    - name: 3.1.11
+      id: 3.1.11
   architecture:
     - id: none
       name: Single Module
