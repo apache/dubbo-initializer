@@ -1,0 +1,13 @@
+# Thymeleaf Configuration (ThymeleafAutoConfiguration)
+spring:
+  thymeleaf:
+    cache: true  # Enable template caching (default: true)
+    check-template: true  # Check if templates exist before rendering
+    check-template-location: true  # Check if template locations are correct (default: true)
+    content-type: text/html  # Content-Type value (default: text/html)
+    enabled: true  # Enable MVC Thymeleaf view resolution (default: true)
+    encoding: UTF-8  # Template encoding
+    excluded-view-names:  # List of view names to be excluded from resolution, separated by commas
+    mode: HTML5  # Template mode to be applied to templates (default: HTML5)
+    prefix: classpath:/templates/  # Prefix to be added to view names when building URLs (default: classpath:/templates/)
+    suffix: .html  # Suffix to be added to view names when building URLs (default: .html)

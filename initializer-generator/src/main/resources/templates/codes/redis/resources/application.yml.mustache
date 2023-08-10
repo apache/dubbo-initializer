@@ -1,0 +1,22 @@
+# Redis Console: https://kvstorenext.console.aliyun.com
+spring:
+  redis:
+    # Redis database index (default to 0)
+    database: 0
+    # Redis server address
+    host: 127.0.0.1
+    # Redis server connection port
+    port: 6379
+    # Redis server connection password (default is empty)
+    password:
+    # Maximum number of connections in the pool (use negative value for unlimited)
+    pool:
+      max-active: 8
+      # Maximum time to wait for a connection from the pool (use negative value for unlimited)
+      max-wait: -1
+      # Maximum number of idle connections in the pool
+      max-idle: 8
+      # Minimum number of idle connections in the pool
+      min-idle: 0
+    # Connection timeout (in milliseconds)
+    timeout: 1200
