@@ -1,0 +1,80 @@
+# RocketMQ Configuration
+# RocketMQ Console: https://ons.console.aliyun.com
+# Spring Cloud Alibaba RocketMQ Documentation: https://github.com/alibaba/spring-cloud-alibaba/blob/master/spring-cloud-alibaba-docs/src/main/asciidoc-en/rocketmq.adoc
+# RocketMQ Help Documentation: https://help.aliyun.com/product/29530.html
+
+spring:
+  cloud:
+    stream:
+      rocketmq:
+        binder:
+          access-key: ''
+          secret-key: ''
+          name-server: 127.0.0.1:9876
+        bindings:
+          output1:
+            producer:
+              group: my_group
+              transactional: 'false'
+              sync: 'true'
+          input2:
+            consumer:
+              orderly: 'false'
+              tags: tagStr
+          output2:
+            producer:
+              group: myTxProducerGroup
+              transactional: 'true'
+              sync: 'false'
+          input1:
+            consumer:
+              suspendCurrentQueueTimeMillis: '1000'
+              orderly: 'true'
+              delayLevelWhenNextConsume: '0'
+              tags: tagStr
+          input3:
+            consumer:
+              tags: tagObj
+      bindings:
+        input1:
+          content-type: text/plain
+          group: test-group1
+          destination: test-topic       
+        input2:
+          destination: test-topic
+          group: test-group2
+          content-type: text/plain
+          consumer:
+            maxAttempts: '1'
+            concurrency: '20'
+        input3:
+          consumer:
+            concurrency: '20'
+          destination: test-topic
+          content-type: application/json
+          group: test-group3
+        input4:
+          content-type: text/plain
+          destination: TransactionTopic
+          group: transaction-group
+          consumer:
+            concurrency: '5'
+        input5:
+          content-type: text/plain
+          group: pull-topic-group
+          destination: pull-topic
+        output1:
+          content-type: text/plain
+          destination: test-topic
+        output2:
+          destination: test-topic
+          content-type: application/json
+logging:
+  level:
+    com:
+      alibaba:
+        cloud:
+          stream:
+            binder:
+              rocketmq: INFO
+

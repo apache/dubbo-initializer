@@ -1,0 +1,12 @@
+# Nacos Registry Configuration https://dubbo.apache.org/en/docs/3.0/user/configuration/registry/nacos/
+dubbo:
+  registry:
+    address: nacos://${nacos.address:127.0.0.1}:8848
+  # Nacos will also be used as a registry and metadata center by default. Use the following configuration to stop using it as a metadata and config center.
+  # useAsMetadataCenter: false
+  # useAsConfigCenter: false
+  # Explicitly specifying different metadata and config centers will also stop reusing the registry cluster.
+  # metadata-report:
+  #   address: zookeeper://host:port
+  # config-center:
+  #   address: apollo://host:port

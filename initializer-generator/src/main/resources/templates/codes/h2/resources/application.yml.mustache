@@ -1,0 +1,30 @@
+# H2 Configuration
+spring:
+  # Database connection settings
+  datasource:
+    # Location of MySQL create database statement 
+    schema: classpath:schema.sql
+    # Location of MySQL insert statement
+    data: classpath:data.sql
+    # Specify the type of database, here 'file' indicates a file-based database
+    url: jdbc:h2:file:~/test
+    # Username and password are temporary values
+    username: san
+    password:
+    # Specify the driver class to access the database
+    driver-class-name: org.h2.Driver
+
+
+  # Remote access configuration for H2 Console
+  h2:
+    console:
+      settings:
+        # Remote visit
+        web-allow-others: true
+        trace: true
+      # Console URL. After Spring starts, you can access http://127.0.0.1:8080/h2-console to view the database
+      path: /h2-console
+      # Default: true. We can also access the database using the command line. For those interested, click on this link: http://www.h2database.com/html/tutorial.html?highlight=Mac&search=mac#firstFound
+      enabled: true
+
+

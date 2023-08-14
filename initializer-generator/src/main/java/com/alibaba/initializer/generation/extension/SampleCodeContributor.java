@@ -18,7 +18,9 @@ package com.alibaba.initializer.generation.extension;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.SequenceInputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -54,6 +56,8 @@ import io.spring.initializr.generator.language.SourceStructure;
 import io.spring.initializr.generator.project.contributor.ProjectContributor;
 import io.spring.initializr.metadata.DependencyGroup;
 import org.apache.commons.lang3.StringUtils;
+import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.Yaml;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -245,11 +249,19 @@ public class SampleCodeContributor implements ProjectContributor {
         Path path = result.getPath();
 
         path = structure.getResourcesDirectory().resolve(path.subpath(1, path.getNameCount()));
-
-        try {
-            doWirte(path, content, true);
-        } catch (IOException e) {
-            throw new BizRuntimeException(ErrorCodeEnum.SYSTEM_ERROR, "write code error", e);
+        if (path.endsWith("application.yml")) {
+            try {
+                doMerge(path, content);
+            } catch (IOException e) {
+                throw new BizRuntimeException(ErrorCodeEnum.SYSTEM_ERROR, "merge yaml error", e);
+            }
+        }
+        else {
+            try {
+                doWirte(path, content, true);
+            } catch (IOException e) {
+                throw new BizRuntimeException(ErrorCodeEnum.SYSTEM_ERROR, "write code error", e);
+            }
         }
     }
 
@@ -303,5 +315,53 @@ public class SampleCodeContributor implements ProjectContributor {
                     new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8)),
                     Files.newOutputStream(filePath, StandardOpenOption.APPEND));
         }
+    }
+
+    /**
+     * Merge application.yml files with new content
+     * @param filePath
+     * @param content
+     * @throws IOException
+     */
+    protected void doMerge(Path filePath, String content) throws IOException {
+        Path folderPath = filePath.getParent();
+        Files.createDirectories(folderPath);
+
+        File file = filePath.toFile();
+
+        if (!file.exists()) {
+            Files.writeString(filePath, content);
+        } else {
+            DumperOptions dumperOptions = new DumperOptions();
+            dumperOptions.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
+            Yaml yaml = new Yaml(dumperOptions);
+            Map<String, Object> originYamlMap = yaml.loadAs(new FileInputStream(file), Map.class);
+            Map<String, Object> newYamlMap = yaml.loadAs(new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8)), Map.class);
+            Map<String, Object> mergedYamlMap = deepMerge(originYamlMap, newYamlMap);
+            Files.writeString(filePath, yaml.dump(mergedYamlMap));
+        }
+    }
+
+    /**
+     * Deep merge two maps produced by yamlFiles
+     * @param destination
+     * @param source
+     * @return
+     */
+    public static Map<String, Object> deepMerge(Map<String, Object> destination, Map<String, Object> source) {
+        Map<String, Object> mergedMap = new HashMap<>(destination);
+        for (String key : source.keySet()) {
+            if (source.get(key) instanceof Map && destination.get(key) instanceof Map) {
+                Map<String, Object> mergedSubMap = deepMerge((Map<String, Object>) destination.get(key), (Map<String, Object>) source.get(key));
+                mergedMap.put(key, mergedSubMap);
+            } else if (source.get(key) instanceof List && destination.get(key) instanceof List) {
+                List<Object> mergedList = new ArrayList<>(((List<Object>) destination.get(key)));
+                mergedList.addAll((List<Object>) source.get(key));
+                mergedMap.put(key, mergedList);
+            } else {
+                mergedMap.put(key, source.get(key));
+            }
+        }
+        return mergedMap;
     }
 }

@@ -1,0 +1,15 @@
+# Specify the Freemarker template path and template suffix
+spring:
+  freemarker:
+    template-loader-path: classpath:/webapp/
+    suffix: .ftl
+    # Specify character set
+    charset: utf-8
+    # Specify whether to enable caching
+    cache: false
+    # Specify whether to expose request and session attributes
+    expose-request-attributes: true
+    expose-session-attributes: true
+    # Specify spring static resource scan path
+  resources:
+    static-locations: classpath:/static/
