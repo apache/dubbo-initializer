@@ -1,0 +1,14 @@
+# Actuator Web Access Port
+management:
+  endpoints:
+    jmx:
+      exposure:
+        include: '*'
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: 'always'
+  server:
+    port: 8081

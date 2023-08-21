@@ -1,9 +1,0 @@
-
-# zookeeper 作为注册中心配置说明  https://cn.dubbo.apache.org/zh-cn/overview/mannual/java-sdk/reference-manual/registry/zookeeper/
-# Zookeeper will be also used as registry and metadata centers by default, use the following configuration to stop using registry as metadata and config center.
-# dubbo.registry.useAsMetadataCenter=false
-# dubbo.registry.useAsConfigCenter=false
-# Explicitly specify different metadata & config centers will also stop reusing the registry cluster.
-# dubbo.metadata-report.address=nacos://host:port
-# dubbo.config-center.address=apollo://host:port
-dubbo.registry.address=zookeeper://${zookeeper.address:127.0.0.1}:2181

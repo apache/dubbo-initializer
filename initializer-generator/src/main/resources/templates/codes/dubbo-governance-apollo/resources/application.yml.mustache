@@ -1,0 +1,7 @@
+# Apollo as Config Center
+# Reference: https://dubbo.apache.org/en/docs/3.0/user/configuration/config-center/apollo/
+dubbo:
+  config-center:
+    address: apollo://${apollo.address:127.0.0.1}:8080
+    # namespace: xxx
+    # group: xxx

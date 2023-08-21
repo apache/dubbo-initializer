@@ -1,0 +1,14 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: foo-service-route
+          uri: http://localhost:9669/
+          predicates:
+            - Path=/demo/**
+        - id: httpbin-route
+          uri: https://httpbin.org
+          predicates:
+            - Path=/httpbin/**
+          filters:
+            - RewritePath=/httpbin/(?<segment>.*), /${segment}
