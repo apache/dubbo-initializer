@@ -75,16 +75,14 @@ initializr:
         artifactId: spring-boot-admin-dependencies
         versionProperty: spring-boot-admin.version
         mappings:
-          - compatibilityRange: "[2.3.0.M1,2.5.0-M1)"
-            version: 2.4.3
-          - compatibilityRange: "[2.5.0.M1,2.6.0-M1)"
-            version: 2.5.6
           - compatibilityRange: "[2.6.0.M1,2.7.0-M1)"
-            version: 2.6.8
+            version: 2.6.11
           - compatibilityRange: "[2.7.0.M1,3.0.0-M1)"
-            version: 2.7.4
+            version: 2.7.10
           - compatibilityRange: "[3.0.0-M1,3.1.0-M1)"
-            version: 3.0.0-M4
+            version: 3.0.4
+          - compatibilityRange: "[3.1.0-M1,3.2.0-M1)"
+            version: 3.1.5
     maven:
       parent:
         includeSpringBootBom: true
@@ -128,7 +126,6 @@ initializr:
         artifactId: dubbo-spring-boot-starter
         description: Use java interface as the standard Dubbo service definition
         starter: false
-#        hide: true
         archCfg:
           dubbo:
             modules:
@@ -152,26 +149,73 @@ initializr:
                 code: true
     - name: Dubbo Registry & Config & Metadata
       content:
-      - name: Zookeeper (default)
+      - name: Zookeeper-spring-boot-starter
+        id: dubbo-registry-zookeeper-starter
+        groupId: org.apache.dubbo
+        artifactId: dubbo-zookeeper-spring-boot-starter
+        description: "Same as 'Zookeeper' but is Spring Boot Starter managed."
+        starter: false
+        compatibilityRange: "3.3.0-beta.1"
+        bom: apache-dubbo
+        codeOnly: false
+        links:
+          - rel: reference
+            description: "Dubbo Zookeeper registry configuration reference"
+            href: https://cn.dubbo.apache.org/zh-cn/overview/mannual/java-sdk/reference-manual/registry/zookeeper/
+      - name: Zookeeper-spring-boot-curator5-starter
+        id: dubbo-registry-zookeeper-curator5-starter
+        groupId: org.apache.dubbo
+        artifactId: dubbo-zookeeper-curator5-spring-boot-starter
+        description: "Same as 'Zookeeper-curator5' but is Spring Boot Starter managed."
+        starter: false
+        compatibilityRange: "3.3.0-beta.1"
+        bom: apache-dubbo
+        codeOnly: false
+        links:
+          - rel: reference
+            description: "Dubbo Zookeeper registry configuration reference"
+            href: https://dubbo.apache.org/zh-cn/overview/mannual/java-sdk/reference-manual/registry/zookeeper/
+      - name: Nacos-spring-boot-starter
+        id: dubbo-registry-nacos-starter
+        groupId: org.apache.dubbo
+        artifactId: dubbo-nacos-spring-boot-starter
+        description: "Same as 'Nacos' but is Spring Boot Starter managed."
+        starter: false
+        compatibilityRange: "3.3.0-beta.1"
+        bom: apache-dubbo
+        codeOnly: false
+        links:
+          - rel: reference
+            description: "Dubbo Zookeeper registry configuration reference"
+            href: https://dubbo.apache.org/zh-cn/overview/mannual/java-sdk/reference-manual/registry/zookeeper/
+      - name: Zookeeper
         id: dubbo-registry-zookeeper
         groupId: org.apache.dubbo
         artifactId: dubbo-dependencies-zookeeper
         type: pom
         description: "Zookeeper as registry, will also be used as metadata and config centers by default."
         starter: false
-        compatibilityRange: "2.7.21"
+        compatibilityRange: "[3.1.8, 3.3.0-beta.1)"
         bom: apache-dubbo-zookeeper
         codeOnly: false
+        links:
+          - rel: reference
+            description: "Dubbo Zookeeper registry configuration reference"
+            href: https://dubbo.apache.org/zh-cn/overview/mannual/java-sdk/reference-manual/registry/zookeeper/
       - name: Zookeeper-curator5
         id: dubbo-registry-zookeeper-curator5
         groupId: org.apache.dubbo
         artifactId: dubbo-dependencies-zookeeper-curator5
         type: pom
-        description: "[Requires 3.5+ zk server and curator5] Zookeeper as registry, will also be used as metadata and config centers by default."
+        description: "[Requires 3.7.0+ zk server and curator5] Zookeeper as registry, will also be used as metadata and config centers by default."
         starter: false
-        compatibilityRange: "3.1.8"
+        compatibilityRange: "[3.1.8, 3.3.0-beta.1)"
         bom: apache-dubbo-zookeeper-curator5
         codeOnly: false
+        links:
+          - rel: reference
+            description: "Dubbo Zookeeper registry configuration reference"
+            href: https://dubbo.apache.org/zh-cn/overview/mannual/java-sdk/reference-manual/registry/zookeeper/
       - name: Nacos
         id: dubbo-registry-nacos
         groupId: com.alibaba.nacos
@@ -180,8 +224,12 @@ initializr:
         version: 2.2.1
         description: "Nacos as registry, will also be used as metadata and config centers by default."
         starter: false
-        compatibilityRange: "2.7.21"
+        compatibilityRange: "[3.1.8, 3.3.0-beta.1)"
         codeOnly: false
+        links:
+          - rel: reference
+            description: "Dubbo Nacos registry configuration reference"
+            href: https://dubbo.apache.org/zh-cn/overview/mannual/java-sdk/reference-manual/registry/nacos/
       - name: Apollo
         id: dubbo-configcenter-apollo
         groupId: com.ctrip.framework.apollo
@@ -192,6 +240,10 @@ initializr:
         starter: false
         compatibilityRange: "2.7.21"
         codeOnly: false
+        links:
+          - rel: reference
+            description: "Dubbo Apollo config center configuration reference"
+            href: https://dubbo.apache.org/zh-cn/overview/mannual/java-sdk/reference-manual/configcenter/apollo/
       - name: Redis
         id: dubbo-metadata-redis
         groupId: redis.clients
@@ -202,85 +254,168 @@ initializr:
         starter: false
         compatibilityRange: "2.7.21"
         codeOnly: false
+        links:
+          - rel: reference
+            description: "Dubbo Redis metadata center configuration reference"
+            href: https://dubbo.apache.org/zh-cn/overview/mannual/java-sdk/reference-manual/metadata/redis/
     - name: Dubbo Protocol
       content:
-        - name: TCP (default)
+        - name: Triple
+          id: dubbo-protocol-triple
+          description: "Triple is fully compatible with gRPC, can be accessed by cURL and Browser directly, which is great to build microservice and web applications."
+          groupId: com.google.protobuf
+          artifactId: protobuf-java
+          version: 3.19.6
+          starter: false
+          codeOnly: false
+          compatibilityRange: "3.1.8"
+          links:
+            - rel: reference
+              description: "Dubbo triple protocol reference"
+              href: https://dubbo.apache.org/zh-cn/overview/mannual/java-sdk/reference-manual/protocol/triple/
+        - name: TCP
           id: dubbo-protocol-tcp
-          description: "Dubbo2 rpc protocol built on top of tcp with extremely high performance."
+          description: "Dubbo2 is an RPC protocol built on top of tcp with extremely high performance."
           starter: false
           codeOnly: true
           compatibilityRange: "2.7.21"
-        - name: HTTP2 (recommended)
-          id: dubbo-protocol-http2
-          description: "[Requires Dubbo3] The Triple (http2) rpc protocol that is fully compatible with gRPC, can be visited by cURL and Browser directly."
-          groupId: com.google.protobuf
-          artifactId: protobuf-java
-          version: 3.19.6
-          starter: false
-          codeOnly: false
-          compatibilityRange: "3.1.8"
-        - name: gRPC
-          id: dubbo-protocol-grpc
-          description: "[Requires Dubbo3] The standard gRPC protocol."
-          groupId: com.google.protobuf
-          artifactId: protobuf-java
-          version: 3.19.6
-          starter: false
-          codeOnly: false
-          compatibilityRange: "3.1.8"
+          links:
+            - rel: reference
+              description: "Dubbo tcp protocol reference"
+              href: https://dubbo.apache.org/zh-cn/overview/mannual/java-sdk/reference-manual/protocol/dubbo/
         - name: REST
           id: dubbo-protocol-rest
           description: "Rest style rpc that uses HTTP+JSON on the wire, works for both backend and browser, provides support for both JAX-RS and Spring Web annotations."
           starter: false
           codeOnly: true
-          compatibilityRange: "3.1.8"
-#    - name: Dubbo Features
-#      content:
-#        - name: QoS
-#          id: dubbo-features-qos
-#          description: "Dubbo built-in endpoints that let you monitor and manage your Dubbo instance and the services inside it."
-#          starter: false
-#          codeOnly: true
-#        - name: Metrics Prometheus
-#          id: dubbo-features-prometheus
-#          description: "[Requires Dubbo 3.2+] Enables collections of standard Dubbo metrics which can be used to report to Prometheus for visualization using Grafana and Admin."
-#          bom: apache-dubbo
-#          starter: false
-#          groupId: org.apache.dubbo
-#          artifactId: dubbo-spring-boot-observability-starter
-#        - name: Tracing Zipkin
-#          id: dubbo-features-tracing-zipkin
-#          description: "[Requires Dubbo 3.2+] Enable and expose span and trace IDs to Zipkin."
-#          bom: apache-dubbo
-#          starter: false
-#          groupId: org.apache.dubbo
-#          artifactId: dubbo-spring-boot-observability-starter
-#        - name: Resilience Sentinel
-#          id: dubbo-features-sentinel
-#          description: "Dubbo circuit breaker with Sentinel as the underlying implementation."
-#          starter: false
-#          groupId: com.alibaba.csp
-#          artifactId: sentinel-apache-dubbo3-adapter
-#          version: 1.8.6
-#          dependencies: ["sentinel-transport-http"]
-#        - name: sentinel-transport-http
-#          id: dubbo-transport-http
-#          description: ""
-#          starter: false
-#          groupId: com.alibaba.csp
-#          artifactId: sentinel-transport-simple-http
-#          version: 1.8.6
-#          hide: true
-#        - name: Transaction Seata
-#          id: dubbo-features-seata
-#          description: "Dubbo transaction solution to guarantee data consistency with Seata as the underlying implementation."
-#          starter: false
-#          groupId: io.seata
-#          artifactId: seata-spring-boot-starter
-#          version: 1.6.1
-#          codeOnly: false
+          compatibilityRange: "3.3.0-beta.1"
+          links:
+            - rel: reference
+              description: "Dubbo rest protocol reference"
+              href: https://dubbo.apache.org/zh-cn/overview/mannual/java-sdk/reference-manual/protocol/rest/
+    - name: Dubbo Advanced Features
+      content:
+        - name: QoS
+          id: dubbo-feature-qos
+          description: "Dubbo built-in endpoints that let you monitor and manage your Dubbo instance and the services inside it."
+          starter: false
+          codeOnly: true
+          links:
+            - rel: reference
+              description: "Dubbo Zookeeper registry configuration reference"
+              href: https://docs.spring.io/spring-boot/docs/{bootVersion}/reference/htmlsingle/#web.servlet.spring-mvc.template-engines
+        - name: Metrics Prometheus
+          id: dubbo-feature-metrics
+          description: "Enables collections of standard Dubbo metrics which can be used to report to Prometheus for visualization using Grafana and Admin."
+          bom: apache-dubbo
+          starter: false
+          groupId: org.apache.dubbo
+          artifactId: dubbo-observability-spring-boot-starter
+          compatibilityRange: "3.3.0-beta.1"
+          links:
+            - rel: reference
+              description: "Dubbo metrics configuration"
+              href: https://dubbo.apache.org/zh-cn/overview/tasks/observability/prometheus/
+        - name: Tracing Zipkin
+          id: dubbo-feature-tracing
+          description: "Enable and expose span and trace IDs to Zipkin."
+          bom: apache-dubbo
+          starter: false
+          groupId: org.apache.dubbo
+          artifactId: dubbo-brave-zipkin-spring-boot-starter
+          codeOnly: false
+          compatibilityRange: "3.3.0-beta.1"
+          links:
+            - rel: reference
+              description: "Dubbo tracing using Zipkin"
+              href: https://dubbo.apache.org/zh-cn/overview/tasks/observability/tracing/zipkin/
+        - name: Tracing OpenTelemetry
+          id: dubbo-feature-tracing-otel
+          description: "Enable and expose span and trace IDs to OpenTelemetry compatible backends."
+          bom: apache-dubbo
+          starter: false
+          codeOnly: false
+          groupId: org.apache.dubbo
+          artifactId: dubbo-otel-otlp-spring-boot-starter
+          compatibilityRange: "3.3.0-beta.1"
+          links:
+            - rel: reference
+              description: "Dubbo tracing using OpenTelemetry"
+              href: https://dubbo.apache.org/zh-cn/overview/tasks/observability/tracing/otlp/
+        - name: Resilience Sentinel
+          id: dubbo-feature-sentinel
+          description: "Dubbo circuit breaker and rate limiting with Sentinel as the underlying implementation."
+          bom: apache-dubbo
+          starter: false
+          groupId: org.apache.dubbo
+          artifactId: dubbo-sentinel-spring-boot-starter
+          compatibilityRange: "3.3.0-beta.1"
+          links:
+            - rel: reference
+              description: "Dubbo rate limiting using Sentinel"
+              href: https://dubbo.apache.org/zh-cn/overview/core-features/traffic/circuit-breaking/
+        - name: Transaction Seata
+          id: dubbo-feature-seata
+          description: "Dubbo transaction solution to guarantee data consistency with Seata as the underlying implementation."
+          bom: apache-dubbo
+          starter: false
+          groupId: org.apache.dubbo
+          artifactId: dubbo-seata-spring-boot-starter
+          compatibilityRange: "3.3.0-beta.1"
+          codeOnly: false
+          links:
+            - rel: reference
+              description: "Dubbo distributed transaction with Seata"
+              href: https://dubbo.apache.org/zh-cn/overview/tasks/ecosystem/transaction/
+        - name: GraalVM Native Support
+          id: dubbo-feature-native
+          bom: apache-dubbo
+          compatibilityRange: "3.3.0-beta.1"
+          groupId: org.apache.dubbo
+          artifactId: dubbo-config-spring6
+          description: "[Requires java 17+], support for compiling Dubbo applications to native executables using GraalVM."
+          links:
+            - rel: reference
+              description: "Dubbo native image support"
+              href: https://cn.dubbo.apache.org/zh-cn/overview/mannual/java-sdk/advanced-features-and-usage/performance/support-graalvm/
+          facets:
+            - native
+          starter: false
+          codeOnly: false
+          dependencies:
+            - dubbo-native-dependency
+        - name: Dubbo Native
+          id: dubbo-native-dependency
+          bom: apache-dubbo
+          hide: true
+          groupId: org.apache.dubbo
+          artifactId: dubbo-native
+          description: Support for compiling Dubbo applications to native executables using the GraalVM native-image compiler.
+          starter: false
+          codeOnly: false
     - name: Developer Tools
       content:
+        - name: Spring Boot Actuator
+          id: actuator
+          description: Supports built in (or custom) endpoints that let you monitor and manage your application - such as application health, metrics, sessions, etc.
+          facets:
+            - native
+          links:
+            - rel: guide
+              href: https://spring.io/guides/gs/actuator-service/
+              description: Building a RESTful Web Service with Spring Boot Actuator
+            - rel: reference
+              href: https://docs.spring.io/spring-boot/docs/{bootVersion}/reference/htmlsingle/#actuator
+        - name: Spring Boot Admin (Client)
+          id: codecentric-spring-boot-admin-client
+          groupId: de.codecentric
+          artifactId: spring-boot-admin-starter-client
+          description: Required for your application to register with a Spring Boot Admin Server instance.
+          compatibilityRange: "[2.0.0.RELEASE,3.2.0-M1)"
+          bom: codecentric-spring-boot-admin
+          links:
+            - rel: reference
+              href: https://www.baeldung.com/spring-boot-admin
         - name: Arthas
           id: arthas
           groupId: com.taobao.arthas
@@ -292,78 +427,6 @@ initializr:
           links:
             - rel: reference
               href: https://arthas.gitee.io/index.html
-        - name: GraalVM Native Support
-          id: native
-          compatibilityRange: "2.4.3"
-          groupId: org.springframework.experimental
-          artifactId: spring-native
-          description: Support for compiling Spring applications to native executables using the GraalVM native-image compiler.
-          facets:
-            - native
-          starter: false
-          repository: spring-releases
-          mappings:
-            - compatibilityRange: "[2.4.3,2.4.4)"
-              version: 0.9.0
-              repository: spring-releases
-            - compatibilityRange: "[2.4.4,2.4.5)"
-              version: 0.9.1
-              repository: spring-releases
-            - compatibilityRange: "[2.4.5,2.5.0-M1)"
-              version: 0.9.2
-              repository: spring-releases
-            - compatibilityRange: "[2.5.0-M1,2.5.2)"
-              version: 0.10.0
-              repository: spring-releases
-            - compatibilityRange: "[2.5.2,2.5.3)"
-              version: 0.10.1
-              repository: spring-releases
-            - compatibilityRange: "[2.5.3,2.5.4)"
-              version: 0.10.2
-              repository: spring-releases
-            - compatibilityRange: "[2.5.4,2.5.5)"
-              version: 0.10.3
-              repository: spring-releases
-            - compatibilityRange: "[2.5.5,2.5.6)"
-              version: 0.10.4
-              repository: spring-releases
-            - compatibilityRange: "[2.5.6,2.5.9)"
-              version: 0.10.5
-              repository: spring-releases
-            - compatibilityRange: "[2.5.9,2.6.0-M1)"
-              version: 0.10.6
-              repository: spring-releases
-            - compatibilityRange: "[2.6.0-M1,2.6.0-RC1)"
-              version: 0.11.0-M1
-              repository: spring-milestones
-            - compatibilityRange: "[2.6.0-RC1,2.6.0)"
-              version: 0.11.0-M2
-              repository: spring-milestones
-            - compatibilityRange: "[2.6.0,2.6.1)"
-              version: 0.11.0-RC1
-              repository: spring-milestones
-            - compatibilityRange: "[2.6.1,2.6.2)"
-              version: 0.11.0
-              repository: spring-releases
-            - compatibilityRange: "[2.6.2,2.6.3)"
-              version: 0.11.1
-              repository: spring-releases
-            - compatibilityRange: "[2.6.3,2.6.4)"
-              version: 0.11.2
-              repository: spring-releases
-            - compatibilityRange: "[2.6.4,2.6.6)"
-              version: 0.11.3
-              repository: spring-releases
-            - compatibilityRange: "[2.6.6,2.7.0-M1)"
-              version: 0.11.5
-              repository: spring-releases
-            - compatibilityRange: "[2.7.0-M1,2.7.1)"
-              version: 0.12.0
-            - compatibilityRange: "[2.7.1,3.0.0-M1)"
-              version: 0.12.1
-            - compatibilityRange: "3.0.0-M1"
-              groupId: org.springframework.boot
-              artifactId: spring-boot
         - name: Spring Boot DevTools
           id: devtools
           groupId: org.springframework.boot
@@ -393,6 +456,27 @@ initializr:
           links:
             - rel: reference
               href: https://docs.spring.io/spring-boot/docs/{bootVersion}/reference/htmlsingle/#appendix.configuration-metadata.annotation-processor
+        - name: Spring REST Docs
+          id: restdocs
+          description: Document RESTful services by combining hand-written with Asciidoctor and auto-generated snippets produced with Spring MVC Test.
+          groupId: org.springframework.restdocs
+          artifactId: spring-restdocs-mockmvc
+          scope: test
+          starter: false
+          links:
+            - rel: reference
+              href: https://docs.spring.io/spring-restdocs/docs/current/reference/html5/
+        - name: Testcontainers
+          id: testcontainers
+          description: Provide lightweight, throwaway instances of common databases, Selenium web browsers, or anything else that can run in a Docker container.
+          groupId: org.testcontainers
+          artifactId: junit-jupiter
+          bom: testcontainers
+          scope: test
+          starter: false
+          links:
+            - rel: reference
+              href: https://www.testcontainers.org/
     - name: Web
       content:
         - name: Spring Web
@@ -438,23 +522,6 @@ initializr:
           description: Build GraphQL applications with Spring for GraphQL and GraphQL Java.
           facets:
             - json
-        - name: Rest Repositories
-          id: data-rest
-          facets:
-            - json
-          description: Exposing Spring Data repositories over REST via Spring Data REST.
-          links:
-            - rel: guide
-              href: https://spring.io/guides/gs/accessing-data-rest/
-              description: Accessing JPA Data with REST
-            - rel: guide
-              href: https://spring.io/guides/gs/accessing-neo4j-data-rest/
-              description: Accessing Neo4j Data with REST
-            - rel: guide
-              href: https://spring.io/guides/gs/accessing-mongodb-data-rest/
-              description: Accessing MongoDB Data with REST
-            - rel: reference
-              href: https://docs.spring.io/spring-boot/docs/{bootVersion}/reference/htmlsingle/#howto.data-access.exposing-spring-data-repositories-as-rest
         - name: Spring Session
           id: session
           groupId: org.springframework.session
@@ -464,40 +531,6 @@ initializr:
           links:
             - rel: reference
               href: https://docs.spring.io/spring-session/reference/
-        - name: Rest Repositories HAL Explorer
-          id: data-rest-explorer
-          description: Browsing Spring Data REST repositories in your browser.
-          starter: false
-          groupId: org.springframework.data
-          artifactId: spring-data-rest-hal-explorer
-        - name: Spring HATEOAS
-          id: hateoas
-          description: Eases the creation of RESTful APIs that follow the HATEOAS principle when working with Spring / Spring MVC.
-          links:
-            - rel: guide
-              href: https://spring.io/guides/gs/rest-hateoas/
-              description: Building a Hypermedia-Driven RESTful Web Service
-            - rel: reference
-              href: https://docs.spring.io/spring-boot/docs/{bootVersion}/reference/htmlsingle/#web.spring-hateoas
-        - name: Spring Web Services
-          id: web-services
-          description: Facilitates contract-first SOAP development. Allows for the creation of flexible web services using one of the many ways to manipulate XML payloads.
-          aliases:
-           - ws
-          links:
-           - rel: guide
-             href: https://spring.io/guides/gs/producing-web-service/
-             description: Producing a SOAP web service
-           - rel: reference
-             href: https://docs.spring.io/spring-boot/docs/{bootVersion}/reference/htmlsingle/#io.webservices
-        - name: Jersey
-          id: jersey
-          description: Framework for developing RESTful Web Services in Java that provides support for JAX-RS APIs.
-          facets:
-            - json
-          links:
-            - rel: reference
-              href: https://docs.spring.io/spring-boot/docs/{bootVersion}/reference/htmlsingle/#web.servlet.jersey
     - name: Template Engines
       content:
         - name: Thymeleaf
@@ -1071,95 +1104,6 @@ initializr:
           links:
             - rel: reference
               href: https://spring.io/projects/spring-shell
-    - name: Ops
-      content:
-        - name: Spring Boot Actuator
-          id: actuator
-          description: Supports built in (or custom) endpoints that let you monitor and manage your application - such as application health, metrics, sessions, etc.
-          facets:
-            - native
-          links:
-            - rel: guide
-              href: https://spring.io/guides/gs/actuator-service/
-              description: Building a RESTful Web Service with Spring Boot Actuator
-            - rel: reference
-              href: https://docs.spring.io/spring-boot/docs/{bootVersion}/reference/htmlsingle/#actuator
-        - name: codecentric's Spring Boot Admin (Client)
-          id: codecentric-spring-boot-admin-client
-          groupId: de.codecentric
-          artifactId: spring-boot-admin-starter-client
-          description: Required for your application to register with a Codecentric's Spring Boot Admin Server instance.
-          compatibilityRange: "[2.0.0.RELEASE,3.1.0-M1)"
-          bom: codecentric-spring-boot-admin
-          links:
-            - rel: reference
-              href: https://codecentric.github.io/spring-boot-admin/current/#getting-started
-        - name: codecentric's Spring Boot Admin (Server)
-          id: codecentric-spring-boot-admin-server
-          groupId: de.codecentric
-          artifactId: spring-boot-admin-starter-server
-          description: A community project to manage and monitor your Spring Boot applications. Provides a UI on top of the Spring Boot Actuator endpoints.
-          compatibilityRange: "[2.0.0.RELEASE,3.1.0-M1)"
-          bom: codecentric-spring-boot-admin
-          links:
-            - rel: reference
-              href: https://codecentric.github.io/spring-boot-admin/current/#getting-started
-    - name: Observability
-      content:
-        - name: Prometheus
-          id: prometheus
-          groupId: io.micrometer
-          artifactId: micrometer-registry-prometheus
-          scope: runtime
-          starter: false
-          description: Expose Micrometer metrics in Prometheus format, an in-memory dimensional time series database with a simple built-in UI, a custom query language, and math operations.
-          links:
-            - rel: reference
-              href: https://docs.spring.io/spring-boot/docs/{bootVersion}/reference/htmlsingle/#actuator.metrics.export.prometheus
-    - name: Testing
-      content:
-        - name: Spring REST Docs
-          id: restdocs
-          description: Document RESTful services by combining hand-written with Asciidoctor and auto-generated snippets produced with Spring MVC Test.
-          groupId: org.springframework.restdocs
-          artifactId: spring-restdocs-mockmvc
-          scope: test
-          starter: false
-          links:
-            - rel: reference
-              href: https://docs.spring.io/spring-restdocs/docs/current/reference/html5/
-        - name: Testcontainers
-          id: testcontainers
-          description: Provide lightweight, throwaway instances of common databases, Selenium web browsers, or anything else that can run in a Docker container.
-          groupId: org.testcontainers
-          artifactId: junit-jupiter
-          bom: testcontainers
-          scope: test
-          starter: false
-          links:
-            - rel: reference
-              href: https://www.testcontainers.org/
-        - name: Embedded LDAP Server
-          id: unboundid-ldap
-          description: Provides a platform neutral way for running a LDAP server in unit tests.
-          groupId: com.unboundid
-          artifactId: unboundid-ldapsdk
-          scope: test
-          starter: false
-          links:
-            - rel: reference
-              href: https://docs.spring.io/spring-boot/docs/{bootVersion}/reference/htmlsingle/#data.nosql.ldap.embedded
-        - name: Embedded MongoDB Database
-          id: flapdoodle-mongo
-          compatibilityRange: "[2.0.0.RELEASE,3.0.0-M1)"
-          description: Provides a platform neutral way for running MongoDB in unit tests.
-          groupId: de.flapdoodle.embed
-          artifactId: de.flapdoodle.embed.mongo
-          scope: test
-          starter: false
-          links:
-            - rel: reference
-              href: https://docs.spring.io/spring-boot/docs/{bootVersion}/reference/htmlsingle/#data.nosql.mongodb.embedded
     - name: Hidden Group
       id: hidden-group
       hide: true
@@ -1220,15 +1164,17 @@ initializr:
       id: java
       default: true
   bootVersions:
-    - name: 3.0.5
-      id: 3.0.5
+    - name: 3.1.2 (requires jdk 17)
+      id: 3.1.2
     - name: 2.7.10
       id: 2.7.10
       default: true
   dubboVersions:
-    - name: 3.2.4
-      id: 3.2.4
+    - name: 3.3.0-beta.1
+      id: 3.3.0-beta.1
       default: true
+    - name: 3.2.5
+      id: 3.2.5
     - name: 3.1.11
       id: 3.1.11
   architecture:

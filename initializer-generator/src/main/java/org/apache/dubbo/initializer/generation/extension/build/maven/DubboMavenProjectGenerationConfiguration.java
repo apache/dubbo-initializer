@@ -17,7 +17,6 @@
 package org.apache.dubbo.initializer.generation.extension.build.maven;
 
 import com.alibaba.initializer.generation.InitializerProjectGenerationConfiguration;
-import com.alibaba.initializer.generation.condition.ConditionalOnArchitectured;
 import com.alibaba.initializer.generation.condition.ConditionalOnRequestedArchitecture;
 import io.spring.initializr.generator.buildsystem.maven.MavenBuildSystem;
 import io.spring.initializr.generator.condition.ConditionalOnBuildSystem;
@@ -28,9 +27,6 @@ import org.apache.dubbo.initializer.generation.condition.ConditionalOnRequestedM
 import io.spring.initializr.generator.condition.ConditionalOnRequestedDependency;
 import org.springframework.context.annotation.Bean;
 
-/**
- * @author <a href="mailto:15835991162@163.com">ErDan Wang</a>
- */
 @InitializerProjectGenerationConfiguration
 @ConditionalOnBuildSystem(MavenBuildSystem.ID)
 public class DubboMavenProjectGenerationConfiguration {
@@ -62,6 +58,13 @@ public class DubboMavenProjectGenerationConfiguration {
     @ConditionalOnRequestedDependency("dubbo-idl")
     public IdlMavenPluginCustomizer IdlMavenPluginCustomizer() {
         return new IdlMavenPluginCustomizer();
+    }
+
+    @Bean
+    @ConditionalOnDubboIdlDependency
+    @ConditionalOnRequestedDependency("dubbo-feature-native")
+    public NativeMavenPluginCustomizer nativeMavenPluginCustomizer() {
+        return new NativeMavenPluginCustomizer();
     }
 
 }

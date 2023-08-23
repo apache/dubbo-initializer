@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: seata-order
+
+seata:
+  enabled: true
+  application-id: ${spring.application.name}
+  tx-service-group: default_tx_group
+  service:
+    vgroup-mapping:
+      default_tx_group: default
+    grouplist:
+      default: ${seata.address:127.0.0.1}:8091
+    enable-degrade: false
+    disable-global-transaction: false
+  config:
+    type: file
+  registry:
+    type: file

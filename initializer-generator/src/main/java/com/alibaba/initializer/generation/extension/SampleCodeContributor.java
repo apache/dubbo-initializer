@@ -332,13 +332,17 @@ public class SampleCodeContributor implements ProjectContributor {
         if (!file.exists()) {
             Files.writeString(filePath, content);
         } else {
-            DumperOptions dumperOptions = new DumperOptions();
-            dumperOptions.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
-            Yaml yaml = new Yaml(dumperOptions);
-            Map<String, Object> originYamlMap = yaml.loadAs(new FileInputStream(file), Map.class);
-            Map<String, Object> newYamlMap = yaml.loadAs(new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8)), Map.class);
-            Map<String, Object> mergedYamlMap = deepMerge(originYamlMap, newYamlMap);
-            Files.writeString(filePath, yaml.dump(mergedYamlMap));
+            if (StringUtils.isNotEmpty(content)) {
+                DumperOptions dumperOptions = new DumperOptions();
+                dumperOptions.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
+                Yaml yaml = new Yaml(dumperOptions);
+                Map<String, Object> newYamlMap = yaml.loadAs(new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8)), Map.class);
+                if (newYamlMap != null) {
+                    Map<String, Object> originYamlMap = yaml.loadAs(new FileInputStream(file), Map.class);
+                    Map<String, Object> mergedYamlMap = deepMerge(originYamlMap, newYamlMap);
+                    Files.writeString(filePath, yaml.dump(mergedYamlMap));
+                }
+            }
         }
     }
 
