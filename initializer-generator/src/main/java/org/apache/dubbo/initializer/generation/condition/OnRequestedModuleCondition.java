@@ -26,9 +26,6 @@ import org.springframework.core.type.AnnotatedTypeMetadata;
 
 import java.util.Arrays;
 
-/**
- * @author Weix Sun
- */
 public class OnRequestedModuleCondition extends ProjectGenerationCondition {
 
 	@Override

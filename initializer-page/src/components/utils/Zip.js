@@ -10,7 +10,10 @@ const FILE_EXTENSION = {
   java: 'java',
   xml: 'xml',
   properties: 'properties',
+  yml: 'yml',
+  proto: 'proto',
   groovy: 'groovy',
+
   html: 'html',
   css: 'css',
 }

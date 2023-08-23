@@ -24,9 +24,6 @@ import java.lang.annotation.Target;
 
 import org.springframework.context.annotation.Conditional;
 
-/**
- * @author Weix Sun
- */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ ElementType.TYPE, ElementType.METHOD })
 @Documented

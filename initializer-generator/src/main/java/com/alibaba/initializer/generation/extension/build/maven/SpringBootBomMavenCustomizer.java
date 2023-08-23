@@ -18,6 +18,7 @@ package com.alibaba.initializer.generation.extension.build.maven;
 
 import java.lang.reflect.Field;
 
+import com.alibaba.initializer.generation.extension.build.MavenBuildUtils;
 import io.spring.initializr.generator.buildsystem.BillOfMaterials;
 import io.spring.initializr.generator.buildsystem.maven.MavenBuild;
 import io.spring.initializr.generator.project.ProjectDescription;
@@ -68,13 +69,7 @@ public class SpringBootBomMavenCustomizer implements BuildCustomizer<MavenBuild>
             throw new IllegalStateException("remove parent node error", e);
         }
 
-        build.plugins().remove("org.springframework.boot", "spring-boot-maven-plugin");
-        build.plugins().add("org.springframework.boot", "spring-boot-maven-plugin", builder -> {
-                    builder.version(springBootVersion);
-                    builder.execution("repackage", execution -> execution.goal("repackage"));
-                    builder.configuration(conf -> conf.add("mainClass", description.getPackageName() + "." + description.getApplicationName()));
-                }
-        );
+        MavenBuildUtils.build(build, description.getPackageName() + "." + description.getApplicationName());
     }
 
 

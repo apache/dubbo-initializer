@@ -27,6 +27,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.alibaba.initializer.generation.extension.build.DependencyBillOfMaterials;
+import com.alibaba.initializer.generation.extension.build.MavenBuildUtils;
 import com.alibaba.initializer.metadata.Architecture;
 import com.alibaba.initializer.metadata.Module;
 import com.alibaba.initializer.project.InitializerProjectDescription;
@@ -87,14 +88,9 @@ public class MulitModuleMavenBuildProjectContributor extends MavenBuildProjectCo
         Architecture arch = description.getArchitecture();
 
         if (module.isRoot()) {
-            this.build.plugins().remove("org.springframework.boot", "spring-boot-maven-plugin");
             if (module.isMain()) {
                 // add spring boot plugin
-                this.build.plugins().add("org.springframework.boot", "spring-boot-maven-plugin", builder -> {
-                    builder.version("${spring-boot.version}");//这个要用spring version么？
-                    builder.execution("repackage", execution -> execution.goal("repackage"));
-                    builder.configuration(conf -> conf.add("mainClass", description.getPackageName() + "." + description.getApplicationName()).add("skip", "true"));
-                });
+                MavenBuildUtils.build(this.build, description.getPackageName() + "." + description.getApplicationName());
             }
 
             if (arch == null || CollectionUtils.isEmpty(arch.getSubModules())) {

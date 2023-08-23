@@ -1,0 +1,20 @@
+dubbo:
+  tracing:
+    enabled: true # default is false
+    sampling:
+      probability: 0.5 # sampling rate, default is 0.1
+    propagation:
+      type: W3C # W3C/B3 default is W3C
+    tracing-exporter:
+      otlp-config:
+        endpoint: http://localhost:4317
+        timeout: 10s # default is 10s
+        compression-method: none # none/gzip The method used to compress payloads, default is "none"
+        headers:
+          auth: admin
+
+logging:
+  level:
+    root: info
+  pattern:
+    console: '[%d{dd/MM/yy HH:mm:ss:SSS z}] %t %5p %c{2} [%X{traceId:-}, %X{spanId:-}]: %m%n'

@@ -1,14 +1,17 @@
 # Actuator Web Access Port
 management:
+  metrics:
+    enabled: true
   endpoints:
     jmx:
       exposure:
         include: '*'
     web:
+      base-path: /
       exposure:
         include: '*'
   endpoint:
     health:
       show-details: 'always'
   server:
-    port: 8081
+    port: 7002

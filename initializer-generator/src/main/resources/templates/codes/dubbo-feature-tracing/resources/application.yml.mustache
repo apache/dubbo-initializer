@@ -1,0 +1,18 @@
+dubbo:
+  tracing:
+    enabled: true # default is false
+    sampling:
+      probability: 0.5 # sampling rate, default is 0.1
+    propagation:
+      type: W3C # W3C/B3 default is W3C
+    tracing-exporter:
+      zipkin-config:
+        endpoint: http://localhost:9411/api/v2/spans
+        connect-timeout: 1s # connect timeout, default is 1s
+        read-timeout: 10s # read timeout, default is 10s
+
+logging:
+  level:
+    root: info
+  pattern:
+    console: '[%d{dd/MM/yy HH:mm:ss:SSS z}] %t %5p %c{2} [%X{traceId:-}, %X{spanId:-}]: %m%n'

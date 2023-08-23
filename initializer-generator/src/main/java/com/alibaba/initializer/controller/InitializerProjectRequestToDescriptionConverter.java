@@ -19,6 +19,8 @@ package com.alibaba.initializer.controller;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import com.alibaba.initializer.metadata.Architecture;
@@ -253,24 +255,28 @@ public class InitializerProjectRequestToDescriptionConverter
     }
 
     private static List<String> getDependenciesWithDefaultComposition(io.spring.initializr.web.project.ProjectRequest request) {
+        ProjectRequest projectRequest = (ProjectRequest)request;
         List<String> depIds = request.getDependencies();
         // If user click 'generate' button directly without adding any dependency.
         if (CollectionUtils.isEmpty(depIds)) {
             depIds = new ArrayList<>();
             depIds.add("dubbo");
-            depIds.add("dubbo-registry-zookeeper");
-            depIds.add("dubbo-protocol-tcp");
+            if (parseInt(projectRequest.getDubboVersion()) < 30300) {
+                depIds.add("dubbo-registry-zookeeper");
+            } else {
+                depIds.add("dubbo-registry-zookeeper-starter");
+            }
+            depIds.add("dubbo-protocol-triple");
         } else {
             if (depIds.stream().noneMatch(v -> v.contains("-protocol-"))) {
-                if (depIds.stream().anyMatch(value -> value.equals("dubbo-idl"))) {
-                    depIds.add("dubbo-protocol-http2");
-                } else {
-                    depIds.add("dubbo-protocol-tcp");
-                    depIds.add("dubbo");
-                }
+                depIds.add("dubbo-protocol-triple");
             }
             if (depIds.stream().noneMatch(v -> v.contains("-registry-"))) {
-                depIds.add("dubbo-registry-zookeeper");
+                if (parseInt(projectRequest.getDubboVersion()) < 30300) {
+                    depIds.add("dubbo-registry-zookeeper");
+                } else {
+                    depIds.add("dubbo-registry-zookeeper-starter");
+                }
             }
             if (depIds.stream().noneMatch(v -> v.equals("dubbo") || v.equals("dubbo-idl"))) {
                 depIds.add("dubbo");
@@ -278,4 +284,46 @@ public class InitializerProjectRequestToDescriptionConverter
         }
         return depIds;
     }
+
+    public static int getIntVersion(String version) {
+        int v;
+        try {
+            v = parseInt(version);
+            // e.g., version number 2.6.3 will convert to 2060300
+            if (version.split("\\.").length == 3) {
+                v = v * 100;
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(
+                    "Invalid dubbo version: " + version, e);
+        }
+        return v;
+    }
+
+    private static int parseInt(String version) {
+        int v = 0;
+        String[] vArr = version.split("\\.");
+        int len = vArr.length;
+        for (int i = 0; i < len; i++) {
+            String subV = getPrefixDigits(vArr[i]);
+            if (StringUtils.isNotEmpty(subV)) {
+                v += Integer.parseInt(subV) * Math.pow(10, (len - i - 1) * 2);
+            }
+        }
+        return v;
+    }
+
+    /**
+     * get prefix digits from given version string
+     */
+    private static String getPrefixDigits(String v) {
+        Matcher matcher = PREFIX_DIGITS_PATTERN.matcher(v);
+        if (matcher.find()) {
+            return matcher.group(1);
+        }
+        return "";
+    }
+
+    private static final Pattern PREFIX_DIGITS_PATTERN = Pattern.compile("^([0-9]*).*");
+
 }
