@@ -38,7 +38,7 @@ public class MavenBuildUtils {
             build.plugins().add("org.springframework.boot", "spring-boot-maven-plugin", builder -> {
                 builder.version("${spring-boot.version}");//这个要用spring version么？
                 builder.execution("repackage", execution -> execution.goal("repackage"));
-                builder.configuration(conf -> conf.add("mainClass", mainClass).add("skip", "true"));
+                builder.configuration(conf -> conf.add("mainClass", mainClass));
             });
         } else {
             build.plugins().add("org.springframework.boot", "spring-boot-maven-plugin", builder -> {
@@ -46,7 +46,7 @@ public class MavenBuildUtils {
                 plugin.getExecutions().forEach(execution -> {
                     builder.execution(execution.getId(), executionBuilder -> execution.getGoals().forEach(executionBuilder::goal));
                 });
-                builder.configuration(conf -> conf.add("mainClass", mainClass).add("skip", "true"));
+                builder.configuration(conf -> conf.add("mainClass", mainClass));
             });
         }
     }
