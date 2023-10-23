@@ -169,7 +169,7 @@ initializr:
         id: dubbo-registry-zookeeper-curator5-starter
         groupId: org.apache.dubbo
         artifactId: dubbo-zookeeper-curator5-spring-boot-starter
-        description: "Same as 'Zookeeper-curator5' but is Spring Boot Starter managed."
+        description: "[Requires 3.8.0+ zk server] Same as 'Zookeeper-curator5' but is Spring Boot Starter managed."
         starter: false
         compatibilityRange: "3.3.0-beta.1"
         bom: apache-dubbo
@@ -210,7 +210,7 @@ initializr:
         groupId: org.apache.dubbo
         artifactId: dubbo-dependencies-zookeeper-curator5
         type: pom
-        description: "[Requires 3.8.0+ zk server and curator5] Zookeeper as registry, will also be used as metadata and config centers by default."
+        description: "[Requires 3.8.0+ zk server] Zookeeper as registry, will also be used as metadata and config centers by default."
         starter: false
         compatibilityRange: "[3.1.8, 3.3.0-beta.1)"
         bom: apache-dubbo-zookeeper-curator5
