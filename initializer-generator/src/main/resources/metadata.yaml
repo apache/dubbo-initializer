@@ -1153,7 +1153,7 @@ initializr:
       id: war
       default: false
   javaVersions:
-    - id: 19
+    - id: 21
     - id: 17
     - id: 11
     - id: 1.8
@@ -1172,8 +1172,8 @@ initializr:
   dubboVersions:
     - name: 3.3.0-beta.1
       id: 3.3.0-beta.1
-    - name: 3.2.7
-      id: 3.2.7
+    - name: 3.2.9
+      id: 3.2.9
       default: true
     - name: 3.1.11
       id: 3.1.11
