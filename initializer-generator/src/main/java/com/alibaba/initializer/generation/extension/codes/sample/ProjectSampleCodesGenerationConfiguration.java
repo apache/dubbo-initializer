@@ -16,6 +16,7 @@
 
 package com.alibaba.initializer.generation.extension.codes.sample;
 
+import com.alibaba.initializer.generation.extension.DockerfileCodeContributor;
 import com.alibaba.initializer.generation.extension.SampleCodeContributor;
 import io.spring.initializr.generator.project.ProjectGenerationConfiguration;
 
@@ -30,6 +31,11 @@ public class ProjectSampleCodesGenerationConfiguration {
     @Bean
     public SampleCodeContributor sampleCodeContributor() {
         return new SampleCodeContributor();
+    }
+
+    @Bean
+    public DockerfileCodeContributor dockerfileContributor() {
+        return new DockerfileCodeContributor();
     }
 
 }

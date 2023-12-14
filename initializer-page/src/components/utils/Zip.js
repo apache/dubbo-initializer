@@ -12,6 +12,7 @@ const FILE_EXTENSION = {
   properties: 'properties',
   yml: 'yml',
   proto: 'proto',
+  dockerfile: 'Dockerfile',
   groovy: 'groovy',
 
   html: 'html',

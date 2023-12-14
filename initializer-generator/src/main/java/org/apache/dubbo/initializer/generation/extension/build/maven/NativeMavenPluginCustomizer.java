@@ -26,7 +26,7 @@ public class NativeMavenPluginCustomizer implements BuildCustomizer<MavenBuild> 
             builder.execution("process-aot", executionBuilder -> {
                 executionBuilder.goal("process-aot");
             });
-            builder.execution("repackage", execution -> execution.goal("repackage"));
+//            builder.execution("repackage", execution -> execution.goal("repackage"));
         });
 
         mavenBuild.plugins().add("org.graalvm.buildtools", "native-maven-plugin", builder -> {
