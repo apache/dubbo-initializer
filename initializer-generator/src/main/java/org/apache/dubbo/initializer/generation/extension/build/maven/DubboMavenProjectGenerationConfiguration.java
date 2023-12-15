@@ -25,6 +25,7 @@ import org.apache.dubbo.initializer.generation.condition.ConditionalOnDubboIdlDe
 import org.apache.dubbo.initializer.generation.condition.ConditionalOnRequestedModule;
 
 import io.spring.initializr.generator.condition.ConditionalOnRequestedDependency;
+import io.spring.initializr.generator.project.ProjectDescription;
 import org.springframework.context.annotation.Bean;
 
 @InitializerProjectGenerationConfiguration
@@ -63,8 +64,8 @@ public class DubboMavenProjectGenerationConfiguration {
     @Bean
     @ConditionalOnDubboIdlDependency
     @ConditionalOnRequestedDependency("dubbo-feature-native")
-    public NativeMavenPluginCustomizer nativeMavenPluginCustomizer() {
-        return new NativeMavenPluginCustomizer();
+    public NativeMavenPluginCustomizer nativeMavenPluginCustomizer(ProjectDescription description) {
+        return new NativeMavenPluginCustomizer(description);
     }
 
 }

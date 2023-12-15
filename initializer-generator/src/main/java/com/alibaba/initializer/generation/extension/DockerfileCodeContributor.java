@@ -40,7 +40,7 @@ public class DockerfileCodeContributor implements ProjectContributor {
         "1.8", "openjdk:8-jdk-alpine",
         "11", "openjdk:11-jdk-alpine",
         "17", "openjdk:17-jdk-alpine",
-        "19", "openjdk:19-jdk-alpine"
+        "21", "openjdk:21-jdk-alpine"
     );
 
     @Autowired

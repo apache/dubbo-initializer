@@ -17,19 +17,32 @@
 package org.apache.dubbo.initializer.generation.extension.build.maven;
 
 import io.spring.initializr.generator.buildsystem.maven.MavenBuild;
+import io.spring.initializr.generator.buildsystem.maven.MavenProfile;
+import io.spring.initializr.generator.project.ProjectDescription;
 import io.spring.initializr.generator.spring.build.BuildCustomizer;
 
 public class NativeMavenPluginCustomizer implements BuildCustomizer<MavenBuild> {
+
+    private ProjectDescription description;
+
+    public NativeMavenPluginCustomizer(ProjectDescription description) {
+        this.description = description;
+    }
+
     @Override
     public void customize(MavenBuild mavenBuild) {
-        mavenBuild.plugins().add("org.springframework.boot", "spring-boot-maven-plugin", builder -> {
+        MavenProfile profile = mavenBuild.profiles().id("native");
+
+        profile.plugins().add("org.springframework.boot", "spring-boot-maven-plugin", builder -> {
+            builder.version("${spring-boot.version}");
+            builder.configuration(conf -> conf.add("mainClass", description.getPackageName() + "." + description.getApplicationName()));
             builder.execution("process-aot", executionBuilder -> {
                 executionBuilder.goal("process-aot");
             });
 //            builder.execution("repackage", execution -> execution.goal("repackage"));
         });
 
-        mavenBuild.plugins().add("org.graalvm.buildtools", "native-maven-plugin", builder -> {
+        profile.plugins().add("org.graalvm.buildtools", "native-maven-plugin", builder -> {
             builder.version("0.9.20")
                     .execution("add-reachability-metadata", executionBuilder -> {
                         executionBuilder.goal("add-reachability-metadata");
@@ -43,7 +56,7 @@ public class NativeMavenPluginCustomizer implements BuildCustomizer<MavenBuild> 
                     .build();
         });
 
-        mavenBuild.plugins().add("org.apache.dubbo", "dubbo-maven-plugin", builder -> {
+        profile.plugins().add("org.apache.dubbo", "dubbo-maven-plugin", builder -> {
             builder.version("${dubbo.version}")
                     .execution("dubbo-process-aot", executionBuilder -> {
                         executionBuilder.phase("process-sources").goal("dubbo-process-aot");
