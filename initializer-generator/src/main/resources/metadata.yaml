@@ -373,7 +373,7 @@ initializr:
           compatibilityRange: "3.3.0-beta.1"
           groupId: org.apache.dubbo
           artifactId: dubbo-config-spring6
-          description: "[Requires java 17+], support for compiling Dubbo applications to native executables using GraalVM."
+          description: "[Requires java 17+, SpringBoot 3.x, curator5 for zookeeper], support for compiling Dubbo applications to native executables using GraalVM."
           links:
             - rel: reference
               description: "Dubbo native image support"
