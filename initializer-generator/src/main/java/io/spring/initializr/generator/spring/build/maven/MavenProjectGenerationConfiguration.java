@@ -34,14 +34,14 @@ class MavenProjectGenerationConfiguration {
 
 	@Bean
 	@ConditionalOnPlatformVersion("[2.0.0.M1,3.1.0-RC1)")
-	@ConditionalOnModule(main = true)
+	@ConditionalOnModule(root = true)
 	public MavenWrapperContributor maven38WrapperContributor() {
 		return new MavenWrapperContributor("3.8");
 	}
 
 	@Bean
 	@ConditionalOnPlatformVersion("3.1.0-RC1")
-	@ConditionalOnModule(main = true)
+	@ConditionalOnModule(root = true)
 	public MavenWrapperContributor mavenWrapperContributor() {
 		return new MavenWrapperContributor("3");
 	}

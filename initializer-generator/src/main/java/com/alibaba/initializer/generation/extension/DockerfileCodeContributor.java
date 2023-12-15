@@ -52,7 +52,7 @@ public class DockerfileCodeContributor implements ProjectContributor {
 
     @Override
     public void contribute(Path projectRoot) throws IOException {
-        if (this.module.isMain()) {
+        if (this.module.isRoot()) {
             writeDockerfile(projectRoot, "Dockerfile");
 
             if (description.getRequestedDependencies().containsKey("dubbo-feature-native")) {
