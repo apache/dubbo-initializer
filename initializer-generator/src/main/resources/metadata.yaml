@@ -140,6 +140,9 @@ initializr:
         description: Use IDL as the standard Dubbo service definition
         starter: false
         compatibilityRange: "3.1.8"
+        dependencies:
+          - dubbo-triple-protobuf-util
+          - dubbo-triple-protobuf-java
         archCfg:
           dubbo:
             modules:
@@ -166,7 +169,7 @@ initializr:
         id: dubbo-registry-zookeeper-curator5-starter
         groupId: org.apache.dubbo
         artifactId: dubbo-zookeeper-curator5-spring-boot-starter
-        description: "Same as 'Zookeeper-curator5' but is Spring Boot Starter managed."
+        description: "[Requires 3.8.0+ zk server] Same as 'Zookeeper-curator5' but is Spring Boot Starter managed."
         starter: false
         compatibilityRange: "3.3.0-beta.1"
         bom: apache-dubbo
@@ -207,7 +210,7 @@ initializr:
         groupId: org.apache.dubbo
         artifactId: dubbo-dependencies-zookeeper-curator5
         type: pom
-        description: "[Requires 3.7.0+ zk server and curator5] Zookeeper as registry, will also be used as metadata and config centers by default."
+        description: "[Requires 3.8.0+ zk server] Zookeeper as registry, will also be used as metadata and config centers by default."
         starter: false
         compatibilityRange: "[3.1.8, 3.3.0-beta.1)"
         bom: apache-dubbo-zookeeper-curator5
@@ -263,11 +266,8 @@ initializr:
         - name: Triple
           id: dubbo-protocol-triple
           description: "Triple is fully compatible with gRPC, can be accessed by cURL and Browser directly, which is great to build microservice and web applications."
-          groupId: com.google.protobuf
-          artifactId: protobuf-java
-          version: 3.19.6
           starter: false
-          codeOnly: false
+          codeOnly: true
           compatibilityRange: "3.1.8"
           links:
             - rel: reference
@@ -293,6 +293,24 @@ initializr:
             - rel: reference
               description: "Dubbo rest protocol reference"
               href: https://dubbo.apache.org/zh-cn/overview/mannual/java-sdk/reference-manual/protocol/rest/
+        - name: Triple ProtobufUtil
+          id: dubbo-triple-protobuf-util
+          bom: apache-dubbo
+          hide: true
+          groupId: com.google.protobuf
+          artifactId: protobuf-java-util
+          description: Support json to protobuf.
+          starter: false
+          codeOnly: false
+        - name: Triple ProtobufJava
+          id: dubbo-triple-protobuf-java
+          bom: apache-dubbo
+          hide: true
+          groupId: com.google.protobuf
+          artifactId: protobuf-java
+          description: Support protobuf serialization.
+          starter: false
+          codeOnly: false
     - name: Dubbo Advanced Features
       content:
         - name: QoS
@@ -302,8 +320,8 @@ initializr:
           codeOnly: true
           links:
             - rel: reference
-              description: "Dubbo Zookeeper registry configuration reference"
-              href: https://docs.spring.io/spring-boot/docs/{bootVersion}/reference/htmlsingle/#web.servlet.spring-mvc.template-engines
+              description: "Dubbo qos configuration reference"
+              href: https://dubbo.apache.org/zh-cn/overview/mannual/java-sdk/reference-manual/qos/overview/
         - name: Metrics Prometheus
           id: dubbo-feature-metrics
           description: "Enables collections of standard Dubbo metrics which can be used to report to Prometheus for visualization using Grafana and Admin."
