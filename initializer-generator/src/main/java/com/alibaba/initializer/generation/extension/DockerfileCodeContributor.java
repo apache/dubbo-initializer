@@ -16,6 +16,7 @@
 
 package com.alibaba.initializer.generation.extension;
 
+import com.alibaba.initializer.metadata.Module;
 import com.alibaba.initializer.project.InitializerProjectDescription;
 import io.spring.initializr.generator.project.contributor.ProjectContributor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,14 +45,19 @@ public class DockerfileCodeContributor implements ProjectContributor {
     );
 
     @Autowired
+    private Module module;
+
+    @Autowired
     protected InitializerProjectDescription description;
 
     @Override
     public void contribute(Path projectRoot) throws IOException {
-        writeDockerfile(projectRoot, "Dockerfile");
+        if (this.module.isMain()) {
+            writeDockerfile(projectRoot, "Dockerfile");
 
-        if (description.getRequestedDependencies().containsKey("dubbo-feature-native")) {
-            writeDockerfile(projectRoot, "Dockerfile.native");
+            if (description.getRequestedDependencies().containsKey("dubbo-feature-native")) {
+                writeDockerfile(projectRoot, "Dockerfile.native");
+            }
         }
     }
 

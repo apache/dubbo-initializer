@@ -16,6 +16,7 @@
 
 package io.spring.initializr.generator.spring.build.maven;
 
+import com.alibaba.initializer.generation.condition.ConditionalOnModule;
 import io.spring.initializr.generator.buildsystem.maven.MavenBuildSystem;
 import io.spring.initializr.generator.condition.ConditionalOnBuildSystem;
 import io.spring.initializr.generator.condition.ConditionalOnPlatformVersion;
@@ -33,12 +34,14 @@ class MavenProjectGenerationConfiguration {
 
 	@Bean
 	@ConditionalOnPlatformVersion("[2.0.0.M1,3.1.0-RC1)")
+	@ConditionalOnModule(main = true)
 	public MavenWrapperContributor maven38WrapperContributor() {
 		return new MavenWrapperContributor("3.8");
 	}
 
 	@Bean
 	@ConditionalOnPlatformVersion("3.1.0-RC1")
+	@ConditionalOnModule(main = true)
 	public MavenWrapperContributor mavenWrapperContributor() {
 		return new MavenWrapperContributor("3");
 	}
