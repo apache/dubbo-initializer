@@ -48,6 +48,14 @@ public class DockerfileCodeContributor implements ProjectContributor {
 
     @Override
     public void contribute(Path projectRoot) throws IOException {
+        writeDockerfile(projectRoot, "Dockerfile");
+
+        if (description.getRequestedDependencies().containsKey("dubbo-feature-native")) {
+            writeDockerfile(projectRoot, "Dockerfile.native");
+        }
+    }
+
+    private void writeDockerfile(Path projectRoot, String dockerFileName) {
         URL url = getClass().getResource(DOCKERFILE_PATH);
         if (url == null) {
             throw new IllegalArgumentException("Resource not found on classpath: " + DOCKERFILE_PATH);
@@ -61,7 +69,7 @@ public class DockerfileCodeContributor implements ProjectContributor {
             // Replace the placeholders
             String dockerFileContent = dockerFileTemplate.replace(PLACEHOLDER, JDK_IMAGE_VERSIONS.get(description.getLanguage().jvmVersion()));
 
-            Path targetFile = Files.createFile(projectRoot.resolve("Dockerfile"));
+            Path targetFile = Files.createFile(projectRoot.resolve(dockerFileName));
 
             try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(targetFile))) {
                writer.write(dockerFileContent);
