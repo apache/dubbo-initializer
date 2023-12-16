@@ -35,10 +35,13 @@ public class ApiMavenPluginCustomizer implements BuildCustomizer<MavenBuild> {
     public void customize(MavenBuild build) {
         build.plugins().remove("org.apache.maven.plugins", "maven-compiler-plugin");
         build.plugins().remove("org.springframework.boot", "spring-boot-maven-plugin");
+        build.dependencies().ids().toList().forEach(id -> {
+            build.dependencies().remove(id);
+        });
     }
 
     @Override
     public int getOrder() {
-        return 3;
+        return Integer.MAX_VALUE;
     }
 }
