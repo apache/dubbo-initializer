@@ -1190,8 +1190,8 @@ initializr:
   dubboVersions:
     - name: 3.3.0-beta.1
       id: 3.3.0-beta.1
-    - name: 3.2.9
-      id: 3.2.9
+    - name: 3.2.10
+      id: 3.2.10
       default: true
     - name: 3.1.11
       id: 3.1.11
