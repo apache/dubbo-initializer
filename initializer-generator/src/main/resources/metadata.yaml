@@ -1203,9 +1203,15 @@ initializr:
       name: Multi Modules
       subModules:
         - name: api
-          description: "The Dubbo service API definitions defined in the project."
+          description: |
+            The Dubbo service API definitions, run the following command to deploy it to maven repository:
+
+            ```shell
+            mvn clean deploy
+            ```
         - name: service
-          description: "The real business logics of the project."
+          description: |
+            The real business logics of the project. You can provide service implementations or call other services.
           main: true
           dependModules: 'api'
 #    - id: mvc
