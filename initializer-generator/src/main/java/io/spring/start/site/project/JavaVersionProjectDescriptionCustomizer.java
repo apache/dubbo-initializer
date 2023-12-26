@@ -177,9 +177,9 @@ public class JavaVersionProjectDescriptionCustomizer implements ProjectDescripti
 			if (!description.getRequestedDependencies().containsKey("native")) {
 				return;
 			}
-			if ("1.8".equals(description.getLanguage().jvmVersion())
-					&& Spring_NATIVE_011.match(description.getPlatformVersion())) {
-				updateTo(description, "11");
+			if (("1.8".equals(description.getLanguage().jvmVersion()) || "11".equals(description.getLanguage().jvmVersion()))
+					&& SPRING_BOOT_3_0_0_OR_LATER.match(description.getPlatformVersion())) {
+				updateTo(description, "17");
 			}
 		};
 	}
