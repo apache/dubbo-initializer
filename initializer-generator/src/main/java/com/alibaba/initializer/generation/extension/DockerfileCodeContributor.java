@@ -34,7 +34,7 @@ import java.nio.file.StandardOpenOption;
 import java.util.Map;
 
 public class DockerfileCodeContributor implements ProjectContributor {
-    private static final String DOCKERFILE_PATH = "/docker/Dockerfile";
+    private static final String DOCKERFILE_PATH = "/docker/";
     public static final String PLACEHOLDER = "${JDK_IMAGE}";
 
     private static final Map<String, String> JDK_IMAGE_VERSIONS = Map.of(
@@ -62,15 +62,10 @@ public class DockerfileCodeContributor implements ProjectContributor {
     }
 
     private void writeDockerfile(Path projectRoot, String dockerFileName) {
-        URL url = getClass().getResource(DOCKERFILE_PATH);
-        if (url == null) {
-            throw new IllegalArgumentException("Resource not found on classpath: " + DOCKERFILE_PATH);
-        }
-
-        try {
-            URI uri = url.toURI();
+        try (InputStream in = getClass().getResourceAsStream(DOCKERFILE_PATH + dockerFileName)) {
             // Read the file content
-            String dockerFileTemplate = Files.readString(Paths.get(uri));
+            assert in != null;
+            String dockerFileTemplate = new String(in.readAllBytes());
 
             // Replace the placeholders
             String dockerFileContent = dockerFileTemplate.replace(PLACEHOLDER, JDK_IMAGE_VERSIONS.get(description.getLanguage().jvmVersion()));
@@ -81,7 +76,7 @@ public class DockerfileCodeContributor implements ProjectContributor {
                writer.write(dockerFileContent);
             }
         } catch (Exception e) {
-            throw new FileSystemNotFoundException("Resource is not located in the file system: " + e.getMessage());
+            throw new RuntimeException("Resource is not located in the file system: " + e.getMessage(), e);
         }
     }
 
